@@ -24,7 +24,7 @@ Predicados (ontologia v0.1, ver `docs/ontologia.md`): `participa_de`, `ocorre_em
 1. **Só o que está explícito na tela** (legenda, título de missão, nome em item, mapa). Não anote o que você sabe por ter jogado. Isso mede a extração de forma justa e preserva a ideia de memória sem spoiler.
 2. **Vocabulário fechado:** só os tipos e predicados da ontologia. Se faltar um, anote em `observacoes` e revise a ontologia.
 3. **Nome canônico:** cada entidade tem um nome único, com aliases, em `data/gabarito/entidades.json` (ex.: "Geralt of Rivia", aliases "Geralt", "White Wolf"). No gabarito, use sempre o nome canônico. Na avaliação, a previsão com "Geralt" é aceita pelo alias.
-4. **Um idioma só** para os nomes (o do jogo que você vai usar).
+4. **Um idioma só** para os nomes: português do Brasil, o idioma do jogo usado no projeto (os arquivos em `exemplo/` estão em inglês só para demonstração).
 5. **Ignore ruído:** barras de vida, ícones e textos decorativos sem entidade.
 6. **Vídeo:** anote o clipe inteiro, não quadro a quadro. Se ajudar, anote o instante em `evidencia` (ex.: "0:12 legenda ...").
 7. **Relação só se a tela a mostra.** Se dois personagens aparecem juntos mas nada diz que são aliados, não anote `aliado_de`.

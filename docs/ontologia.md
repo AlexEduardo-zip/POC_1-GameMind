@@ -95,7 +95,7 @@ Facções e grupos, atributos de combate de itens, Gwent, cronologia detalhada, 
 2. Oito relações; aliado e inimigo viram `relacionado_a` com rótulo.
 3. Decisão é um nó, ligada por `parte_de` e `gera`.
 4. Conceitos abstratos do glossário ficam fora.
-5. Nomes no idioma do jogo (pendente: português do Brasil ou inglês).
+5. Nomes no idioma do jogo: **decidido em 2026-10-05, português do Brasil (pt-BR)**. Os exemplos em `docs/exemplo/` seguem em inglês e só demonstram o pipeline.
 
 ## Como validar na Semana 4
 - Anotar as telas do teste de fumaça com esta ontologia. Se muitas entidades não couberem em nenhum tipo (por exemplo, mais de 10%), revisar.

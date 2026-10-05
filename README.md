@@ -5,8 +5,13 @@ POC I / MSI I · DCC/UFMG · Aluno: Alex Eduardo Alves dos Santos · Orientador:
 
 ## Estado atual
 - Repositório: https://github.com/AlexEduardo-zip/POC_1-GameMind
-- Fase: POC I, Semana 1 (preparação)
+- Fase: POC I. Semana 1 (preparação) concluída; Semanas 2 (coleta e gabarito) e 3 (ontologia) adiantadas só no repositório
 - Jogo-piloto: The Witcher 3
+- Ontologia: v0.1 (7 tipos, 8 relações), ainda a revisar e congelar como 1.0
+- Pipeline de exemplo funcionando: gabarito → validação → grafo → vault do Obsidian → avaliação
+- Captura definida: pt-BR, 1920x1080, screenshots F12 da Steam, vídeos 1080p/30 fps/MP4 (OBS Studio ou clipe do AMD Adrenalin)
+- Próximos passos, em ordem: (1) instalar ferramentas e conferir com `check_env.py`; (2) coletar o conjunto de teste (`docs/semana2.md`); (3) teste de OCR em pt-BR; (4) anotar o gabarito; (5) revisar e congelar a ontologia
+- Pendente (precisa do computador do projeto): instalar ferramentas, coletar screenshots e clipes em `data/raw/`, anotar o gabarito real, testar OCR
 
 ## Mapa do projeto
 | Caminho | O que é |
@@ -26,7 +31,7 @@ POC I / MSI I · DCC/UFMG · Aluno: Alex Eduardo Alves dos Santos · Orientador:
 | `docs/gabarito.md` | Guia do gabarito (o que é, formato, regras, avaliação) |
 | `docs/checklist-semana1.md` | O que já está pronto e o que falta |
 | `docs/diario.md` | Diário de bordo |
-| `docs/hardware.md` | Inventário de hardware (a preencher) |
+| `docs/hardware.md` | Inventário de hardware (falta confirmar VRAM, SO e disco) |
 | `scripts/check_env.py` | Verifica ferramentas instaladas |
 | `scripts/smoke_ocr.py` | Teste rápido de OCR (Semana 2) |
 | `scripts/validar_gabarito.py` | Valida o formato e os nomes do gabarito |
@@ -36,8 +41,10 @@ POC I / MSI I · DCC/UFMG · Aluno: Alex Eduardo Alves dos Santos · Orientador:
 | `src/exportar_vault.py` | Protótipo do exportador para vault do Obsidian |
 | `eval/avaliar.py` | Calcula precisão, revocação e F1 contra o gabarito |
 | `data/raw/` | Screenshots e vídeos (não versionados) |
-| `data/gabarito/` | Anotações manuais |
-| `src/`, `eval/`, `vault_output/` | Código, avaliação e vault gerado (próximas semanas) |
+| `data/gabarito/` | Anotações manuais (`entidades.json` vazio até a anotação real; `exemplo/` com 4 itens de demonstração) |
+| `eval/exemplo_pred/` | Previsões de exemplo para testar o avaliador |
+| `eval/predicoes/` | Previsões reais (a criar na avaliação) |
+| `vault_output/` | Vault gerado pelo exportador (não versionado) |
 
 ## Preparação do ambiente
 ```bash
@@ -47,3 +54,13 @@ python -m venv .venv
 pip install -r requirements.txt
 python scripts/check_env.py
 ```
+
+## Testar o pipeline com os exemplos
+Com o ambiente ativado (precisa do `pydantic`):
+```bash
+python scripts/validar_gabarito.py data/gabarito/exemplo
+cd src && python grafo.py --gab ../data/gabarito/exemplo --saida ../grafo.json && cd ..
+python src/exportar_vault.py --grafo grafo.json --saida vault_output
+python eval/avaliar.py --gab data/gabarito/exemplo --pred eval/exemplo_pred
+```
+O `ex_003_escolhas.json` não tem previsão de exemplo, então o avaliador o ignora de propósito.

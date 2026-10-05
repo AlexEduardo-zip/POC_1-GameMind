@@ -11,12 +11,14 @@
 - ✅ `src/exportar_vault.py` (protótipo): grafo em notas do Obsidian
 - ✅ `docs/exemplo/`: grafo do prólogo (16 nós e 17 arestas) e o vault gerado a partir dele
 
-Pipeline testado com os exemplos:
+Pipeline testado com os exemplos (2026-10-05, no `.venv`; fora dele falta o `pydantic`):
 ```bash
 python scripts/validar_gabarito.py data/gabarito/exemplo
 cd src && python grafo.py --gab ../data/gabarito/exemplo --saida ../grafo.json && cd ..
 python src/exportar_vault.py --grafo grafo.json --saida vault_output
+python eval/avaliar.py --gab data/gabarito/exemplo --pred eval/exemplo_pred
 ```
+Resultado: validador sem problemas em 4 arquivos; o grafo do prólogo em `docs/exemplo/` tem 16 nós e 17 arestas.
 
 ## Para você
 1. ☐ Abrir `docs/exemplo/vault` como vault no Obsidian e olhar a visualização de grafo (em Groups, crie um grupo por tag, como `tag:#personagem`).

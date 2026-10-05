@@ -5,9 +5,9 @@
 | CPU | AMD Ryzen 5 5500 |
 | RAM | 16 GB |
 | GPU | AMD Radeon RX 7600 |
-| VRAM | 8 GB (valor padrão da placa; confirmar no Gerenciador de Tarefas > Desempenho > GPU > "Memória dedicada") |
-| Sistema operacional | (preencher) |
-| Espaço livre em disco | (preencher) |
+| VRAM | 8 GB |
+| Sistema operacional | Windows 11 64 bit |
+| Espaço livre em disco | SSD 100GB |
 
 ## O que isso significa para o projeto
 - **Ollama:** a documentação oficial lista a RX 7600 entre as GPUs AMD suportadas via ROCm (Linux e Windows, nas versões de ROCm indicadas lá) e há suporte adicional via Vulkan (`OLLAMA_VULKAN=1`). Fonte: https://docs.ollama.com/gpu
