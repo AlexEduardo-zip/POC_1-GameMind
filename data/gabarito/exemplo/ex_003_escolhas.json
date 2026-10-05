@@ -1,0 +1,16 @@
+{
+  "arquivo": "ex_003_escolhas.png",
+  "tipo_tela": "escolhas",
+  "entidades": [
+    {"nome": "[Decisão de exemplo]", "tipo": "decisao", "evidencia": "[roda de escolhas na tela]"},
+    {"nome": "The Beast of White Orchard", "tipo": "missao", "estado": "concluida", "evidencia": "[atualização de missão]"},
+    {"nome": "[Evento de exemplo]", "tipo": "evento", "evidencia": "[texto da tela]"},
+    {"nome": "[Item de exemplo]", "tipo": "item", "subtipo": "quest", "evidencia": "[item recebido]"}
+  ],
+  "relacoes": [
+    {"sujeito": "[Decisão de exemplo]", "predicado": "parte_de", "objeto": "The Beast of White Orchard", "evidencia": "[contexto]"},
+    {"sujeito": "[Decisão de exemplo]", "predicado": "gera", "objeto": "[Evento de exemplo]", "evidencia": "[consequência mostrada]"},
+    {"sujeito": "[Item de exemplo]", "predicado": "obtido_em", "objeto": "[Evento de exemplo]", "evidencia": "[recompensa]"}
+  ],
+  "observacoes": "Exemplo ilustrativo com nomes entre colchetes. A opção escolhida e as opções não escolhidas vão aqui, em texto livre."
+}

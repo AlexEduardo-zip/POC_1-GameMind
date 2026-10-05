@@ -1,0 +1,14 @@
+{
+  "arquivo": "exemplo_img.png",
+  "tipo_tela": "diario",
+  "entidades": [
+    {"nome": "Lilac and Gooseberries", "tipo": "missao", "subtipo": "principal", "evidencia": "[título da missão no diário]"},
+    {"nome": "White Orchard", "tipo": "local", "evidencia": "[região indicada na missão]"},
+    {"nome": "Vesemir", "tipo": "personagem", "evidencia": "[objetivo: seguir Vesemir]"}
+  ],
+  "relacoes": [
+    {"sujeito": "Lilac and Gooseberries", "predicado": "ocorre_em", "objeto": "White Orchard", "evidencia": "[região da missão]"},
+    {"sujeito": "Vesemir", "predicado": "participa_de", "objeto": "Lilac and Gooseberries", "evidencia": "[objetivo: seguir Vesemir]"}
+  ],
+  "observacoes": "Exemplo ilustrativo: troque os trechos entre colchetes pelo texto real copiado da tela. Apague esta pasta se preferir."
+}

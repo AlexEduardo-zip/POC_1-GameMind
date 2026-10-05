@@ -24,6 +24,8 @@ ASHBY, T. et al. Personalized quest and dialogue generation in role-playing game
 
 NANANUKUL, N.; WONGKAMJAN, W. What if Red Can Talk? Dynamic Dialogue Generation Using Large Language Models. arXiv:2407.20382, 2024. Disponível em: https://arxiv.org/abs/2407.20382.
 
+NOY, N. F.; MCGUINNESS, D. L. Ontology Development 101: A Guide to Creating Your First Ontology. Stanford Knowledge Systems Laboratory, Technical Report KSL-01-05, 2001.
+
 OBSIDIAN. Obsidian Help. Disponível em: https://help.obsidian.md. Acesso em: 24 ago. 2026.
 
 OLLAMA. Ollama Documentation. Disponível em: https://ollama.com. Acesso em: 24 ago. 2026.
@@ -32,3 +34,9 @@ OLLAMA. Ollama Documentation. Disponível em: https://ollama.com. Acesso em: 24 
 - Pôster Argus, Graphics Interface 2026, Univ. de Waterloo: https://cs.uwaterloo.ca/~dvogel/gi2026/posters/1031c.pdf (título completo e autores a conferir)
 - Plugin Obsidian Vision Recall: https://community.obsidian.md/plugins/vision-recall
 - Plugin Obsidian Note Maker AI: https://community.obsidian.md/plugins/note-maker-ai
+
+## Fontes sobre o jogo (para a ontologia e os exemplos)
+- Witcher Wiki (Fandom), página do Journal: https://witcher.fandom.com/el/wiki/%CE%97%CE%BC%CE%B5%CF%81%CE%BF%CE%BB%CF%8C%CE%B3%CE%B9%CE%BF_(The_Witcher)
+- Giant Bomb, The Witcher 3: Wild Hunt: https://www.giantbomb.com/games/3030-41484/
+- Lista de missões: https://guides4gamers.com/witcher-3-wild-hunt/quests
+- Checklist de missões principais: https://game-checklists.com/witcher3/all-quests-checklist.html

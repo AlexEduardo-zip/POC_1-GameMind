@@ -1,0 +1,12 @@
+{
+  "Geralt of Rivia": {"tipo": "personagem", "aliases": ["Geralt", "White Wolf"]},
+  "Vesemir": {"tipo": "personagem", "aliases": []},
+  "Kaer Morhen": {"tipo": "local", "aliases": []},
+  "White Orchard": {"tipo": "local", "aliases": []},
+  "Lilac and Gooseberries": {"tipo": "missao", "aliases": []},
+  "The Beast of White Orchard": {"tipo": "missao", "aliases": []},
+  "Royal Griffin": {"tipo": "criatura", "aliases": ["Griffin"]},
+  "[Decisão de exemplo]": {"tipo": "decisao", "aliases": []},
+  "[Evento de exemplo]": {"tipo": "evento", "aliases": []},
+  "[Item de exemplo]": {"tipo": "item", "aliases": []}
+}

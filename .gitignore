@@ -8,3 +8,4 @@ vault_output/*
 *.mp4
 *.mkv
 .env
+grafo.json

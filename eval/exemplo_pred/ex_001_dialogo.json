@@ -1,0 +1,12 @@
+{
+  "arquivo": "ex_001_dialogo.png",
+  "tipo_tela": "dialogo",
+  "entidades": [
+    {"nome": "Geralt", "tipo": "personagem"},
+    {"nome": "Vesemir", "tipo": "personagem"},
+    {"nome": "White Orchard", "tipo": "local"}
+  ],
+  "relacoes": [
+    {"sujeito": "Geralt", "predicado": "relacionado_a", "objeto": "Vesemir"}
+  ]
+}

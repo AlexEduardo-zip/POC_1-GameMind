@@ -7,7 +7,19 @@ Legenda: ✅ feito no repositório · ☐ falta você fazer
 - ✅ Hardware preenchido (`docs/hardware.md`)
 - ✅ Justificativa (`docs/justificativa.md`), estado da arte e síntese (`docs/revisao/`)
 - ✅ Referências verificadas (`docs/referencias.md`)
-- ✅ Decisão do jogo-piloto (`docs/decisoes/`)
+- ✅ Decisão do jogo-piloto e rascunho de e-mail (`docs/decisoes/`)
+
+## Falta fazer (sem instalar nada)
+1. ✅ Primeiro commit no repositório https://github.com/AlexEduardo-zip/POC_1-GameMind (feito):
+   ```bash
+   git clone https://github.com/AlexEduardo-zip/POC_1-GameMind.git
+   # copie o conteúdo do zip para dentro da pasta clonada
+   cd POC_1-GameMind
+   git add .
+   git commit -m "Semana 1: estrutura, revisão e decisão do jogo-piloto"
+   git push
+   ```
+2. ☐ Confirmar a VRAM da RX 7600 (Gerenciador de Tarefas > Desempenho > GPU) e preencher SO e disco em `docs/hardware.md`
 
 ## Quando estiver no computador do projeto (início da Semana 2)
 - ☐ Instalar Tesseract (com `eng` e `por`), Ollama, FFmpeg, Obsidian e OBS Studio

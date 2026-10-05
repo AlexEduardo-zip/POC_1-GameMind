@@ -1,0 +1,14 @@
+{
+  "arquivo": "ex_001_dialogo.png",
+  "tipo_tela": "dialogo",
+  "entidades": [
+    {"nome": "Geralt of Rivia", "tipo": "personagem", "evidencia": "[nome do falante na legenda]"},
+    {"nome": "Vesemir", "tipo": "personagem", "evidencia": "[nome do falante na legenda]"},
+    {"nome": "Kaer Morhen", "tipo": "local", "evidencia": "[local citado na fala]"}
+  ],
+  "relacoes": [
+    {"sujeito": "Geralt of Rivia", "predicado": "relacionado_a", "objeto": "Vesemir", "rotulo": "aliado", "evidencia": "[trecho da fala]"},
+    {"sujeito": "Vesemir", "predicado": "localizado_em", "objeto": "Kaer Morhen", "evidencia": "[trecho da fala]"}
+  ],
+  "observacoes": "Exemplo ilustrativo: não verificado no jogo. Troque os trechos entre colchetes pelo texto real da tela."
+}

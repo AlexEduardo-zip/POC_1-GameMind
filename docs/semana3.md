@@ -1,0 +1,28 @@
+# Semana 3: ontologia
+
+**Objetivo:** fechar os tipos, as relações e o esquema do grafo antes de anotar o gabarito em massa.
+**Estado:** rascunho completo da versão 0.1 pronto; falta você revisar e testar nas suas telas.
+
+## Já pronto
+- ✅ `docs/ontologia.md`: tipos, relações, atributos, identidade, anti-spoiler e decisões presumidas
+- ✅ `src/ontologia.json` e `src/schema.py`: versão legível por máquina (mantidos em sincronia pelo validador)
+- ✅ `scripts/validar_gabarito.py`: confere formato, nomes, tipos e domínio e alcance dos predicados
+- ✅ `src/grafo.py`: funde as anotações do gabarito em um grafo único (nomes canônicos, fontes, `primeira_vez`)
+- ✅ `src/exportar_vault.py` (protótipo): grafo em notas do Obsidian
+- ✅ `docs/exemplo/`: grafo do prólogo (16 nós e 17 arestas) e o vault gerado a partir dele
+
+Pipeline testado com os exemplos:
+```bash
+python scripts/validar_gabarito.py data/gabarito/exemplo
+cd src && python grafo.py --gab ../data/gabarito/exemplo --saida ../grafo.json && cd ..
+python src/exportar_vault.py --grafo grafo.json --saida vault_output
+```
+
+## Para você
+1. ☐ Abrir `docs/exemplo/vault` como vault no Obsidian e olhar a visualização de grafo (em Groups, crie um grupo por tag, como `tag:#personagem`).
+2. ☐ Revisar as 5 decisões presumidas em `docs/ontologia.md` e dizer o que muda.
+3. ☐ Quando tiver as telas da Semana 2, anotar 5 delas e conferir se a ontologia cobre o que aparece.
+4. ☐ Congelar a versão 1.0 antes de anotar o gabarito em massa.
+
+## Próximo passo (Semana 4)
+Fechar o esquema JSON e o modelo de nota; o exportador já é um ponto de partida.

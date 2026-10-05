@@ -1,0 +1,455 @@
+{
+  "jogo": "The Witcher 3",
+  "observacao": "Exemplo ilustrativo montado a partir de guias e wikis do prólogo (não de screenshots), só para testar a ontologia e o formato do vault.",
+  "nos": [
+    {
+      "nome": "Geralt of Rivia",
+      "tipo": "personagem",
+      "subtipo": "protagonista",
+      "estado": "",
+      "aliases": [
+        "Geralt",
+        "White Wolf"
+      ],
+      "descricao": "Bruxo e protagonista da história.",
+      "primeira_vez": "exemplo",
+      "fontes": [
+        {
+          "arquivo": "exemplo",
+          "evidencia": "guias e wikis do prólogo"
+        }
+      ]
+    },
+    {
+      "nome": "Vesemir",
+      "tipo": "personagem",
+      "subtipo": "",
+      "estado": "",
+      "aliases": [],
+      "descricao": "Companheiro de Geralt na busca por Yennefer em White Orchard.",
+      "primeira_vez": "exemplo",
+      "fontes": [
+        {
+          "arquivo": "exemplo",
+          "evidencia": "guias e wikis do prólogo"
+        }
+      ]
+    },
+    {
+      "nome": "Yennefer",
+      "tipo": "personagem",
+      "subtipo": "",
+      "estado": "",
+      "aliases": [],
+      "descricao": "Feiticeira que Geralt procura; segue com ele para Vizima.",
+      "primeira_vez": "exemplo",
+      "fontes": [
+        {
+          "arquivo": "exemplo",
+          "evidencia": "guias e wikis do prólogo"
+        }
+      ]
+    },
+    {
+      "nome": "Peter Saar Gwynleve",
+      "tipo": "personagem",
+      "subtipo": "comandante nilfgaardiano",
+      "estado": "",
+      "aliases": [],
+      "descricao": "Comandante nilfgaardiano em White Orchard.",
+      "primeira_vez": "exemplo",
+      "fontes": [
+        {
+          "arquivo": "exemplo",
+          "evidencia": "guias e wikis do prólogo"
+        }
+      ]
+    },
+    {
+      "nome": "Emhyr var Emreis",
+      "tipo": "personagem",
+      "subtipo": "imperador",
+      "estado": "",
+      "aliases": [],
+      "descricao": "Imperador de Nilfgaard, que recebe Geralt em Vizima.",
+      "primeira_vez": "exemplo",
+      "fontes": [
+        {
+          "arquivo": "exemplo",
+          "evidencia": "guias e wikis do prólogo"
+        }
+      ]
+    },
+    {
+      "nome": "Royal Griffin",
+      "tipo": "criatura",
+      "subtipo": "grifo",
+      "estado": "",
+      "aliases": [],
+      "descricao": "Grifo que ataca pessoas em White Orchard.",
+      "primeira_vez": "exemplo",
+      "fontes": [
+        {
+          "arquivo": "exemplo",
+          "evidencia": "guias e wikis do prólogo"
+        }
+      ]
+    },
+    {
+      "nome": "White Orchard",
+      "tipo": "local",
+      "subtipo": "região",
+      "estado": "",
+      "aliases": [],
+      "descricao": "Região do prólogo.",
+      "primeira_vez": "exemplo",
+      "fontes": [
+        {
+          "arquivo": "exemplo",
+          "evidencia": "guias e wikis do prólogo"
+        }
+      ]
+    },
+    {
+      "nome": "White Orchard Tavern",
+      "tipo": "local",
+      "subtipo": "taverna",
+      "estado": "",
+      "aliases": [],
+      "descricao": "Taverna onde Geralt reencontra Vesemir.",
+      "primeira_vez": "exemplo",
+      "fontes": [
+        {
+          "arquivo": "exemplo",
+          "evidencia": "guias e wikis do prólogo"
+        }
+      ]
+    },
+    {
+      "nome": "Vizima",
+      "tipo": "local",
+      "subtipo": "cidade",
+      "estado": "",
+      "aliases": [],
+      "descricao": "Cidade onde ocorre a audiência com o imperador.",
+      "primeira_vez": "exemplo",
+      "fontes": [
+        {
+          "arquivo": "exemplo",
+          "evidencia": "guias e wikis do prólogo"
+        }
+      ]
+    },
+    {
+      "nome": "Lilac and Gooseberries",
+      "tipo": "missao",
+      "subtipo": "principal",
+      "estado": "",
+      "aliases": [],
+      "descricao": "Geralt e Vesemir procuram Yennefer em White Orchard.",
+      "primeira_vez": "exemplo",
+      "fontes": [
+        {
+          "arquivo": "exemplo",
+          "evidencia": "guias e wikis do prólogo"
+        }
+      ]
+    },
+    {
+      "nome": "The Beast of White Orchard",
+      "tipo": "missao",
+      "subtipo": "principal",
+      "estado": "",
+      "aliases": [],
+      "descricao": "Matar o grifo que ataca pessoas em White Orchard.",
+      "primeira_vez": "exemplo",
+      "fontes": [
+        {
+          "arquivo": "exemplo",
+          "evidencia": "guias e wikis do prólogo"
+        }
+      ]
+    },
+    {
+      "nome": "The Incident at White Orchard",
+      "tipo": "missao",
+      "subtipo": "principal",
+      "estado": "",
+      "aliases": [],
+      "descricao": "Breve missão na taverna de White Orchard.",
+      "primeira_vez": "exemplo",
+      "fontes": [
+        {
+          "arquivo": "exemplo",
+          "evidencia": "guias e wikis do prólogo"
+        }
+      ]
+    },
+    {
+      "nome": "Imperial Audience",
+      "tipo": "missao",
+      "subtipo": "principal",
+      "estado": "",
+      "aliases": [],
+      "descricao": "Geralt e Yennefer vão a Vizima para a audiência com Emhyr.",
+      "primeira_vez": "exemplo",
+      "fontes": [
+        {
+          "arquivo": "exemplo",
+          "evidencia": "guias e wikis do prólogo"
+        }
+      ]
+    },
+    {
+      "nome": "Wild Hunt attack on the convoy",
+      "tipo": "evento",
+      "subtipo": "",
+      "estado": "",
+      "aliases": [],
+      "descricao": "A Caçada Selvagem ataca a coluna a caminho de Vizima.",
+      "primeira_vez": "exemplo",
+      "fontes": [
+        {
+          "arquivo": "exemplo",
+          "evidencia": "guias e wikis do prólogo"
+        }
+      ]
+    },
+    {
+      "nome": "Answers to Emhyr about Letho",
+      "tipo": "decisao",
+      "subtipo": "",
+      "estado": "",
+      "aliases": [],
+      "descricao": "Respostas dadas ao imperador durante a audiência, com impacto em eventos futuros.",
+      "primeira_vez": "exemplo",
+      "fontes": [
+        {
+          "arquivo": "exemplo",
+          "evidencia": "guias e wikis do prólogo"
+        }
+      ]
+    },
+    {
+      "nome": "Buckthorn",
+      "tipo": "item",
+      "subtipo": "ingrediente",
+      "estado": "",
+      "aliases": [],
+      "descricao": "Planta encontrada no fundo da água em White Orchard.",
+      "primeira_vez": "exemplo",
+      "fontes": [
+        {
+          "arquivo": "exemplo",
+          "evidencia": "guias e wikis do prólogo"
+        }
+      ]
+    }
+  ],
+  "arestas": [
+    {
+      "sujeito": "Lilac and Gooseberries",
+      "predicado": "ocorre_em",
+      "objeto": "White Orchard",
+      "rotulo": "",
+      "fontes": [
+        {
+          "arquivo": "exemplo",
+          "evidencia": ""
+        }
+      ]
+    },
+    {
+      "sujeito": "The Incident at White Orchard",
+      "predicado": "ocorre_em",
+      "objeto": "White Orchard",
+      "rotulo": "",
+      "fontes": [
+        {
+          "arquivo": "exemplo",
+          "evidencia": ""
+        }
+      ]
+    },
+    {
+      "sujeito": "Imperial Audience",
+      "predicado": "ocorre_em",
+      "objeto": "Vizima",
+      "rotulo": "",
+      "fontes": [
+        {
+          "arquivo": "exemplo",
+          "evidencia": ""
+        }
+      ]
+    },
+    {
+      "sujeito": "The Beast of White Orchard",
+      "predicado": "parte_de",
+      "objeto": "Lilac and Gooseberries",
+      "rotulo": "",
+      "fontes": [
+        {
+          "arquivo": "exemplo",
+          "evidencia": ""
+        }
+      ]
+    },
+    {
+      "sujeito": "White Orchard Tavern",
+      "predicado": "parte_de",
+      "objeto": "White Orchard",
+      "rotulo": "",
+      "fontes": [
+        {
+          "arquivo": "exemplo",
+          "evidencia": ""
+        }
+      ]
+    },
+    {
+      "sujeito": "Answers to Emhyr about Letho",
+      "predicado": "parte_de",
+      "objeto": "Imperial Audience",
+      "rotulo": "",
+      "fontes": [
+        {
+          "arquivo": "exemplo",
+          "evidencia": ""
+        }
+      ]
+    },
+    {
+      "sujeito": "Geralt of Rivia",
+      "predicado": "participa_de",
+      "objeto": "Lilac and Gooseberries",
+      "rotulo": "",
+      "fontes": [
+        {
+          "arquivo": "exemplo",
+          "evidencia": ""
+        }
+      ]
+    },
+    {
+      "sujeito": "Vesemir",
+      "predicado": "participa_de",
+      "objeto": "Lilac and Gooseberries",
+      "rotulo": "",
+      "fontes": [
+        {
+          "arquivo": "exemplo",
+          "evidencia": ""
+        }
+      ]
+    },
+    {
+      "sujeito": "Geralt of Rivia",
+      "predicado": "participa_de",
+      "objeto": "Imperial Audience",
+      "rotulo": "",
+      "fontes": [
+        {
+          "arquivo": "exemplo",
+          "evidencia": ""
+        }
+      ]
+    },
+    {
+      "sujeito": "Yennefer",
+      "predicado": "participa_de",
+      "objeto": "Imperial Audience",
+      "rotulo": "",
+      "fontes": [
+        {
+          "arquivo": "exemplo",
+          "evidencia": ""
+        }
+      ]
+    },
+    {
+      "sujeito": "Emhyr var Emreis",
+      "predicado": "participa_de",
+      "objeto": "Imperial Audience",
+      "rotulo": "",
+      "fontes": [
+        {
+          "arquivo": "exemplo",
+          "evidencia": ""
+        }
+      ]
+    },
+    {
+      "sujeito": "Royal Griffin",
+      "predicado": "participa_de",
+      "objeto": "The Beast of White Orchard",
+      "rotulo": "",
+      "fontes": [
+        {
+          "arquivo": "exemplo",
+          "evidencia": ""
+        }
+      ]
+    },
+    {
+      "sujeito": "Geralt of Rivia",
+      "predicado": "participa_de",
+      "objeto": "Wild Hunt attack on the convoy",
+      "rotulo": "",
+      "fontes": [
+        {
+          "arquivo": "exemplo",
+          "evidencia": ""
+        }
+      ]
+    },
+    {
+      "sujeito": "Yennefer",
+      "predicado": "participa_de",
+      "objeto": "Wild Hunt attack on the convoy",
+      "rotulo": "",
+      "fontes": [
+        {
+          "arquivo": "exemplo",
+          "evidencia": ""
+        }
+      ]
+    },
+    {
+      "sujeito": "Peter Saar Gwynleve",
+      "predicado": "concede",
+      "objeto": "The Beast of White Orchard",
+      "rotulo": "",
+      "fontes": [
+        {
+          "arquivo": "exemplo",
+          "evidencia": ""
+        }
+      ]
+    },
+    {
+      "sujeito": "Buckthorn",
+      "predicado": "localizado_em",
+      "objeto": "White Orchard",
+      "rotulo": "",
+      "fontes": [
+        {
+          "arquivo": "exemplo",
+          "evidencia": ""
+        }
+      ]
+    },
+    {
+      "sujeito": "Yennefer",
+      "predicado": "relacionado_a",
+      "objeto": "Geralt of Rivia",
+      "rotulo": "ex-amantes",
+      "fontes": [
+        {
+          "arquivo": "exemplo",
+          "evidencia": ""
+        }
+      ]
+    }
+  ]
+}

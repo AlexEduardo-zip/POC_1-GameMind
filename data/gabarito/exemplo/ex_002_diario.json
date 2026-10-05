@@ -1,0 +1,16 @@
+{
+  "arquivo": "ex_002_diario.png",
+  "tipo_tela": "diario",
+  "entidades": [
+    {"nome": "The Beast of White Orchard", "tipo": "missao", "subtipo": "principal", "estado": "ativa", "evidencia": "[título da missão no diário]"},
+    {"nome": "White Orchard", "tipo": "local", "evidencia": "[região da missão]"},
+    {"nome": "Royal Griffin", "tipo": "criatura", "evidencia": "[alvo citado no objetivo]"},
+    {"nome": "Geralt of Rivia", "tipo": "personagem", "evidencia": "[protagonista da missão]"}
+  ],
+  "relacoes": [
+    {"sujeito": "The Beast of White Orchard", "predicado": "ocorre_em", "objeto": "White Orchard", "evidencia": "[região da missão]"},
+    {"sujeito": "Royal Griffin", "predicado": "participa_de", "objeto": "The Beast of White Orchard", "evidencia": "[objetivo]"},
+    {"sujeito": "Geralt of Rivia", "predicado": "participa_de", "objeto": "The Beast of White Orchard", "evidencia": "[diário]"}
+  ],
+  "observacoes": "Exemplo ilustrativo: não verificado no jogo."
+}

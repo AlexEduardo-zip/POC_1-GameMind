@@ -1,0 +1,13 @@
+{
+  "arquivo": "exemplo_img.png",
+  "tipo_tela": "diario",
+  "entidades": [
+    {"nome": "Lilac and Gooseberries", "tipo": "missao"},
+    {"nome": "Vesemir", "tipo": "personagem"},
+    {"nome": "Kaer Morhen", "tipo": "local"}
+  ],
+  "relacoes": [
+    {"sujeito": "Lilac and Gooseberries", "predicado": "ocorre_em", "objeto": "White Orchard"},
+    {"sujeito": "Vesemir", "predicado": "localizado_em", "objeto": "Kaer Morhen"}
+  ]
+}

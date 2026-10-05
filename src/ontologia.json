@@ -1,0 +1,22 @@
+{
+  "versao": "0.1",
+  "tipos": {
+    "personagem": "Pessoa ou ser com nome próprio e papel na história (inclui NPCs e o protagonista)",
+    "criatura": "Monstro ou animal tratado como espécie ou indivíduo nomeado (bestiário)",
+    "local": "Região, cidade, construção ou ponto de interesse",
+    "missao": "Missão principal, secundária, contrato ou caça ao tesouro",
+    "item": "Objeto, arma, armadura, ingrediente, fórmula ou livro",
+    "evento": "Acontecimento da história com começo e fim (cena, ataque, encontro)",
+    "decisao": "Escolha do jogador (opção de diálogo ou ação) que pode ter consequências"
+  },
+  "predicados": {
+    "participa_de": {"dominio": ["personagem", "criatura"], "alcance": ["missao", "evento"]},
+    "ocorre_em": {"dominio": ["missao", "evento"], "alcance": ["local"]},
+    "localizado_em": {"dominio": ["personagem", "criatura", "item"], "alcance": ["local"]},
+    "parte_de": {"dominio": ["local", "missao", "decisao", "evento"], "alcance": ["local", "missao"]},
+    "concede": {"dominio": ["personagem"], "alcance": ["missao"]},
+    "obtido_em": {"dominio": ["item"], "alcance": ["missao", "evento"]},
+    "gera": {"dominio": ["decisao", "evento"], "alcance": ["evento"]},
+    "relacionado_a": {"dominio": ["personagem", "criatura"], "alcance": ["personagem", "criatura"]}
+  }
+}
