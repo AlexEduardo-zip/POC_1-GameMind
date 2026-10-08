@@ -1,0 +1,13 @@
+{
+  "arquivo": "img_096_cutscene.png",
+  "tipo_tela": "cutscene",
+  "entidades": [
+    {
+      "nome": "Cirilla",
+      "tipo": "personagem",
+      "evidencia": "legenda: \"Você prometeu para Ciri que iria treiná-la.\""
+    }
+  ],
+  "relacoes": [],
+  "observacoes": "Quadro do vid_002. Só a menção a Ciri tem nome escrito."
+}

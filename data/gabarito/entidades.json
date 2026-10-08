@@ -146,5 +146,83 @@
   "Está combinado": {
     "tipo": "decisao",
     "aliases": []
+  },
+  "Eskel": {
+    "tipo": "personagem",
+    "aliases": []
+  },
+  "Lambert": {
+    "tipo": "personagem",
+    "aliases": []
+  },
+  "Emhyr var Emreis": {
+    "tipo": "personagem",
+    "aliases": []
+  },
+  "Odrin": {
+    "tipo": "personagem",
+    "aliases": []
+  },
+  "Bastien": {
+    "tipo": "personagem",
+    "aliases": []
+  },
+  "Odolan": {
+    "tipo": "personagem",
+    "aliases": []
+  },
+  "Afogador": {
+    "tipo": "criatura",
+    "aliases": [
+      "Afogadores"
+    ]
+  },
+  "Poviss": {
+    "tipo": "local",
+    "aliases": []
+  },
+  "Toussaint": {
+    "tipo": "local",
+    "aliases": []
+  },
+  "Vizima": {
+    "tipo": "local",
+    "aliases": []
+  },
+  "Cáscara": {
+    "tipo": "item",
+    "aliases": []
+  },
+  "Coruja-do-mato": {
+    "tipo": "item",
+    "aliases": []
+  },
+  "Carta de Yennefer": {
+    "tipo": "item",
+    "aliases": []
+  },
+  "Pão": {
+    "tipo": "item",
+    "aliases": []
+  },
+  "Suco de maçã": {
+    "tipo": "item",
+    "aliases": []
+  },
+  "Maçã assada": {
+    "tipo": "item",
+    "aliases": []
+  },
+  "Procurado: Desertor": {
+    "tipo": "missao",
+    "aliases": []
+  },
+  "Contrato: O Demônio do Poço": {
+    "tipo": "missao",
+    "aliases": []
+  },
+  "Aí nós treinamos Ciri": {
+    "tipo": "decisao",
+    "aliases": []
   }
 }

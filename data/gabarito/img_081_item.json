@@ -1,0 +1,14 @@
+{
+  "arquivo": "img_081_item.jpg",
+  "tipo_tela": "item",
+  "entidades": [
+    {
+      "nome": "Pão",
+      "tipo": "item",
+      "subtipo": "comestivel",
+      "evidencia": "tooltip: \"PÃO / COMESTÍVEIS\""
+    }
+  ],
+  "relacoes": [],
+  "observacoes": "Inventário, comestíveis."
+}

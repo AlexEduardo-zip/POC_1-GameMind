@@ -1,0 +1,23 @@
+{
+  "arquivo": "img_075_quadro_avisos.jpg",
+  "tipo_tela": "outro",
+  "entidades": [
+    {
+      "nome": "Peter Saar Gwynleve",
+      "tipo": "personagem",
+      "evidencia": "texto: \"Capitão Peter Saar Gwynleve\""
+    },
+    {
+      "nome": "Emhyr var Emreis",
+      "tipo": "personagem",
+      "evidencia": "texto: \"Emhyr var Emreis\""
+    },
+    {
+      "nome": "Pomar Branco",
+      "tipo": "local",
+      "evidencia": "texto: \"residentes de Pomar Branco\""
+    }
+  ],
+  "relacoes": [],
+  "observacoes": "Quadro de avisos: \"A Nova Ordem\"."
+}

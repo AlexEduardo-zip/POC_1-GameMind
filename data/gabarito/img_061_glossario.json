@@ -1,0 +1,62 @@
+{
+  "arquivo": "img_061_glossario.jpg",
+  "tipo_tela": "glossario",
+  "entidades": [
+    {
+      "nome": "Cirilla",
+      "tipo": "personagem",
+      "evidencia": "lista lateral: Cirilla"
+    },
+    {
+      "nome": "Dandelion",
+      "tipo": "personagem",
+      "evidencia": "lista lateral: Dandelion"
+    },
+    {
+      "nome": "Eskel",
+      "tipo": "personagem",
+      "evidencia": "lista lateral: Eskel"
+    },
+    {
+      "nome": "Geralt de Rívia",
+      "tipo": "personagem",
+      "evidencia": "lista lateral: Geralt de Rívia"
+    },
+    {
+      "nome": "Lambert",
+      "tipo": "personagem",
+      "evidencia": "lista lateral: Lambert"
+    },
+    {
+      "nome": "Vesemir",
+      "tipo": "personagem",
+      "evidencia": "lista lateral: Vesemir"
+    },
+    {
+      "nome": "Yennefer de Vengerberg",
+      "tipo": "personagem",
+      "evidencia": "lista lateral: Yennefer de Vengerberg"
+    },
+    {
+      "nome": "Kaer Morhen",
+      "tipo": "local",
+      "evidencia": "texto: \"treinavam com espadas de madeira em Kaer Morhen\""
+    }
+  ],
+  "relacoes": [
+    {
+      "sujeito": "Eskel",
+      "predicado": "relacionado_a",
+      "objeto": "Geralt de Rívia",
+      "rotulo": "irmão de armas",
+      "evidencia": "texto: \"Eskel e Geralt eram como dois irmãos\""
+    },
+    {
+      "sujeito": "Eskel",
+      "predicado": "localizado_em",
+      "objeto": "Kaer Morhen",
+      "evidencia": "texto: \"reunindo-se em Kaer Morhen quase todo inverno\""
+    }
+  ],
+  "observacoes": "Entrada aberta: ESKEL."
+}

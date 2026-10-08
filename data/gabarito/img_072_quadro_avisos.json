@@ -1,0 +1,18 @@
+{
+  "arquivo": "img_072_quadro_avisos.jpg",
+  "tipo_tela": "outro",
+  "entidades": [
+    {
+      "nome": "Peter Saar Gwynleve",
+      "tipo": "personagem",
+      "evidencia": "texto: \"Comandante Peter Saar Gwynleve\""
+    },
+    {
+      "nome": "Emhyr var Emreis",
+      "tipo": "personagem",
+      "evidencia": "texto: \"Emhyr var Emreis\""
+    }
+  ],
+  "relacoes": [],
+  "observacoes": "Quadro de avisos: \"Precisa-se de Voluntários\". Exército Imperial é facção (fora de escopo)."
+}

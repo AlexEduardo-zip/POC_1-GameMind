@@ -1,0 +1,20 @@
+{
+  "arquivo": "img_070_quadro_avisos.jpg",
+  "tipo_tela": "outro",
+  "entidades": [
+    {
+      "nome": "Procurado: Desertor",
+      "tipo": "missao",
+      "subtipo": "contrato",
+      "estado": "disponivel",
+      "evidencia": "cartaz: \"Procurado: Desertor\""
+    },
+    {
+      "nome": "Odrin",
+      "tipo": "personagem",
+      "evidencia": "texto: \"Ele se chama Odrin\""
+    }
+  ],
+  "relacoes": [],
+  "observacoes": "Quadro de avisos. Cartaz mostra o aviso, a missão só existe se o jogador aceitar; anotada como contrato disponível."
+}

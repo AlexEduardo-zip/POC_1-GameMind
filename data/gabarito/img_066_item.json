@@ -1,0 +1,29 @@
+{
+  "arquivo": "img_066_item.jpg",
+  "tipo_tela": "item",
+  "entidades": [
+    {
+      "nome": "Carta de Yennefer",
+      "tipo": "item",
+      "subtipo": "carta",
+      "evidencia": "título: \"CARTA DE YENNEFER\""
+    },
+    {
+      "nome": "Yennefer de Vengerberg",
+      "tipo": "personagem",
+      "evidencia": "assinatura: \"Yennefer\""
+    },
+    {
+      "nome": "Arbusteira",
+      "tipo": "local",
+      "evidencia": "texto: \"Vá à vila Arbusteira\""
+    },
+    {
+      "nome": "Vizima",
+      "tipo": "local",
+      "evidencia": "texto: \"próxima a Vizima\""
+    }
+  ],
+  "relacoes": [],
+  "observacoes": "Texto da carta aberto."
+}

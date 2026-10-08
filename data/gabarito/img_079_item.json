@@ -1,0 +1,14 @@
+{
+  "arquivo": "img_079_item.jpg",
+  "tipo_tela": "item",
+  "entidades": [
+    {
+      "nome": "Cáscara",
+      "tipo": "item",
+      "subtipo": "ingrediente",
+      "evidencia": "tooltip: \"CÁSCARA / INGREDIENTE ALQUÍMICO\""
+    }
+  ],
+  "relacoes": [],
+  "observacoes": "Item de missão no inventário."
+}

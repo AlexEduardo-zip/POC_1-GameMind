@@ -1,0 +1,14 @@
+{
+  "arquivo": "img_082_item.jpg",
+  "tipo_tela": "item",
+  "entidades": [
+    {
+      "nome": "Suco de maçã",
+      "tipo": "item",
+      "subtipo": "comestivel",
+      "evidencia": "tooltip: \"SUCO DE MAÇÃ / COMESTÍVEIS\""
+    }
+  ],
+  "relacoes": [],
+  "observacoes": "Inventário, comestíveis."
+}

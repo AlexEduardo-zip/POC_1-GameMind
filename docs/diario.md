@@ -59,3 +59,8 @@
 - Decidido: formato, resolução e fonte do material (screenshot ou quadro de vídeo) são só guia, não regra; o foco é testar a aplicação
 - Feito: lacunas da coleta fechadas com quadros de vídeo; pipeline rodado no gabarito real (validação 0 problemas, 32 nós, 20 arestas, 32 notas); criada a linha de base `scripts/baseline_ocr.py` e rodado o avaliador (entidades P 1,00 / R 0,70 / F1 0,83; relações 0; vazamento do dicionário explicado em `semana2.md`)
 - Próximos passos: `docs/proximos-passos.md` (A1 a A4, depois o estudo de viabilidade)
+
+## Ampliação do gabarito e atualização do vault · 2026-10-07
+- Contexto: o grafo no Obsidian estava igual ao do dia anterior porque o gabarito não tinha mudado (o vault já tinha sido regenerado, com o mesmo conteúdo)
+- Feito: 28 itens novos anotados (glossário de personagens e bestiário, quadros de avisos, itens, escolhas, diário, mapa, cutscene); 19 nomes novos em `entidades.json`; validação 0 problemas; grafo de 51 nós e 26 arestas; `vault_output/` regenerado com 51 notas; linha de base atualizada (entidades F1 0,88)
+- Atenção: os 28 itens são rascunho de IA, ainda sem verificação (A5 em `docs/proximos-passos.md`)

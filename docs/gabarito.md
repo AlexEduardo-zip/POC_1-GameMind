@@ -91,3 +91,19 @@ As dúvidas abaixo foram resolvidas na verificação (as regras 8 a 13 ficam com
 6. **Decisões de clipe:** a opção escolhida foi deduzida da fala seguinte; nenhum quadro mostra o botão sendo apertado.
 7. **`img_016`:** é tela de tutorial com legenda e HUD; foi classificada como diálogo.
 8. **Cobertura:** não há escolhas em screenshot (só nos clipes), item e mapa têm 2 imagens cada e o `img_024` é um controle sem entidades.
+
+## Ampliação do gabarito (2026-10-07, rascunho a verificar)
+Para alimentar o grafo e testar mais tipos de tela, foram anotados 28 itens do material novo, seguindo as regras 1 a 13. São **rascunho de IA e não foram verificados pelo autor**; os 24 itens anteriores continuam verificados. A relação "Odolan concede Contrato: O Demônio do Poço" (`img_073`) e as de mapa (`img_094`) são inferidas, e os contratos de quadro de avisos foram anotados como `missao` com `estado: disponivel`.
+
+| Tipo de tela | Itens |
+|---|---|
+| Glossário de personagens | `img_057` a `img_063` |
+| Bestiário | `img_076`, `img_077` |
+| Quadro de avisos (`tipo_tela: outro`) | `img_070`, `img_072`, `img_073`, `img_074`, `img_075` |
+| Item, inventário e cartas | `img_064`, `img_065`, `img_066`, `img_079`, `img_081`, `img_082`, `img_083` |
+| Escolhas de diálogo (quadros de clipe) | `img_084`, `img_085`, `img_086` |
+| Diário | `img_088` |
+| Mapa | `img_092`, `img_094` |
+| Cutscene | `img_096` |
+
+Total do gabarito: 52 arquivos, 185 entidades, 34 relações, 51 nomes canônicos em `entidades.json`; `validar_gabarito.py` com 0 problemas.

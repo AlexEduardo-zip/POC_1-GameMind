@@ -1,0 +1,19 @@
+{
+  "arquivo": "img_085_escolhas.png",
+  "tipo_tela": "escolhas",
+  "entidades": [
+    {
+      "nome": "Aí nós treinamos Ciri",
+      "tipo": "decisao",
+      "subtipo": "opção de diálogo",
+      "evidencia": "opção 1: \"Aí nós treinamos Ciri...\""
+    },
+    {
+      "nome": "Cirilla",
+      "tipo": "personagem",
+      "evidencia": "opção 1: \"Ciri\""
+    }
+  ],
+  "relacoes": [],
+  "observacoes": "Quadro do vid_008. Escolhida deduzida da fala seguinte (\"No sonho, fui e encontrei a Ciri\"); outra opção: \"A gente vai. Não estou preocupado com isso.\""
+}

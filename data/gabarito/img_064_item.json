@@ -1,0 +1,14 @@
+{
+  "arquivo": "img_064_item.jpg",
+  "tipo_tela": "item",
+  "entidades": [
+    {
+      "nome": "Coruja-do-mato",
+      "tipo": "item",
+      "subtipo": "pocao",
+      "evidencia": "tooltip: \"CORUJA-DO-MATO / POÇÃO\""
+    }
+  ],
+  "relacoes": [],
+  "observacoes": "Inventário, aba Poções."
+}

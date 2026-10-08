@@ -1,0 +1,27 @@
+{
+  "arquivo": "img_073_quadro_avisos.jpg",
+  "tipo_tela": "outro",
+  "entidades": [
+    {
+      "nome": "Contrato: O Demônio do Poço",
+      "tipo": "missao",
+      "subtipo": "contrato",
+      "estado": "disponivel",
+      "evidencia": "cartaz: \"Contrato: O Demônio do Poço\""
+    },
+    {
+      "nome": "Odolan",
+      "tipo": "personagem",
+      "evidencia": "assinatura: \"Odolan\""
+    }
+  ],
+  "relacoes": [
+    {
+      "sujeito": "Odolan",
+      "predicado": "concede",
+      "objeto": "Contrato: O Demônio do Poço",
+      "evidencia": "texto: \"receberá uma gorda bolsa de ouro... Odolan\""
+    }
+  ],
+  "observacoes": "Relação inferida da assinatura do cartaz."
+}

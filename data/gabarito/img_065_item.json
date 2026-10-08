@@ -1,0 +1,19 @@
+{
+  "arquivo": "img_065_item.jpg",
+  "tipo_tela": "item",
+  "entidades": [
+    {
+      "nome": "Carta de Yennefer",
+      "tipo": "item",
+      "subtipo": "carta",
+      "evidencia": "tooltip: \"CARTA DE YENNEFER / OUTROS\""
+    },
+    {
+      "nome": "Yennefer de Vengerberg",
+      "tipo": "personagem",
+      "evidencia": "tooltip: \"CARTA DE YENNEFER\""
+    }
+  ],
+  "relacoes": [],
+  "observacoes": "Inventário, item de missão."
+}

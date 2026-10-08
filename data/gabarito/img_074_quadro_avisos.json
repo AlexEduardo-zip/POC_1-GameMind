@@ -1,0 +1,18 @@
+{
+  "arquivo": "img_074_quadro_avisos.jpg",
+  "tipo_tela": "outro",
+  "entidades": [
+    {
+      "nome": "Bastien",
+      "tipo": "personagem",
+      "evidencia": "texto: \"meu irmão, Bastien\""
+    },
+    {
+      "nome": "Pomar Branco",
+      "tipo": "local",
+      "evidencia": "texto: \"estrada para Pomar Branco\""
+    }
+  ],
+  "relacoes": [],
+  "observacoes": "Quadro de avisos: \"Irmão, Onde Estás?\"."
+}

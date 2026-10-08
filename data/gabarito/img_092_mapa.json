@@ -1,0 +1,27 @@
+{
+  "arquivo": "img_092_mapa.png",
+  "tipo_tela": "mapa",
+  "entidades": [
+    {
+      "nome": "Pomar Branco",
+      "tipo": "local",
+      "evidencia": "região no canto do mapa: POMAR BRANCO"
+    },
+    {
+      "nome": "O Monstro de Pomar Branco",
+      "tipo": "missao",
+      "subtipo": "principal",
+      "estado": "ativa",
+      "evidencia": "marcador: \"O monstro de Pomar Branco\""
+    }
+  ],
+  "relacoes": [
+    {
+      "sujeito": "O Monstro de Pomar Branco",
+      "predicado": "ocorre_em",
+      "objeto": "Pomar Branco",
+      "evidencia": "marcador dentro da região Pomar Branco"
+    }
+  ],
+  "observacoes": "Quadro do vid_029."
+}

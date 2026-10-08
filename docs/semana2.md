@@ -99,3 +99,6 @@ Observações (sem caráter de regra):
 ## Linha de base de ponta a ponta (2026-10-07)
 `python scripts/baseline_ocr.py` faz OCR da imagem inteira e procura os nomes e aliases de `entidades.json`; `python eval/avaliar.py --pred eval/predicoes/baseline_ocr` compara com o gabarito. Resultado nas 20 screenshots (clipes ficam sem previsão): **entidades precisão 1,00, revocação 0,70, F1 0,83; relações 0** (a linha de base não extrai relações); 15,6 s no total.
 Leitura: serve para provar que o ciclo extração → avaliação funciona. A precisão 1,00 é enganosa, porque o dicionário vem do próprio gabarito (vazamento); o número que vale é a revocação por tipo de tela: glossário, diário e item saem quase perfeitos; exploração, HUD, tutorial com legenda, cena sem texto e diálogo com rosto sem legenda ficam em 0 a 0,5.
+
+### Atualização (2026-10-07, depois da ampliação do gabarito)
+Com 28 itens novos anotados (rascunho, a verificar), a linha de base nas 48 screenshots do gabarito deu **entidades precisão 0,93, revocação 0,82, F1 0,88; relações 0**; 41,6 s. A precisão caiu de 1,00 (a causa não foi investigada; o OCR achou nomes que o gabarito novo não anota). O dicionário continua vindo do gabarito (vazamento). O grafo passou de 32 nós e 20 arestas para **51 nós e 26 arestas**; o vault de `vault_output/` tem 51 notas.

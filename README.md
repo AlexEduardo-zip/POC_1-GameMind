@@ -12,7 +12,7 @@ POC I / MSI I · DCC/UFMG · Aluno: Alex Eduardo Alves dos Santos · Orientador:
 - Captura: pt-BR; resolução, formato e ferramenta são só guia (desvios registrados em `data/raw/metadados.csv`)
 - **Próximos passos: `docs/proximos-passos.md` (fonte única das pendências, com critério de pronto)**
 - Feito em 2026-10-07: ferramentas instaladas (Tesseract com `por`, FFmpeg), 83 screenshots, 14 quadros de vídeo e 36 clipes coletados e catalogados em `data/raw/metadados.csv`, teste de fumaça de OCR registrado na decisão 001
-- Gabarito (verificado pelo autor em 2026-10-07): 20 screenshots e 4 clipes em `data/gabarito/` (85 entidades, 24 relações; 32 nomes canônicos)
+- Gabarito em `data/gabarito/`: 24 itens verificados pelo autor (20 screenshots e 4 clipes) e 28 itens novos de 2026-10-07 (rascunho de IA, **a verificar**); 52 arquivos, 185 entidades, 34 relações, 51 nomes canônicos
 - Ainda não existe extrator em `src/`; o estudo de viabilidade (Semanas 5–7) começa depois de fechar a coleta e congelar a ontologia
 
 ## Mapa do projeto

@@ -1,0 +1,51 @@
+{
+  "arquivo": "img_057_glossario.jpg",
+  "tipo_tela": "glossario",
+  "entidades": [
+    {
+      "nome": "Cirilla",
+      "tipo": "personagem",
+      "evidencia": "lista lateral: Cirilla"
+    },
+    {
+      "nome": "Dandelion",
+      "tipo": "personagem",
+      "evidencia": "lista lateral: Dandelion"
+    },
+    {
+      "nome": "Eskel",
+      "tipo": "personagem",
+      "evidencia": "lista lateral: Eskel"
+    },
+    {
+      "nome": "Geralt de Rívia",
+      "tipo": "personagem",
+      "evidencia": "lista lateral: Geralt de Rívia"
+    },
+    {
+      "nome": "Lambert",
+      "tipo": "personagem",
+      "evidencia": "lista lateral: Lambert"
+    },
+    {
+      "nome": "Vesemir",
+      "tipo": "personagem",
+      "evidencia": "lista lateral: Vesemir"
+    },
+    {
+      "nome": "Yennefer de Vengerberg",
+      "tipo": "personagem",
+      "evidencia": "lista lateral: Yennefer de Vengerberg"
+    }
+  ],
+  "relacoes": [
+    {
+      "sujeito": "Geralt de Rívia",
+      "predicado": "relacionado_a",
+      "objeto": "Yennefer de Vengerberg",
+      "rotulo": "amor",
+      "evidencia": "texto: \"O amor de Geralt e Yennefer\""
+    }
+  ],
+  "observacoes": "Entrada aberta: YENNEFER DE VENGERBERG. A Caçada Selvagem (facção) fica fora da ontologia."
+}

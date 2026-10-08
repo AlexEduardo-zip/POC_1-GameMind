@@ -1,0 +1,19 @@
+{
+  "arquivo": "img_086_escolhas.png",
+  "tipo_tela": "escolhas",
+  "entidades": [
+    {
+      "nome": "Está combinado",
+      "tipo": "decisao",
+      "subtipo": "opção de diálogo",
+      "evidencia": "opção 1: \"Está combinado.\""
+    },
+    {
+      "nome": "Grifo",
+      "tipo": "criatura",
+      "evidencia": "legenda: \"Há um grifo na área\""
+    }
+  ],
+  "relacoes": [],
+  "observacoes": "Quadro do vid_025. Escolhida deduzida da fala seguinte (\"Está combinado. Algumas perguntas...\"); outra opção: \"Por que você se importa com um grifo?\""
+}

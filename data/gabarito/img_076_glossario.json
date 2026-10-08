@@ -1,0 +1,23 @@
+{
+  "arquivo": "img_076_glossario.jpg",
+  "tipo_tela": "glossario",
+  "entidades": [
+    {
+      "nome": "Grifo",
+      "tipo": "criatura",
+      "evidencia": "lista lateral (Híbridos): Grifos"
+    },
+    {
+      "nome": "Afogador",
+      "tipo": "criatura",
+      "evidencia": "lista lateral (Necrófagos): Afogadores"
+    },
+    {
+      "nome": "Carniçal",
+      "tipo": "criatura",
+      "evidencia": "lista lateral (Necrófagos): Carniçal"
+    }
+  ],
+  "relacoes": [],
+  "observacoes": "Bestiário, entrada aberta: AFOGADORES. Categorias do bestiário (Híbridos, Necrófagos) fora de escopo."
+}

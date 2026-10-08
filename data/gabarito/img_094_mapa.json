@@ -1,0 +1,25 @@
+{
+  "arquivo": "img_094_mapa.png",
+  "tipo_tela": "mapa",
+  "entidades": [
+    {
+      "nome": "Pomar Branco",
+      "tipo": "local",
+      "evidencia": "região no canto do mapa: POMAR BRANCO"
+    },
+    {
+      "nome": "Vila Saqueada",
+      "tipo": "local",
+      "evidencia": "tooltip: \"VILA SAQUEADA\""
+    }
+  ],
+  "relacoes": [
+    {
+      "sujeito": "Vila Saqueada",
+      "predicado": "parte_de",
+      "objeto": "Pomar Branco",
+      "evidencia": "tooltip da vila dentro da região Pomar Branco"
+    }
+  ],
+  "observacoes": "Quadro do vid_029. Relação inferida da região."
+}

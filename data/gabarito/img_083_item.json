@@ -1,0 +1,14 @@
+{
+  "arquivo": "img_083_item.jpg",
+  "tipo_tela": "item",
+  "entidades": [
+    {
+      "nome": "Maçã assada",
+      "tipo": "item",
+      "subtipo": "comestivel",
+      "evidencia": "tooltip: \"MAÇÃ ASSADA / COMESTÍVEIS\""
+    }
+  ],
+  "relacoes": [],
+  "observacoes": "Inventário, comestíveis."
+}

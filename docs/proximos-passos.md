@@ -20,7 +20,7 @@ Semana 2 concluída em 2026-10-07: coleta, gabarito e pipeline testado (ver `doc
 | A2 | Abrir `docs/exemplo/vault` (ou `vault_output/`) no Obsidian e ver o grafo | Conferido por você; ajustes anotados no diário |
 | A3 | Revisar as 5 decisões presumidas de `docs/ontologia.md`, usar `evento`, `gera`, `concede`, `obtido_em` em pelo menos uma tela cada (ou decidir removê-los) e **congelar a ontologia 1.0** | `ontologia.md`, `src/ontologia.json` e `src/schema.py` com versão 1.0 e o validador passando |
 | A4 | Reavaliar a regra 9 do gabarito (personagem só com nome escrito na tela): é o ponto que mais afeta a revocação | Decisão registrada em `gabarito.md`; se mudar, reanotar os itens afetados |
-| A5 | (Opcional) Anotar do material novo (`img_057` a `img_097`, `vid_029` a `vid_037`) para ampliar o gabarito, principalmente escolhas (`img_084` a `img_087`), diário, mapa e quadros de avisos | `validar_gabarito.py data/gabarito` com 0 problemas e verificação humana |
+| A5 | **Verificar** os 28 itens de gabarito novos (lista em `docs/gabarito.md`, "Ampliação do gabarito"), revisando 5 sorteados; depois, se quiser, anotar também os clipes novos (`vid_029` a `vid_037`) | Verificação humana registrada; `validar_gabarito.py data/gabarito` com 0 problemas |
 
 ## B. Estudo de viabilidade (Semanas 5–7)
 Ordem sugerida, cada passo gera um número comparável com `eval/avaliar.py`:

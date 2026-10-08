@@ -1,0 +1,53 @@
+{
+  "arquivo": "img_088_diario.png",
+  "tipo_tela": "diario",
+  "entidades": [
+    {
+      "nome": "Lilás e Groselha",
+      "tipo": "missao",
+      "subtipo": "principal",
+      "estado": "ativa",
+      "evidencia": "diário: \"LILÁS E GROSELHA / POMAR BRANCO\""
+    },
+    {
+      "nome": "Pomar Branco",
+      "tipo": "local",
+      "evidencia": "subtítulo da missão"
+    },
+    {
+      "nome": "Vesemir",
+      "tipo": "personagem",
+      "evidencia": "objetivo: \"Siga o Vesemir\""
+    },
+    {
+      "nome": "Carniçal",
+      "tipo": "criatura",
+      "evidencia": "objetivo: \"Mate os carniçais\""
+    },
+    {
+      "nome": "Grifo",
+      "tipo": "criatura",
+      "evidencia": "objetivo: \"Complete o contrato do grifo\""
+    },
+    {
+      "nome": "Taverna de Pomar Branco",
+      "tipo": "local",
+      "evidencia": "objetivo: \"Vá até a taverna de Pomar Branco\""
+    }
+  ],
+  "relacoes": [
+    {
+      "sujeito": "Lilás e Groselha",
+      "predicado": "ocorre_em",
+      "objeto": "Pomar Branco",
+      "evidencia": "subtítulo da missão: POMAR BRANCO"
+    },
+    {
+      "sujeito": "Vesemir",
+      "predicado": "participa_de",
+      "objeto": "Lilás e Groselha",
+      "evidencia": "objetivo: \"Siga o Vesemir\""
+    }
+  ],
+  "observacoes": "Quadro do vid_034."
+}

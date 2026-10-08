@@ -1,0 +1,19 @@
+{
+  "arquivo": "img_084_escolhas.png",
+  "tipo_tela": "escolhas",
+  "entidades": [
+    {
+      "nome": "Eu sonhei com Kaer Morhen",
+      "tipo": "decisao",
+      "subtipo": "opção de diálogo",
+      "evidencia": "opção 1: \"Eu sonhei com Kaer Morhen...\""
+    },
+    {
+      "nome": "Kaer Morhen",
+      "tipo": "local",
+      "evidencia": "opção 1"
+    }
+  ],
+  "relacoes": [],
+  "observacoes": "Quadro do vid_008. Opção escolhida deduzida da fala seguinte (\"Começou no quarto de hóspedes de Kaer Morhen\"); outra opção: \"Sério, prefiro não falar sobre isso.\""
+}
