@@ -224,5 +224,9 @@
   "Aí nós treinamos Ciri": {
     "tipo": "decisao",
     "aliases": []
+  },
+  "Uma frigideira nos trinques": {
+    "tipo": "missao",
+    "aliases": []
   }
 }

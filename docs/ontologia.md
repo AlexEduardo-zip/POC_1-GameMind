@@ -1,4 +1,6 @@
-# Ontologia do GameMind (versão 0.1)
+# Ontologia do GameMind (versão 1.0, congelada em 2026-10-08)
+
+A análise e as decisões do fechamento estão em `docs/decisoes/002-ontologia-1-0.md`. Mudanças depois deste ponto só entram como 1.1, com nova decisão registrada.
 
 ## Objetivo e princípios
 - **Simples:** 7 tipos e 8 relações, o suficiente para representar a jornada do jogador.
@@ -35,6 +37,9 @@ Regras de fronteira:
 - **Evento × decisão:** se o jogador escolheu, é decisão; se apenas aconteceu, é evento.
 - **Glossário:** se a entrada descreve personagem, local ou criatura, usa-se o tipo correspondente. Conceitos abstratos ficam fora na versão 0.1.
 
+## Elementos em reserva
+`evento` e `gera` não têm nenhum uso no gabarito (53 arquivos). Seguem na 1.0 porque vídeo de cutscene pode trazer eventos, mas ficam fora das métricas principais e são reavaliados na avaliação comparativa (Semana 15); sem uso real até lá, saem na 1.1.
+
 ## Relações
 | Predicado | Domínio → alcance | Significado | Exemplo |
 |---|---|---|---|
@@ -68,16 +73,16 @@ flowchart LR
 ```
 
 ## Atributos
-**Por item anotado** (`src/schema.py`): nome, tipo, subtipo, estado (só missão: ativa, concluida, falhou) e evidência.
+**Por item anotado** (`src/schema.py`): nome, tipo, subtipo, estado (só missão: ativa, disponivel, concluida ou falhou; `disponivel` é o contrato visto em quadro de avisos e ainda não aceito) e evidência.
 
 **No grafo consolidado** (`src/grafo.py`): nome canônico, aliases, tipo, subtipo, descrição, estado (o mais recente vence), `primeira_vez` (arquivo em que apareceu primeiro, na ordem do jogo) e fontes com evidência; nas arestas, rótulo e fontes. `confianca` fica prevista para a extração com IA.
 
 **Decisões:** a decisão é um nó ligado à missão (`parte_de`) e ao evento que gera (`gera`). A opção escolhida e as alternativas ficam na descrição ou em observações, em texto livre.
 
 ## Identidade e fusão de entidades
-- Chave: nome normalizado (sem acento nem maiúsculas) + tipo.
+- Chave: nome canônico normalizado (sem acento nem maiúsculas). O tipo **não** entra na chave, porque `grafo.py` e o validador resolvem nomes sem olhar o tipo.
 - Aliases apontam para o nome canônico (ex.: "Geralt" e "White Wolf" para "Geralt of Rivia").
-- Mesmo nome com tipos diferentes não se funde.
+- Mesmo nome para tipos diferentes é desambiguado com sufixo no nome canônico, como "Kaer Morhen (missão)" para a missão que tem o nome da fortaleza.
 - Quando o mesmo elemento aparece com nomes diferentes, vale o nome da fonte mais completa.
 - Um idioma só para os nomes: o do jogo usado no projeto.
 
@@ -87,20 +92,25 @@ flowchart LR
 - `primeira_vez` permite consultar "o que sei até aqui".
 - Não há relação de ordem entre missões (`precede`), porque a missão seguinte pode ser spoiler.
 
-## Fora do escopo da versão 0.1
-Facções e grupos, atributos de combate de itens, Gwent, cronologia detalhada, relação de ordem entre missões, conceitos abstratos do glossário e transcrição completa de falas.
+## Fora do escopo da versão 1.0
+Facções e grupos (candidato à 1.1, com tipo `faccao` e predicado `membro_de`, se o uso pedir), atributos de combate de itens, Gwent, cronologia detalhada, relação de ordem entre missões, conceitos abstratos do glossário e transcrição completa de falas.
 
-## Decisões presumidas (confirmar)
+## Decisões fechadas
 1. `criatura` é tipo separado, porque o Journal tem a seção Monsters.
 2. Oito relações; aliado e inimigo viram `relacionado_a` com rótulo.
 3. Decisão é um nó, ligada por `parte_de` e `gera`.
-4. Conceitos abstratos do glossário ficam fora.
-5. Nomes no idioma do jogo: **decidido em 2026-10-05, português do Brasil (pt-BR)**. Os exemplos em `docs/exemplo/` seguem em inglês e só demonstram o pipeline.
+4. Conceitos abstratos do glossário ficam fora (menos de 5% do conteúdo do corpus).
+5. Nomes no idioma do jogo: português do Brasil (pt-BR). Os exemplos em `docs/exemplo/` seguem em inglês e só demonstram o pipeline.
+6. Nada de facções na 1.0; `evento` e `gera` em reserva; chave de identidade sem tipo; estado `disponivel` incluído (decisão 002).
 
-## Como validar na Semana 4
-- Anotar as telas do teste de fumaça com esta ontologia. Se muitas entidades não couberem em nenhum tipo (por exemplo, mais de 10%), revisar.
-- Rodar `python scripts/validar_gabarito.py` (confere tipos, nomes e domínio e alcance dos predicados).
-- Abrir `docs/exemplo/vault` no Obsidian e conferir se o grafo responde às perguntas acima.
+## Validação (feita em 2026-10-08)
+- Gabarito com 53 arquivos anotados com esta ontologia: menos de 5% do conteúdo ficou sem tipo (limite de revisão: 10%).
+- `python scripts/validar_gabarito.py data/gabarito`: 0 problemas (tipos, nomes e domínio e alcance dos predicados).
+- Das 7 perguntas do jogador, 6 são respondidas pelo grafo; "o que isso gerou?" só até a decisão, por não haver consequência na tela.
+
+## Histórico
+- 0.1 (2026-10-02): 7 tipos, 8 relações, rascunho.
+- 1.0 (2026-10-08): congelada. Ajustes de definição: estado `disponivel`, chave sem tipo, `evento` e `gera` em reserva.
 
 ## Fontes consultadas
 - Witcher Wiki (Fandom), página do Journal: seções do diário do jogo.

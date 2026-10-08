@@ -7,7 +7,7 @@ POC I / MSI I · DCC/UFMG · Aluno: Alex Eduardo Alves dos Santos · Orientador:
 - Repositório: https://github.com/AlexEduardo-zip/POC_1-GameMind
 - Fase: POC I. Semanas 1 e 2 (preparação, coleta e gabarito) concluídas; Semana 3 (ontologia) adiantada, falta congelar a 1.0
 - Jogo-piloto: The Witcher 3
-- Ontologia: v0.1 (7 tipos, 8 relações), ainda a revisar e congelar como 1.0
+- Ontologia: **1.0 congelada em 2026-10-08** (7 tipos, 8 relações; `evento` e `gera` em reserva; ver `docs/decisoes/002-ontologia-1-0.md`)
 - Pipeline de exemplo funcionando: gabarito → validação → grafo → vault do Obsidian → avaliação
 - Captura: pt-BR; resolução, formato e ferramenta são só guia (desvios registrados em `data/raw/metadados.csv`)
 - **Próximos passos: `docs/proximos-passos.md` (fonte única das pendências, com critério de pronto)**
@@ -26,7 +26,8 @@ POC I / MSI I · DCC/UFMG · Aluno: Alex Eduardo Alves dos Santos · Orientador:
 | `docs/revisao/sintese.md` | Síntese por eixo (rascunho com citações) |
 | `docs/revisao/buscas.md` | Registro das buscas feitas |
 | `docs/decisoes/001-jogo-piloto.md` | Decisão do jogo-piloto |
-| `docs/ontologia.md` | Ontologia v0.1: tipos, relações, atributos, identidade e anti-spoiler |
+| `docs/decisoes/002-ontologia-1-0.md` | Análise e decisões do fechamento da ontologia |
+| `docs/ontologia.md` | Ontologia 1.0: tipos, relações, atributos, identidade e anti-spoiler |
 | `docs/semana3.md` | Plano e estado da Semana 3 (ontologia) |
 | `docs/exemplo/` | Grafo de exemplo do prólogo e o vault do Obsidian gerado a partir dele |
 | `docs/semana2.md` | Plano da Semana 2: coleta e gabarito |

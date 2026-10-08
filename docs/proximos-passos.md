@@ -5,22 +5,21 @@ Atualizado em 2026-10-07. Este arquivo é o único lugar com a lista de pendênc
 ## Onde estamos no cronograma da proposta
 | Semanas | Atividade da proposta | Situação |
 |---|---|---|
-| 1–2 | Revisão, jogo-piloto, coleta | Concluída (falta só o aval do orientador, A1) |
+| 1–2 | Revisão, jogo-piloto, coleta | Concluída |
 | 3–4 | Ontologia e esquema do grafo | v0.1 pronta e testada nos 24 itens do gabarito; falta congelar a 1.0 |
 | 5–7 | Estudo de viabilidade (screenshot × vídeo × combinação) | Não iniciada; é o passo B abaixo |
 | 8–10 | Camada de extração (IA local + IA pública opcional) | Não iniciada (`src/` ainda não tem extrator) |
 | 11–12 | Exportação Markdown/JSON | Protótipo pronto (`src/grafo.py`, `src/exportar_vault.py`) |
 
-## A. Fechar a ontologia e o aval (bloqueia o resto)
-Semana 2 concluída em 2026-10-07: coleta, gabarito e pipeline testado (ver `docs/semana2.md`). Formato e fonte do material são só guia.
+## A. Pendências antes do estudo de viabilidade
+Semana 2 concluída em 2026-10-07 e ontologia 1.0 congelada em 2026-10-08 (decisão 002).
 
 | # | Tarefa | Critério de pronto |
 |---|---|---|
-| A1 | Enviar o e-mail ao orientador com a decisão 001 e registrar o retorno | Campo "Validado com o orientador em" preenchido |
-| A2 | Abrir `docs/exemplo/vault` (ou `vault_output/`) no Obsidian e ver o grafo | Conferido por você; ajustes anotados no diário |
-| A3 | Revisar as 5 decisões presumidas de `docs/ontologia.md`, usar `evento`, `gera`, `concede`, `obtido_em` em pelo menos uma tela cada (ou decidir removê-los) e **congelar a ontologia 1.0** | `ontologia.md`, `src/ontologia.json` e `src/schema.py` com versão 1.0 e o validador passando |
-| A4 | Reavaliar a regra 9 do gabarito (personagem só com nome escrito na tela): é o ponto que mais afeta a revocação | Decisão registrada em `gabarito.md`; se mudar, reanotar os itens afetados |
-| A5 | **Verificar** os 28 itens de gabarito novos (lista em `docs/gabarito.md`, "Ampliação do gabarito"), revisando 5 sorteados; depois, se quiser, anotar também os clipes novos (`vid_029` a `vid_037`) | Verificação humana registrada; `validar_gabarito.py data/gabarito` com 0 problemas |
+| A1 | Abrir `vault_output/` no Obsidian e conferir o grafo | Conferido; ajustes anotados no diário |
+| A2 | **Verificar** os itens de gabarito novos (28 de 2026-10-07 e `img_080`; lista em `docs/gabarito.md`), revisando 5 sorteados | Verificação registrada; `validar_gabarito.py data/gabarito` com 0 problemas |
+| A3 | Ampliar o gabarito onde a ontologia ficou sem teste: telas de recompensa, notificação de missão atualizada, cenas com consequência visível, clipes novos (`vid_029` a `vid_037`) | Pelo menos 1 caso de `concede`, `obtido_em` e, se existir, `evento`/`gera` além dos atuais |
+| A4 | Na avaliação, relatar F1 por tipo de tela e por tipo de entidade (o glossário domina o micro) e tratar `evento`/`gera` à parte | `eval/avaliar.py` com a quebra por tipo |
 
 ## B. Estudo de viabilidade (Semanas 5–7)
 Ordem sugerida, cada passo gera um número comparável com `eval/avaliar.py`:

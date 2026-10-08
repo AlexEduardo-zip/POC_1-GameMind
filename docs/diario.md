@@ -17,7 +17,7 @@
 ## Revisão da documentação · 2026-10-05
 - Feito: conferência do repositório contra a documentação; pipeline de exemplo rodado no `.venv` (validação sem problemas, grafo de 16 nós e 17 arestas, avaliador funcionando); README e Semana 3 atualizados
 - Observação: `pydantic` só existe no `.venv`; fora dele `validar_gabarito.py` e `grafo.py` falham
-- Pendências inalteradas: instalar ferramentas, confirmar hardware, coletar o conjunto de teste, teste de OCR, validar a decisão 001 com o orientador, revisar e congelar a ontologia
+- Pendências inalteradas: instalar ferramentas, confirmar hardware, coletar o conjunto de teste, teste de OCR, revisar e congelar a ontologia
 
 ## Configuração de captura · 2026-10-05
 - Decidido: jogo em pt-BR; 1920x1080; screenshots pela tecla F12 da Steam; vídeos em 1080p, 30 fps, MP4 pelo OBS Studio ou clipe do último minuto pelo AMD Adrenalin
@@ -64,3 +64,8 @@
 - Contexto: o grafo no Obsidian estava igual ao do dia anterior porque o gabarito não tinha mudado (o vault já tinha sido regenerado, com o mesmo conteúdo)
 - Feito: 28 itens novos anotados (glossário de personagens e bestiário, quadros de avisos, itens, escolhas, diário, mapa, cutscene); 19 nomes novos em `entidades.json`; validação 0 problemas; grafo de 51 nós e 26 arestas; `vault_output/` regenerado com 51 notas; linha de base atualizada (entidades F1 0,88)
 - Atenção: os 28 itens são rascunho de IA, ainda sem verificação (A5 em `docs/proximos-passos.md`)
+
+## Ontologia 1.0 · 2026-10-08
+- Feito: análise do gabarito (cobertura, uso dos predicados, grafo, perguntas do jogador) e decisão 002; ontologia congelada como 1.0 (7 tipos e 8 predicados; `evento` e `gera` em reserva; chave de identidade sem tipo; estado `disponivel`; facções adiadas para a 1.1); anotado `img_080` para exercitar `obtido_em`; retirada do aval do orientador das pendências
+- Resultado: 53 arquivos de gabarito, 52 nós e 29 arestas no grafo, validação 0 problemas
+- Próximos passos: `docs/proximos-passos.md` (A1 a A4, depois o estudo de viabilidade)

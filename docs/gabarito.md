@@ -18,7 +18,7 @@ Um arquivo JSON por screenshot ou clipe, com o mesmo nome do arquivo de mídia (
 
 O formato está em `src/schema.py` (é o mesmo que a extração vai produzir depois). Exemplo em `data/gabarito/exemplo/exemplo_img.json`.
 
-Predicados (ontologia v0.1, ver `docs/ontologia.md`): `participa_de`, `ocorre_em`, `localizado_em`, `parte_de`, `concede`, `obtido_em`, `gera`, `relacionado_a` (com `rotulo` opcional, como aliado ou inimigo). Se a ontologia mudar, ajuste os arquivos já anotados com busca e substituição e rode a validação.
+Predicados (ontologia 1.0, ver `docs/ontologia.md`): `participa_de`, `ocorre_em`, `localizado_em`, `parte_de`, `concede`, `obtido_em`, `gera`, `relacionado_a` (com `rotulo` opcional, como aliado ou inimigo). Se a ontologia mudar, ajuste os arquivos já anotados com busca e substituição e rode a validação.
 
 ## Regras de anotação
 1. **Só o que está explícito na tela** (legenda, título de missão, nome em item, mapa). Não anote o que você sabe por ter jogado. Isso mede a extração de forma justa e preserva a ideia de memória sem spoiler.
@@ -107,3 +107,5 @@ Para alimentar o grafo e testar mais tipos de tela, foram anotados 28 itens do m
 | Cutscene | `img_096` |
 
 Total do gabarito: 52 arquivos, 185 entidades, 34 relações, 51 nomes canônicos em `entidades.json`; `validar_gabarito.py` com 0 problemas.
+
+`img_080_exploracao` (2026-10-08, rascunho a verificar): tela de missão completada com recompensas; é o único item que exercita `obtido_em` e `estado: concluida`. Total: 53 arquivos, 190 entidades, 37 relações.

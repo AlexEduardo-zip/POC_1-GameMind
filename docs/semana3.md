@@ -1,7 +1,7 @@
 # Semana 3: ontologia
 
 **Objetivo:** fechar os tipos, as relações e o esquema do grafo antes de anotar o gabarito em massa.
-**Estado:** versão 0.1 pronta e testada nas telas anotadas. Pendências em `docs/proximos-passos.md` (A4 a A6); este arquivo é só histórico.
+**Estado:** concluída. Ontologia congelada como 1.0 em 2026-10-08 (`docs/decisoes/002-ontologia-1-0.md`); este arquivo é só histórico.
 
 ## Já pronto
 - ✅ `docs/ontologia.md`: tipos, relações, atributos, identidade, anti-spoiler e decisões presumidas

@@ -1,4 +1,4 @@
-"""Esquema do GameMind, versão 0.1 da ontologia (ver docs/ontologia.md).
+"""Esquema do GameMind, versão 1.0 da ontologia (ver docs/ontologia.md).
 Usado no gabarito e, depois, como formato de saída da extração."""
 from typing import Literal
 
@@ -23,7 +23,7 @@ class Entidade(BaseModel):
     nome: str
     tipo: TipoEntidade
     subtipo: str = ""    # opcional, não avaliado (ex.: principal, secundaria, contrato, ingrediente)
-    estado: str = ""     # opcional, só para missão (ativa, concluida, falhou)
+    estado: str = ""     # opcional, só para missão (ativa, disponivel, concluida, falhou)
     evidencia: str = ""  # trecho visível na tela que justifica a anotação
 
 

@@ -1,0 +1,58 @@
+{
+  "arquivo": "img_080_exploracao.jpg",
+  "tipo_tela": "hud",
+  "entidades": [
+    {
+      "nome": "Uma frigideira nos trinques",
+      "tipo": "missao",
+      "estado": "concluida",
+      "evidencia": "banner: \"MISSÃO COMPLETADA! UMA FRIGIDEIRA NOS TRINQUES\""
+    },
+    {
+      "nome": "Maçã assada",
+      "tipo": "item",
+      "subtipo": "comestivel",
+      "evidencia": "recompensa: \"MAÇÃ ASSADA X5\""
+    },
+    {
+      "nome": "Pão",
+      "tipo": "item",
+      "subtipo": "comestivel",
+      "evidencia": "recompensa: \"PÃO X5\""
+    },
+    {
+      "nome": "Suco de maçã",
+      "tipo": "item",
+      "subtipo": "comestivel",
+      "evidencia": "recompensa: \"SUCO DE MAÇÃ X5\""
+    },
+    {
+      "nome": "O Monstro de Pomar Branco",
+      "tipo": "missao",
+      "subtipo": "principal",
+      "estado": "ativa",
+      "evidencia": "título amarelo do HUD: \"O MONSTRO DE POMAR BRANCO\""
+    }
+  ],
+  "relacoes": [
+    {
+      "sujeito": "Maçã assada",
+      "predicado": "obtido_em",
+      "objeto": "Uma frigideira nos trinques",
+      "evidencia": "lista de recompensa do banner"
+    },
+    {
+      "sujeito": "Pão",
+      "predicado": "obtido_em",
+      "objeto": "Uma frigideira nos trinques",
+      "evidencia": "lista de recompensa do banner"
+    },
+    {
+      "sujeito": "Suco de maçã",
+      "predicado": "obtido_em",
+      "objeto": "Uma frigideira nos trinques",
+      "evidencia": "lista de recompensa do banner"
+    }
+  ],
+  "observacoes": "Rascunho a verificar. Único item do corpus que exercita obtido_em e estado concluida. Pontos de experiência (9) não anotados."
+}

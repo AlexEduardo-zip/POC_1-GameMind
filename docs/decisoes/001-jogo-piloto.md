@@ -9,7 +9,6 @@
 - Teste de fumaça de OCR (2026-10-07): feito com Tesseract 5.5 (`por+eng`) nas 56 screenshots coletadas. Resultado abaixo.
 - Configuração de captura (2026-10-05): jogo em pt-BR, 1920x1080, screenshots pela tecla F12 da Steam, vídeos em 1080p/30 fps/MP4 pelo OBS Studio ou clipe do último minuto pelo AMD Adrenalin
 - Risco novo: OCR em pt-BR (acentos nos nomes próprios). O Tesseract tem o idioma `por`; os acentos saem corretos (ex.: "Missão", "Glossário", "Yennefer de Vengerberg")
-- Validado com o orientador em: (pendente)
 
 ## Resultado do teste de fumaça de OCR (2026-10-07)
 Método: `pytesseract` com `por+eng`, imagem inteira, sem pré-processamento, em todas as 56 screenshots (1920x1080).
