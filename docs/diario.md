@@ -88,3 +88,8 @@
 - Feito: `src/extracao/` (OCR e busca de nomes), `scripts/rodar_extracao.py`, dicionário `data/gazetteer/witcher3_ptbr.json` (90 nomes, com distratores); rodadas com e sem tolerância a erro de OCR; registro em `docs/estudo-viabilidade.md`
 - Resultado: F1 de entidades 0,76 (micro) e 0,49 (média entre tipos); o vazamento da linha de base valia 0,11; fuzzy piora (0,74); missão e decisão 0,00 (sem dicionário), HUD 0,00; 6 dos 11 falsos positivos são o equipamento do inventário
 - Próximo: B2, pré-processamento (recorte da legenda e do HUD, ampliação, binarização)
+
+## B2: pré-processamento do OCR · 2026-10-08
+- Feito: recortes (legenda, HUD da missão, avisos) ampliados com filtros cinza, otsu e brilho; modos em `src/extracao/ocr.py`; `eval/cobertura_ocr.py` para medir o OCR sem dicionário; experimento de parâmetros do HUD; 6 modos comparados no registro `docs/estudo-viabilidade.md`
+- Resultado: cobertura de nomes no texto 0,81 → 0,89 (`rois_brilho`, 2,13 s por imagem); diálogo 0,53 → 0,87; missão 0,39 → 0,61; F1 com dicionário 0,76 → 0,78. Ampliar a imagem inteira sozinho piora. HUD segue fraco (título de ~10 px)
+- Próximo: B3a, extração estruturada por tipo de tela para tirar missão e decisão de 0,00

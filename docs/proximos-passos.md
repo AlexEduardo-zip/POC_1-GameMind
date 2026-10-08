@@ -40,7 +40,7 @@ Leituras: (1) o micro (0,87) esconde que **missão** (0,54) e **item** (0,67) s�
 ## B. Estudo de viabilidade (Semanas 5–7)
 Ordem sugerida, cada passo gera um número comparável com `eval/avaliar.py`:
 1. ✅ **Extrator de OCR de base** (feito em 2026-10-08): `src/extracao/` (`ocr.py`, `gazetteer.py`), `scripts/rodar_extracao.py` e dicionário independente em `data/gazetteer/`. Resultado: F1 de entidades 0,76 (micro) nas 50 screenshots, contra 0,87 da linha de base com vazamento; relações 0. Registro e leituras em `docs/estudo-viabilidade.md`.
-2. **(próximo)** **Pré-processamento**: recorte da faixa da legenda e do HUD, ampliação, binarização. Medir o ganho nos tipos de tela que a decisão 001 classificou como "médio a ruim".
+2. ✅ **Pré-processamento** (feito em 2026-10-08): recorte e filtro de brilho em legenda, HUD e avisos (`rois_brilho`); cobertura de nomes no texto do OCR 0,81 → 0,89, diálogo 0,53 → 0,87, 2,1 s por imagem. Detalhes em `docs/estudo-viabilidade.md`. **Próximo: B3a.**
 3. **Texto → entidades e relações** (`src/extracao/`, interface comum de back-end que devolve o formato de `src/schema.py`): primeiro regras/dicionário a partir de `entidades.json`, depois LLM local via Ollama (modelos de 7–8B, ver `docs/hardware.md`).
 4. **Vídeo**: amostrar quadros com FFmpeg/OpenCV a cada 1–2 s e rodar o mesmo extrator; depois unir as entidades dos quadros por clipe.
 5. **Combinação**: screenshot + vídeo do mesmo trecho.
