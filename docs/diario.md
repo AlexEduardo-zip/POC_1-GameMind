@@ -79,3 +79,7 @@
 - Feito: `eval/avaliar.py` com quebras por tipo de entidade, predicado e tipo de tela, média simples e elementos em reserva à parte; 9 clipes novos anotados (`vid_029` a `vid_037`, rascunho); grafo de 60 nós e 32 arestas; vault com 60 notas; roteiro de verificação por sorteio em `docs/verificacao-gabarito.md`; `.obsidian/` da raiz e `eval/quebras*.csv` no `.gitignore`
 - Resultado da linha de base (50 screenshots): micro F1 0,87, média simples 0,82; missão 0,54 e item 0,67 são os tipos fracos; HUD 0,00 e mapa 0,48 são as telas fracas; relações 0
 - Confirmado: grafo visível no Obsidian (A1). Falta: verificação humana do gabarito novo (A2)
+
+## Gabarito verificado e limpeza · 2026-10-08
+- Feito: autor verificou o gabarito novo (39 itens) e o confirmou correto; "rascunho" trocado por "verificado" nos docs e nos JSON; apagadas as 9 cópias idênticas de `data/raw/` (5 JPG e 4 MP4); A2 concluída
+- Próximo: B1, extrator de OCR com dicionário independente do gabarito

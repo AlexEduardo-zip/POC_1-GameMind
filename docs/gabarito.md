@@ -93,8 +93,8 @@ As dúvidas abaixo foram resolvidas na verificação (as regras 8 a 13 ficam com
 7. **`img_016`:** é tela de tutorial com legenda e HUD; foi classificada como diálogo.
 8. **Cobertura:** não há escolhas em screenshot (só nos clipes), item e mapa têm 2 imagens cada e o `img_024` é um controle sem entidades.
 
-## Ampliação do gabarito (2026-10-07, rascunho a verificar)
-Para alimentar o grafo e testar mais tipos de tela, foram anotados 28 itens do material novo, seguindo as regras 1 a 13. São **rascunho de IA e não foram verificados pelo autor**; os 24 itens anteriores continuam verificados. A relação "Odolan concede Contrato: O Demônio do Poço" (`img_073`) e as de mapa (`img_094`) são inferidas, e os contratos de quadro de avisos foram anotados como `missao` com `estado: disponivel`.
+## Ampliação do gabarito (2026-10-07, verificada em 2026-10-08)
+Para alimentar o grafo e testar mais tipos de tela, foram anotados 28 itens do material novo, seguindo as regras 1 a 13. Foram **verificados pelo autor em 2026-10-08 e confirmados como corretos**, assim como os 24 itens anteriores. A relação "Odolan concede Contrato: O Demônio do Poço" (`img_073`) e as de mapa (`img_094`) são inferidas, e os contratos de quadro de avisos foram anotados como `missao` com `estado: disponivel`.
 
 | Tipo de tela | Itens |
 |---|---|
@@ -109,9 +109,9 @@ Para alimentar o grafo e testar mais tipos de tela, foram anotados 28 itens do m
 
 Total do gabarito: 63 arquivos (com `img_080`, `img_071` e 9 clipes novos), 232 entidades, 44 relações, 60 nomes canônicos em `entidades.json`; `validar_gabarito.py` com 0 problemas. Facções reanotadas em 11 itens (ontologia 1.1, regra 14).
 
-`img_080_exploracao` (2026-10-08, rascunho a verificar): tela de missão completada com recompensas; é o único item que exercita `obtido_em` e `estado: concluida`. Total: 53 arquivos, 190 entidades, 37 relações.
+`img_080_exploracao` (2026-10-08, verificado): tela de missão completada com recompensas; é o único item que exercita `obtido_em` e `estado: concluida`. Total: 53 arquivos, 190 entidades, 37 relações.
 
-**Clipes novos (2026-10-08, rascunho a verificar):** `vid_029` (mapa), `vid_030`, `vid_031`, `vid_032`, `vid_033`, `vid_037` (diálogo), `vid_034` (diário), `vid_035` (diálogo sem entidade nomeada, controle) e `vid_036` (missão atualizada). Atenção: em `vid_033` Geralt aparece sem nome escrito, o que viola a regra 9 se aplicada à risca; está marcado nas observações.
+**Clipes novos (2026-10-08, verificado):** `vid_029` (mapa), `vid_030`, `vid_031`, `vid_032`, `vid_033`, `vid_037` (diálogo), `vid_034` (diário), `vid_035` (diálogo sem entidade nomeada, controle) e `vid_036` (missão atualizada). Em `vid_033` Geralt aparece sem nome escrito; o autor confirmou a anotação, que fica como exceção à regra 9 (registrada nas observações do arquivo).
 O roteiro de verificação por sorteio está em `docs/verificacao-gabarito.md`.
 
 ## Relatório da avaliação (eval/avaliar.py)

@@ -102,5 +102,5 @@ Resultado: ☐ correto  ☐ corrigir  ·  Diferenças:
 
 ## Fechamento
 
-- [ ] Verificação concluída em: ____ ; erros achados: ____ ; correções aplicadas e `python scripts/validar_gabarito.py data/gabarito` com 0 problemas
-- [ ] Depois de aprovado, trocar "rascunho" por "verificado" em `docs/gabarito.md` e no README
+- [x] Verificação concluída em 2026-10-08: gabarito confirmado como correto pelo autor, sem correções; `python scripts/validar_gabarito.py data/gabarito` com 0 problemas
+- [x] "Rascunho" trocado por "verificado" em `docs/gabarito.md`, README e nas observações dos JSON

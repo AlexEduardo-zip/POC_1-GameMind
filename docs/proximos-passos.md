@@ -17,8 +17,8 @@ Semana 2 concluída em 2026-10-07 e ontologia 1.1 congelada em 2026-10-08 (decis
 | # | Tarefa | Situação |
 |---|---|---|
 | A1 | Abrir `vault_output/` no Obsidian e conferir o grafo | **Feito** em 2026-10-08 (grafo visível; vault com 60 notas) |
-| A2 | **Verificar** o gabarito novo por sorteio | **Falta você**: roteiro pronto em `docs/verificacao-gabarito.md` (5 imagens e 1 clipe sorteados; ~1 h) |
-| A3 | Ampliar o gabarito onde a ontologia ficou sem teste | **Feito** em 2026-10-08: clipes novos `vid_029` a `vid_037` anotados (rascunho), com missão atualizada (`vid_036`), recompensa (`img_080`), diário e mapa em vídeo. `evento` e `gera` seguem sem nenhum caso real (não há consequência nem acontecimento visível nas telas coletadas) e continuam em reserva |
+| A2 | **Verificar** o gabarito novo | **Feito** em 2026-10-08: gabarito verificado pelo autor e confirmado correto (roteiro em `docs/verificacao-gabarito.md`) |
+| A3 | Ampliar o gabarito onde a ontologia ficou sem teste | **Feito** em 2026-10-08: clipes novos `vid_029` a `vid_037` anotados e verificados, com missão atualizada (`vid_036`), recompensa (`img_080`), diário e mapa em vídeo. `evento` e `gera` seguem sem nenhum caso real (não há consequência nem acontecimento visível nas telas coletadas) e continuam em reserva |
 | A4 | Relatório de F1 por tipo de entidade, por predicado e por tipo de tela, com `evento`/`gera` à parte | **Feito**: `eval/avaliar.py` (ver abaixo) |
 
 Resultado da linha de base com a quebra (50 screenshots; clipes ainda sem previsão), em 2026-10-08:
