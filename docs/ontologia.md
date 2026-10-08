@@ -42,7 +42,7 @@ Regras de fronteira:
 - **Glossário:** se a entrada descreve personagem, local ou criatura, usa-se o tipo correspondente. Conceitos abstratos ficam fora na versão 0.1.
 
 ## Elementos em reserva
-`evento` e `gera` não têm nenhum uso no gabarito (54 arquivos). Seguem na 1.0 porque vídeo de cutscene pode trazer eventos, mas ficam fora das métricas principais e são reavaliados na avaliação comparativa (Semana 15); sem uso real até lá, saem na 1.1.
+`evento` e `gera` não têm nenhum uso no gabarito (54 arquivos). Seguem na 1.1 porque vídeo de cutscene pode trazer eventos, mas ficam fora das métricas principais e são reavaliados na avaliação comparativa (Semana 15); sem uso real até lá, saem na 1.1.
 
 ## Relações
 | Predicado | Domínio → alcance | Significado | Exemplo |
