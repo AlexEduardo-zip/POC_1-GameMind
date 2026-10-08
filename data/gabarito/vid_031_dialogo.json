@@ -17,8 +17,18 @@
       "nome": "Afogador",
       "tipo": "criatura",
       "evidencia": "0:42 legenda: \"afogadores sob a ponte\""
+    },
+    {
+      "nome": "Cavaleiros Negros",
+      "tipo": "faccao",
+      "evidencia": "legenda: \"os Cavaleiros Negros estão se preocupando com nosso bem-estar\""
+    },
+    {
+      "nome": "Grifo",
+      "tipo": "criatura",
+      "evidencia": "legenda: \"Estou caçando o grifo\""
     }
   ],
   "relacoes": [],
-  "observacoes": "Tempos aproximados (±2 s). Herbalista sem nome na tela. Citação \"Capitão Peter Saar\" truncada na fala; nome completo é o do dicionário."
+  "observacoes": "Tempos aproximados (±2 s). Herbalista sem nome na tela. Citação \"Capitão Peter Saar\" truncada na fala; nome completo é o do dicionário. Auditoria de 2026-10-08: o clipe tinha sido anotado com 6 quadros; o OCR de 1 quadro por segundo mostrou o que faltava."
 }

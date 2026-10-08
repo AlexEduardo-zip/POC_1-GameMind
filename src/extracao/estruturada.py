@@ -274,8 +274,8 @@ def consolidar(por_item: dict[str, list[Cand]], gaz, rels_item: dict[str, list[R
                 break
         else:
             grupos.append([(item, c)])
-    # texto de tutorial e de cena também sai em maiúsculas; missão de verdade fica à vista em várias telas
-    grupos = [g for g in grupos if any(c.fonte != "hud" for _, c in g) or len({item for item, _ in g}) >= 2]
+    # texto de tutorial, de cena e ruído de OCR também viram "título"; missão de verdade fica à vista em várias telas (banner vale sozinho)
+    grupos = [g for g in grupos if any(c.fonte == "banner" for _, c in g) or len({item for item, _ in g}) >= 2]
     canon: dict[int, str] = {}
     for g in grupos:
         freq: dict[str, int] = {}

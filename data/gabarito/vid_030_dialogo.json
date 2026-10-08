@@ -13,8 +13,13 @@
       "nome": "Nilfgaard",
       "tipo": "faccao",
       "evidencia": "0:52 legenda: \"Os nilfgaardianos não me pagam uma moeda\""
+    },
+    {
+      "nome": "Cavaleiros Negros",
+      "tipo": "faccao",
+      "evidencia": "legenda: \"tudo mudou quando os Cavaleiros Negros vieram\""
     }
   ],
   "relacoes": [],
-  "observacoes": "Tempos aproximados (±2 s). Ferreiro sem nome na tela (regra 9). Legendas sem rótulo de falante."
+  "observacoes": "Tempos aproximados (±2 s). Ferreiro sem nome na tela (regra 9). Legendas sem rótulo de falante. Auditoria de 2026-10-08: o clipe tinha sido anotado com 6 quadros; o OCR de 1 quadro por segundo mostrou o que faltava."
 }

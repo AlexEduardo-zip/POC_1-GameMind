@@ -15,3 +15,4 @@ eval/resultados*.csv
 .obsidian/
 eval/quebras*.csv
 eval/cache_ocr/
+eval/cache_video/

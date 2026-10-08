@@ -268,5 +268,9 @@
   "Ellander": {
     "tipo": "local",
     "aliases": []
+  },
+  "Cavaleiros Negros": {
+    "tipo": "faccao",
+    "aliases": []
   }
 }

@@ -46,6 +46,16 @@
       "nome": "Vesemir",
       "tipo": "personagem",
       "evidencia": "objetivo: \"Siga o Vesemir\""
+    },
+    {
+      "nome": "Carniçal",
+      "tipo": "criatura",
+      "evidencia": "objetivo no diário: \"Mate os carniçais\""
+    },
+    {
+      "nome": "Geralt de Rívia",
+      "tipo": "personagem",
+      "evidencia": "texto do diário: \"Geralt faria qualquer coisa para encontrar a feiticeira\""
     }
   ],
   "relacoes": [
@@ -68,5 +78,5 @@
       "evidencia": "objetivo: \"Siga o Vesemir\""
     }
   ],
-  "observacoes": "Tempos aproximados (±2 s). Mergulho, Diário de missões (0:26 a 0:34) e inventário (0:36 a 0:46)."
+  "observacoes": "Tempos aproximados (±2 s). Mergulho, Diário de missões (0:26 a 0:34) e inventário (0:36 a 0:46). Auditoria de 2026-10-08: o clipe tinha sido anotado com 6 quadros; o OCR de 1 quadro por segundo mostrou o que faltava."
 }

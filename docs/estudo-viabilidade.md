@@ -111,11 +111,55 @@ Pipeline completo no 7B: cerca de **11 s por imagem** (3,1 s de OCR e regras mai
 5. **O gabarito de relações é pequeno** (46 relações) e várias vêm de inferência (mapa, assinatura de cartaz); uma relação a mais ou a menos mexe vários pontos.
 6. **Ainda não medido:** vídeo (B4), e a IA pública como back-end alternativo.
 
+## B4: vídeo por amostragem de quadros e B5: combinação das fontes (2026-10-08)
+`scripts/rodar_video.py` amostra um quadro por segundo de cada clipe com FFmpeg (`src/extracao/video.py`; os clipes são 1920x1088 a 60 fps, cortados para 1920x1080), roda em cada quadro o mesmo OCR com recortes, o dicionário e a extração estruturada (os 681 quadros dos 13 clipes ficam em cache), e **agrega por clipe**: nome do dicionário vale se aparece em 1 quadro; título de missão de HUD, diário ou mapa precisa aparecer em 2 ou mais quadros (ou em banner); variações de uma opção de diálogo viram a mais frequente e a opção só vale com 2 quadros; as relações estruturais são somadas. Com `--llm`, o texto distinto de todos os quadros do clipe vai ao LLM **uma vez por clipe** (e não um por quadro, que custaria cerca de 4 minutos por clipe).
+
+**Antes de medir, auditoria do gabarito dos clipes.** Os clipes tinham sido anotados olhando 6 quadros cada; o extrator, com um quadro por segundo, achou entidades legítimas que o gabarito não tinha (confirmadas no texto do OCR). Acrescentei 9 entidades em 7 clipes, **só as que apareciam como falsos positivos e tinham evidência clara**: `vid_008` decisão "Aí nós treinamos Ciri"; `vid_023` Nilfgaard; `vid_030` Cavaleiros Negros; `vid_031` Cavaleiros Negros e Grifo; `vid_032` O Monstro de Pomar Branco; `vid_034` Carniçal e Geralt de Rívia; `vid_037` Uma frigideira nos trinques. Isso tem um viés: o gabarito dos clipes só ganhou o que o extrator **achou**; o que ele deixou passar e não foi anotado continua faltando, então a revocação em vídeo é um **limite superior**.
+
+Também apertei a regra da consolidação: título de missão só vale se aparecer em 2 ou mais imagens (ou quadros) ou em banner, para todas as fontes e não só o HUD (ruído do mapa virava "missão"). Nas 50 screenshots nada mudou (F1 0,87).
+
+### Amostragem (13 clipes, 683 s de vídeo; sem LLM)
+| Quadros usados | Quadros | Precisão | Revocação | F1 entidades | Relações F1 |
+|---|---|---|---|---|---|
+| 1 (o do meio, como uma screenshot) | 13 | 0,76 | 0,25 | 0,37 | 0,00 |
+| 1 a cada 4 s | 172 | 0,82 | 0,62 | 0,71 | 0,20 |
+| **1 a cada 2 s** | **342** | **0,84** | **0,70** | **0,76** | 0,20 |
+| 1 a cada 1 s | 681 | 0,74 | 0,74 | 0,74 | 0,20 |
+
+Custo: cada quadro leva 2,9 s de OCR e regras (um processo); com 4 processos o lote de 681 quadros levou cerca de 11 minutos (0,97 s por quadro), ou seja, **a 2 s por quadro o clipe é processado em cerca de metade da duração dele**. Com LLM, +9,9 s por clipe (129 s nos 13).
+
+### Com LLM por clipe (2 s, qwen2.5:7b)
+Entidades F1 0,76 (igual ao sem LLM; precisão 0,77 e revocação 0,75) e relações P 0,21 / R 0,43 / F1 0,29 (contra 0,20). O LLM acha mais relações, mas o texto de um clipe inteiro perde a vizinhança entre linhas (uma relação precisa de nome e frase próximos) e a precisão cai. O gabarito dos clipes tem só **7 relações**, então esse número é muito frágil.
+
+### B5: combinação das duas fontes
+Conjuntos de entidades **únicas** (corpus inteiro) contra o gabarito (61 entidades únicas: 54 das imagens, 30 dos clipes, 7 só dos clipes):
+| Fonte | Previstas | Precisão | Revocação | F1 |
+|---|---|---|---|---|
+| só screenshots (50) | 51 | 0,86 | 0,72 | 0,79 |
+| só clipes (13, 2 s, LLM) | 28 | 0,82 | 0,38 | 0,52 |
+| **screenshots + clipes** | 62 | 0,81 | **0,82** | **0,81** |
+
+Os clipes sozinhos cobrem pouco do corpus, mas acham 6 das 7 entidades que só existem neles; somados às screenshots, a revocação sobe de 0,72 para 0,82. Pipeline completo nos 63 itens do gabarito (screenshots com a cascata 7B e clipes a 2 s com LLM): **entidades P 0,88 / R 0,85 / F1 0,86 e relações P 0,42 / R 0,39 / F1 0,40**; sem LLM, 0,85 e 0,28. Por tipo de entidade (com LLM): personagem 0,95 · criatura 0,93 · facção 0,91 · missão 0,86 · decisão 0,83 · local 0,69 · item 0,50. Por tipo de tela: glossário 0,98 · escolhas 0,92 · diário 0,90 · quadro de avisos 0,86 · diálogo 0,80 · mapa 0,61 · HUD 0,61 · item 0,75.
+
+### Leituras
+1. **Um quadro por clipe não serve:** 1 quadro dá F1 0,37 (revocação 0,25), porque o texto aparece e some (legenda, HUD, banner). Amostrar recupera quase tudo: 4 s dá 0,71 e 2 s dá 0,76.
+2. **2 s é o ponto certo:** 1 s não acrescenta revocação útil (0,74 contra 0,70 a 2 s) e derruba a precisão (0,74 contra 0,84), com o dobro do custo. Mais quadros somam mais ruído de OCR.
+3. **O vídeo vale pelo tempo, não pela qualidade de imagem:** o que o clipe acrescenta é o que acontece **ao longo** da cena (várias falas, banners passageiros, as duas escolhas de diálogo); o OCR de cada quadro é igual ao de uma screenshot, e o quadro de vídeo com compressão costuma ser um pouco pior.
+4. **Combinar compensa:** screenshots e clipes se complementam (revocação 0,72 para 0,82). Para o produto, a estratégia da captura automática (POC II) deve ser **quadros em intervalo curto e agregação por cena**, com screenshot sob demanda em tela de menu.
+5. **Limites desta medida:** gabarito de clipes anotado de forma grossa e só ampliado onde o extrator achou algo (limite superior de revocação); 7 relações de clipe; calibração feita nos mesmos dados; mapa e HUD seguem em 0,61.
+
+## Conclusão provisória do estudo (a confirmar na avaliação final, Semana 15)
+- **Entrada:** screenshots em menus e telas estáticas, **vídeo amostrado a cada 2 s** em cenas (diálogo, exploração, cutscene); a combinação dá a maior cobertura.
+- **Leitura da tela:** OCR com recortes e filtro de brilho (`rois_brilho`), mais extração estruturada por tipo de tela e dicionário de nomes.
+- **Relações e itens:** LLM local em cascata, `qwen2.5:7b` (4,4 GB de VRAM) quando importam as relações, `qwen2.5:3b` (2,0 GB) se bastarem as entidades.
+- **Custo:** cerca de 11 s por imagem e menos que a duração do clipe em vídeo, só com CPU para o OCR e a GPU para o LLM; compatível com processamento assíncrono depois da sessão.
+- **Pontos abertos:** relações (F1 0,40), item (0,50), local (0,69), mapa e HUD (0,61); IA pública como alternativa; medida em material novo, sem calibração.
+
 ## Próximas rodadas
 | Etapa | O que testar | Esperado |
 |---|---|---|
 | ~~B2~~ | ~~Pré-processamento~~ (feito, ver acima) | cobertura 0,81 → 0,89; diálogo 0,53 → 0,87 |
 | ~~B3a~~ | ~~Extração estruturada por tipo de tela~~ (feito, ver acima) | missão 0,00 → 0,89; decisão 0,00 → 1,00 |
 | ~~B3b~~ | ~~LLM local sobre o texto do OCR~~ (feito, ver acima) | relações 0,29 → 0,44; itens 0,11 → 0,50 |
-| **B4 (próximo)** | Vídeo: quadros a cada 1–2 s com o mesmo extrator, unindo por clipe | comparar com screenshot; cobrir os 13 clipes |
-| B5 | Combinação screenshot + vídeo | etapa final do estudo |
+| ~~B4~~ | ~~Vídeo~~ (feito, ver acima) | 2 s por quadro: F1 0,76 |
+| ~~B5~~ | ~~Combinação screenshot + vídeo~~ (feito) | revocação 0,72 → 0,82 |

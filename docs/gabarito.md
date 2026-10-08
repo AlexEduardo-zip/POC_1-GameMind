@@ -107,7 +107,7 @@ Para alimentar o grafo e testar mais tipos de tela, foram anotados 28 itens do m
 | Mapa | `img_092`, `img_094` |
 | Cutscene | `img_096` |
 
-Total do gabarito: 63 arquivos (com `img_080`, `img_071` e 9 clipes novos), 234 entidades, 46 relações, 60 nomes canônicos em `entidades.json`; `validar_gabarito.py` com 0 problemas. Facções reanotadas em 11 itens (ontologia 1.1, regra 14).
+Total do gabarito: 63 arquivos (com `img_080`, `img_071` e 9 clipes novos), 243 entidades, 46 relações, 61 nomes canônicos em `entidades.json`; `validar_gabarito.py` com 0 problemas. Facções reanotadas em 11 itens (ontologia 1.1, regra 14).
 
 `img_080_exploracao` (2026-10-08, verificado): tela de missão completada com recompensas; é o único item que exercita `obtido_em` e `estado: concluida`. Total: 53 arquivos, 190 entidades, 37 relações.
 
@@ -118,3 +118,5 @@ O roteiro de verificação por sorteio está em `docs/verificacao-gabarito.md`.
 Além do total (micro, sem elementos em reserva), o avaliador imprime a quebra por tipo de entidade, por predicado e por tipo de tela, com a média simples entre tipos, e relata `evento` e `gera` à parte. `--csv-quebras arquivo.csv` grava as quebras e `--sem-quebras` imprime só o total. Sempre reporte o micro junto com a média simples: o glossário tem muitas anotações repetidas de personagem e domina o micro.
 
 **Correção de 2026-10-08:** o extrator mostrou duas omissões. `img_088` (diário) também lista "O Monstro de Pomar Branco" além da missão aberta, e `img_094` (mapa) tem a missão no painel de rastreada; ambas foram acrescentadas (mais a relação `ocorre_em` Pomar Branco, como em `img_054` e `img_092`), e o gabarito passou de 232 para 234 entidades e de 44 para 46 relações.
+
+**Auditoria dos clipes (2026-10-08):** os clipes tinham sido anotados com 6 quadros cada. Com 1 quadro por segundo, o OCR confirmou entidades legítimas que faltavam, e 9 foram acrescentadas: `vid_008` decisão "Aí nós treinamos Ciri"; `vid_023` Nilfgaard (facção); `vid_030` e `vid_031` Cavaleiros Negros (facção, novo nome canônico); `vid_031` Grifo; `vid_032` O Monstro de Pomar Branco; `vid_034` Carniçal e Geralt de Rívia (citado no texto do diário); `vid_037` Uma frigideira nos trinques. Só entraram as que o extrator achou e que tinham evidência clara no texto lido; o que ele deixou passar pode continuar faltando.

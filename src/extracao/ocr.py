@@ -39,6 +39,14 @@ def ocr_imagem(caminho: Path, lang: str = "por+eng", modo: str = "completo") -> 
     return "\n".join(textos), time.perf_counter() - t0
 
 
+def ocr_secoes_img(img: np.ndarray, lang: str = "por+eng", filtro: str = "brilho") -> dict[str, str]:
+    """Como `ocr_secoes`, mas sobre um quadro já em memória (BGR), por exemplo de um vídeo."""
+    secoes = {"tela": pytesseract.image_to_string(Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB)), lang=lang)}
+    for nome, roi in ROIS.items():
+        secoes[nome] = pytesseract.image_to_string(preparar(recortar(img, roi), filtro), lang=lang, config=f"--psm {PSM[nome]}")
+    return secoes
+
+
 def ocr_secoes(caminho: Path, lang: str = "por+eng", filtro: str = "brilho") -> dict[str, str]:
     """OCR separado por região (tela inteira, legenda, hud, aviso), para dar contexto a um LLM."""
     img = _ler(caminho)

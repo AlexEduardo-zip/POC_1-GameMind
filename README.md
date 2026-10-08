@@ -12,8 +12,8 @@ POC I / MSI I · DCC/UFMG · Aluno: Alex Eduardo Alves dos Santos · Orientador:
 - Captura: pt-BR; resolução, formato e ferramenta são só guia (desvios registrados em `data/raw/metadados.csv`)
 - **Próximos passos: `docs/proximos-passos.md` (fonte única das pendências, com critério de pronto)**
 - Feito em 2026-10-07: ferramentas instaladas (Tesseract com `por`, FFmpeg), 83 screenshots, 14 quadros de vídeo e 36 clipes coletados e catalogados em `data/raw/metadados.csv`, teste de fumaça de OCR registrado na decisão 001
-- Gabarito em `data/gabarito/`: 63 arquivos (50 screenshots e 13 clipes), **verificado pelo autor** (24 itens em 2026-10-07 e os 39 itens novos em 2026-10-08); 234 entidades, 46 relações, 60 nomes canônicos
-- Extrator de base pronto (B1): OCR + dicionário independente, F1 de entidades 0,76 nas 50 screenshots, relações 0; B2, B3a e B3b feitas: entidades F1 0,89 e relações F1 0,44 nas 50 screenshots (desenvolvimento, sem conjunto separado), com cascata OCR + regras + LLM local (qwen2.5:7b via Ollama na RX 7600, 4,4 GB de VRAM, ~11 s por imagem); falta o vídeo (B4). Ver `docs/estudo-viabilidade.md`
+- Gabarito em `data/gabarito/`: 63 arquivos (50 screenshots e 13 clipes), **verificado pelo autor** (24 itens em 2026-10-07 e os 39 itens novos em 2026-10-08); 243 entidades, 46 relações, 61 nomes canônicos
+- Extrator de base pronto (B1): OCR + dicionário independente, F1 de entidades 0,76 nas 50 screenshots, relações 0; Estudo de viabilidade (B1 a B5) feito: pipeline OCR com recortes + regras por tela + LLM local (qwen2.5:7b via Ollama na RX 7600, 4,4 GB de VRAM, ~11 s por imagem) chega a entidades F1 0,86 e relações 0,40 nos 63 itens (50 screenshots e 13 clipes); vídeo amostrado a cada 2 s e combinado com screenshots dá a maior cobertura (números de desenvolvimento, sem conjunto separado). Conclusão provisória e detalhes em `docs/estudo-viabilidade.md`
 
 ## Mapa do projeto
 | Caminho | O que é |
@@ -41,6 +41,8 @@ POC I / MSI I · DCC/UFMG · Aluno: Alex Eduardo Alves dos Santos · Orientador:
 | `scripts/baseline_ocr.py` | Linha de base com vazamento (dicionário vindo do gabarito); só referência |
 | `scripts/rodar_extracao.py` | Roda uma estratégia de extração e grava previsões em `eval/predicoes/` |
 | `src/extracao/` | OCR, pré-processamento, dicionário, extração estruturada (missões, decisões, itens) e LLM local com back-end plugável (B1 a B3b) |
+| `scripts/rodar_video.py` | Pipeline sobre quadros de vídeo, agregado por clipe (B4); opcional LLM por clipe |
+| `src/extracao/video.py` | Amostragem de quadros com FFmpeg |
 | `scripts/rodar_llm.py` | Relações e itens com LLM local em cascata sobre a base estruturada (B3b); precisa do Ollama |
 | `eval/cobertura_ocr.py` | Mede o OCR sem dicionário: quantos nomes do gabarito aparecem no texto lido |
 | `data/gazetteer/` | Dicionário de nomes do jogo, independente do gabarito |

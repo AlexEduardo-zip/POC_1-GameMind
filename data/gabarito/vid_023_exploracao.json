@@ -29,6 +29,11 @@
       "tipo": "item",
       "subtipo": "livro",
       "evidencia": "0:16 notificação: \"Um guia miraculoso de gwent / Ler\""
+    },
+    {
+      "nome": "Nilfgaard",
+      "tipo": "faccao",
+      "evidencia": "objetivo do HUD: \"Pergunte ao povo de Nilfgaard sobre a Yennefer\""
     }
   ],
   "relacoes": [
@@ -39,5 +44,5 @@
       "evidencia": "0:56 \"está na torre\" dito dentro da guarnição"
     }
   ],
-  "observacoes": "Cavalgada, subida da escada e conversa com os guardas no portão. A relação localizado_em é inferida do contexto; confirmar. Falas dos guardas: \"Moradores locais não entram sem consentimento expresso do comandante da guarnição\"."
+  "observacoes": "Cavalgada, subida da escada e conversa com os guardas no portão. A relação localizado_em é inferida do contexto; confirmar. Falas dos guardas: \"Moradores locais não entram sem consentimento expresso do comandante da guarnição\". Auditoria de 2026-10-08: o clipe tinha sido anotado com 6 quadros; o OCR de 1 quadro por segundo mostrou o que faltava."
 }

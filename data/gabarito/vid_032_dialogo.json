@@ -21,6 +21,13 @@
       "nome": "Nenneke",
       "tipo": "personagem",
       "evidencia": "0:42 legenda: \"com Madre Nenneke\""
+    },
+    {
+      "nome": "O Monstro de Pomar Branco",
+      "tipo": "missao",
+      "subtipo": "principal",
+      "estado": "ativa",
+      "evidencia": "HUD amarelo: \"O MONSTRO DE POMAR BRANCO\""
     }
   ],
   "relacoes": [
@@ -31,5 +38,5 @@
       "evidencia": "0:32 legenda: \"Templo de Melitele em Ellander\""
     }
   ],
-  "observacoes": "Tempos aproximados (±2 s). "
+  "observacoes": "Tempos aproximados (±2 s).  Auditoria de 2026-10-08: o clipe tinha sido anotado com 6 quadros; o OCR de 1 quadro por segundo mostrou o que faltava."
 }

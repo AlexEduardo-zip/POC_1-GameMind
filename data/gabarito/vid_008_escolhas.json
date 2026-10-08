@@ -22,8 +22,14 @@
       "nome": "Yennefer de Vengerberg",
       "tipo": "personagem",
       "evidencia": "0:20 legenda: \"Yennefer. Engraçado, né? Ela nunca foi lá.\""
+    },
+    {
+      "nome": "Aí nós treinamos Ciri",
+      "tipo": "decisao",
+      "subtipo": "opção de diálogo",
+      "evidencia": "0:36 segunda escolha do clipe: opção \"Aí nós treinamos Ciri...\""
     }
   ],
   "relacoes": [],
-  "observacoes": "A opção escolhida é a primeira, deduzida da fala seguinte (\"Começou no quarto de hóspedes de Kaer Morhen...\"). Dois personagens sem nome na tela (Vesemir e Geralt) não foram anotados (regra 1). Sem HUD de missão nos quadros analisados; a decisão não ganhou relação parte_de."
+  "observacoes": "A opção escolhida é a primeira, deduzida da fala seguinte (\"Começou no quarto de hóspedes de Kaer Morhen...\"). Dois personagens sem nome na tela (Vesemir e Geralt) não foram anotados (regra 1). Sem HUD de missão nos quadros analisados; a decisão não ganhou relação parte_de. Auditoria de 2026-10-08: o clipe tinha sido anotado com 6 quadros; o OCR de 1 quadro por segundo mostrou o que faltava. A opção escolhida é deduzida da fala seguinte (\"No sonho, fui e encontrei a Ciri\")."
 }

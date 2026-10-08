@@ -104,3 +104,9 @@
 - Feito: gabarito corrigido (`img_088`, `img_094`: omissões apontadas pela B3a); Ollama configurado com a RX 7600 (ROCm, 100% GPU) e os modelos qwen2.5:7b e 3b; `src/extracao/llm.py` (back-end plugável, esquema JSON, normalização e filtros), `scripts/rodar_llm.py`; itens pela ficha do inventário e relações estruturais (`ocorre_em`, `participa_de`) na base; avaliador passou a tratar `relacionado_a` como simétrico; 3 iterações de prompt e filtros sobre as mesmas imagens
 - Resultado (base + 7B): entidades F1 0,87 → 0,89, relações 0,29 → 0,44, itens 0,11 → 0,50; 7,8 s por imagem e 4,42 GB de VRAM; o 3B (2,01 GB, 6,1 s) mantém as entidades (0,88) mas cai em relações (0,30). Sem conjunto separado: números de desenvolvimento
 - Próximo: B4, vídeo (quadros por clipe com o mesmo pipeline)
+
+## B4 e B5: vídeo e combinação das fontes · 2026-10-08
+- Feito: `src/extracao/video.py` e `scripts/rodar_video.py` (quadros a 1 s em cache, agregação por clipe, LLM por clipe); 681 quadros de 13 clipes processados; auditoria do gabarito dos clipes (+9 entidades confirmadas no texto, com "Cavaleiros Negros" em `entidades.json`); regra de 2 imagens ou quadros para título de missão em todas as fontes
+- Resultado: 1 quadro por clipe F1 0,37; 4 s 0,71; **2 s 0,76**; 1 s 0,74 (mais ruído); com LLM por clipe, relações 0,29; screenshots + clipes: revocação 0,72 → 0,82 (entidades únicas); pipeline completo nos 63 itens: entidades F1 0,86 e relações 0,40
+- Limites: gabarito dos clipes grosso (7 relações) e ampliado só onde o extrator achou; números de desenvolvimento
+- Próximo: IA pública como back-end alternativo (Semanas 8–10) e avaliação final com material novo

@@ -6,8 +6,14 @@
       "nome": "Nilfgaard",
       "tipo": "faccao",
       "evidencia": "0:22 legenda: \"não mencione isso aos nilfgaardianos\""
+    },
+    {
+      "nome": "Uma frigideira nos trinques",
+      "tipo": "missao",
+      "estado": "ativa",
+      "evidencia": "0:36 banner da missão e objetivo no HUD: \"Devolva a frigideira para a velha\""
     }
   ],
   "relacoes": [],
-  "observacoes": "Tempos aproximados (±2 s). Velha sem nome na tela."
+  "observacoes": "Tempos aproximados (±2 s). Velha sem nome na tela. Auditoria de 2026-10-08: o clipe tinha sido anotado com 6 quadros; o OCR de 1 quadro por segundo mostrou o que faltava."
 }

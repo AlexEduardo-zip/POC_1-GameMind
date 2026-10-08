@@ -45,6 +45,14 @@ class Gazetteer:
                         break
         return achados
 
+    def buscar_filtrado(self, texto: str, fuzzy: float = 0.0) -> dict[str, str]:
+        """Como `buscar`, mas item do dicionário só vale em linha de título (maiúsculas): em minúsculas é o rótulo
+        do equipamento em uso no inventário."""
+        achados = self.buscar(texto, fuzzy)
+        caixa_alta = [norm(l) for l in texto.splitlines()
+                      if sum(c.isalpha() for c in l) >= 4 and sum(c.isupper() for c in l) >= 0.7 * sum(c.isalpha() for c in l)]
+        return {c: t for c, t in achados.items() if self.tipo[c] != "item" or any(norm(t) in l for l in caixa_alta)}
+
     def corrigir(self, texto: str, limiar: float = 0.85) -> str:
         """Corrige erro de OCR em trechos que lembram um nome do dicionário (ex.: "Kaey Morhen" -> "Kaer Morhen")."""
         palavras = texto.split()
