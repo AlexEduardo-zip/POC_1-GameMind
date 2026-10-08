@@ -1,122 +1,59 @@
 # Gabarito (ground truth)
 
-## O que é e para que serve
-O gabarito é a **resposta certa feita por você**, à mão, para um subconjunto do conjunto de teste: para cada screenshot ou clipe, a lista de entidades e relações que um sistema perfeito extrairia. Depois, o programa `eval/avaliar.py` compara a saída do GameMind com ele e calcula precisão, revocação e F1. Sem gabarito não há como dizer qual estratégia (screenshot, vídeo, combinação) ou qual IA (local, pública) é melhor.
+## O que é
+A **resposta certa feita à mão** para um subconjunto do conjunto de teste: para cada screenshot ou clipe, as entidades e relações que um sistema perfeito extrairia. `eval/avaliar.py` compara a saída do GameMind com ele e calcula precisão, revocação e F1.
 
 ```
 screenshot/clipe ──► GameMind ──► previsão (JSON) ─┐
                                                     ├─► avaliar.py ─► precisão, revocação, F1
-screenshot/clipe ──► você, à mão ─► gabarito (JSON) ┘
+screenshot/clipe ──► anotação à mão ─► gabarito ────┘
 ```
 
-## O que anotar em cada item
-Um arquivo JSON por screenshot ou clipe, com o mesmo nome do arquivo de mídia (`img_001_dialogo.png` → `img_001_dialogo.json`):
+## Formato
+Um JSON por item, com o nome do arquivo de mídia (`img_004_dialogo.jpg` → `img_004_dialogo.json`): `entidades` (nome, tipo, `subtipo` e `estado` opcionais, evidência visível na tela), `relacoes` (sujeito, predicado, objeto, `rotulo` opcional, evidência), `tipo_tela` e `observacoes`. O esquema é `src/schema.py`, o mesmo que a extração produz; exemplo em `data/gabarito/exemplo/`. Nomes canônicos e aliases ficam em `data/gabarito/entidades.json`.
 
-- **Entidades:** nome, tipo (personagem, criatura, local, missão, item, evento, decisão) e a evidência (trecho visível na tela).
-- **Relações:** sujeito, predicado (lista fechada, ver abaixo), objeto e evidência.
-- **tipo_tela** e **observações** (opcional).
-
-O formato está em `src/schema.py` (é o mesmo que a extração vai produzir depois). Exemplo em `data/gabarito/exemplo/exemplo_img.json`.
-
-Predicados (ontologia 1.1, ver `docs/ontologia.md`): `participa_de`, `ocorre_em`, `localizado_em`, `parte_de`, `concede`, `obtido_em`, `gera`, `membro_de`, `relacionado_a` (com `rotulo` opcional, como aliado ou inimigo). Se a ontologia mudar, ajuste os arquivos já anotados com busca e substituição e rode a validação.
+Tipos e predicados: ontologia 1.1 (`docs/ontologia.md`). Valide com `python scripts/validar_gabarito.py data/gabarito` (formato, nomes, tipos, domínio e alcance dos predicados).
 
 ## Regras de anotação
-1. **Só o que está explícito na tela** (legenda, título de missão, nome em item, mapa). Não anote o que você sabe por ter jogado. Isso mede a extração de forma justa e preserva a ideia de memória sem spoiler.
-2. **Vocabulário fechado:** só os tipos e predicados da ontologia. Se faltar um, anote em `observacoes` e revise a ontologia.
-3. **Nome canônico:** cada entidade tem um nome único, com aliases, em `data/gabarito/entidades.json` (ex.: "Geralt of Rivia", aliases "Geralt", "White Wolf"). No gabarito, use sempre o nome canônico. Na avaliação, a previsão com "Geralt" é aceita pelo alias.
-4. **Um idioma só** para os nomes: português do Brasil, o idioma do jogo usado no projeto (os arquivos em `exemplo/` estão em inglês só para demonstração).
-5. **Ignore ruído:** barras de vida, ícones e textos decorativos sem entidade.
-6. **Vídeo:** anote o clipe inteiro, não quadro a quadro. Se ajudar, anote o instante em `evidencia` (ex.: "0:12 legenda ...").
-7. **Relação só se a tela a mostra.** Se dois personagens aparecem juntos mas nada diz que são aliados, não anote `aliado_de`.
-8. **Nome igual para tipos diferentes:** `entidades.json` resolve nomes sem olhar o tipo, então o mesmo nome não pode ser local e missão. A missão inicial do jogo se chama "Kaer Morhen", como a fortaleza: a missão leva o sufixo, "Kaer Morhen (missão)".
-9. **Personagem sem nome na tela não se anota**, mesmo que você o reconheça (o rosto de Geralt, Vesemir ou Ciri em cutscene). Vale o nome escrito: rótulo da legenda ("Geralt: ..."), objetivo ("Siga o Vesemir"), lista do glossário ou texto da entrada.
-10. **Menção conta:** um nome próprio citado em legenda, objetivo ou texto de entrada é entidade, mesmo que o personagem não apareça. Relações só entram quando o texto as afirma.
-11. **Decisão:** anota-se só a opção escolhida, deduzida da fala seguinte; as outras opções ficam em `observacoes`. O nome da decisão é o texto da opção.
-12. **Fora de escopo (ver ontologia):** Gwent e cartas, categorias do bestiário e rótulos de espaços do inventário.
-13. **HUD:** o título amarelo do HUD de missão é o nome da missão, e o texto abaixo é o objetivo.
-14. **Facção (ontologia 1.1):** anota-se como `faccao` o grupo com nome escrito na tela (Nilfgaard, Caçada Selvagem, Exército Imperial, Escola do Lobo). `membro_de` só quando o texto afirma que o personagem pertence ao grupo; "comandante das tropas de Nilfgaard" sem nome do comandante não gera relação. Relações entre facções não se anotam.
+1. **Só o que está explícito na tela** (legenda, título de missão, nome em item, mapa). Não anote o que sabe por ter jogado.
+2. **Vocabulário fechado:** só tipos e predicados da ontologia; se faltar um, registre em `observacoes`.
+3. **Nome canônico** único por entidade (com aliases em `entidades.json`); na avaliação, "Geralt" vale por "Geralt de Rívia".
+4. **Um idioma só:** português do Brasil (os arquivos de `exemplo/` estão em inglês só para demonstração).
+5. **Ignore ruído:** barras de vida, ícones, textos decorativos.
+6. **Vídeo:** anote o clipe inteiro, não quadro a quadro; o instante pode ir em `evidencia` ("0:12 legenda ...").
+7. **Relação só se a tela a mostra.** Dois personagens juntos não são aliados sem que algo diga.
+8. **Nome igual para tipos diferentes:** a chave é o nome, então a missão que tem o nome de um local leva sufixo: "Kaer Morhen (missão)".
+9. **Personagem sem nome escrito não se anota,** mesmo reconhecido pelo rosto. Vale o nome na legenda ("Geralt: ..."), no objetivo ("Siga o Vesemir"), na lista ou no texto de glossário. (Exceção confirmada: `vid_033`.)
+10. **Menção conta:** nome próprio citado em legenda, objetivo ou texto é entidade, mesmo que a pessoa não apareça.
+11. **Decisão:** anota-se a opção escolhida, deduzida da fala seguinte; as outras ficam em `observacoes`. O nome é o texto da opção, sem reticências.
+12. **Fora de escopo:** Gwent e cartas, categorias do bestiário, rótulos de espaços e equipamento em uso no inventário.
+13. **HUD:** o título amarelo é o nome da missão; o texto abaixo é o objetivo.
+14. **Facção:** `faccao` para o grupo com nome escrito (Nilfgaard, Caçada Selvagem, Exército Imperial, Escola do Lobo, Cavaleiros Negros). `membro_de` só se o texto afirma o pertencimento; relações entre facções não se anotam.
 
 ## Como a comparação funciona
-- Uma entidade da previsão acerta se o **nome canônico** (após aliases, sem acento e sem maiúsculas) e o **tipo** coincidem com o gabarito. O modo brando (`--sem-tipo`) ignora o tipo.
-- Uma relação acerta se sujeito, predicado e objeto coincidem.
-- **Precisão** = acertos entre o que o sistema extraiu. **Revocação** = acertos entre o que deveria ter extraído. **F1** = média harmônica das duas.
-- Os totais somam todos os itens (micro). Acompanhe também o tempo e a memória usada, que não vêm do gabarito.
+- Entidade acerta se o **nome canônico** (após aliases, sem acento nem maiúsculas) e o **tipo** coincidem (`--sem-tipo` ignora o tipo). Relação acerta se sujeito, predicado e objeto coincidem; `relacionado_a` é simétrica.
+- **Precisão** = acertos entre o previsto; **revocação** = acertos entre o esperado; **F1** = média harmônica. O total é micro; o avaliador também imprime a quebra por tipo de entidade, por predicado e por tipo de tela, com a **média simples entre tipos**, e relata `evento` e `gera` (em reserva) à parte. Reporte sempre o micro junto com a média simples: o glossário repete muitas anotações de personagem e domina o micro.
+- `--csv-quebras arquivo.csv` grava as quebras; `--sem-quebras` imprime só o total. `eval/cobertura_ocr.py` mede o OCR sem dicionário: quantos nomes do gabarito aparecem no texto lido.
 
-## Quanto anotar
-- **Subconjunto:** cerca de 20 screenshots e 3 a 4 clipes, escolhidos para cobrir todos os tipos de tela (diálogo, escolhas, diário, item, mapa, glossário, HUD, cutscene).
-- **Tempo:** de 5 a 10 minutos por screenshot e de 15 a 20 por clipe. Total de 3 a 5 horas, em duas ou três sessões.
-- O restante do conjunto serve para olhar a qualidade na prática, sem métrica.
+## O que há no gabarito
+63 arquivos: **50 imagens** (glossário, bestiário, diálogo, escolhas, diário, mapa, item, quadro de avisos, HUD, cutscene) e **13 clipes**; 243 entidades, 46 relações, 61 nomes canônicos. Verificado pelo autor em duas rodadas (24 itens em 2026-10-07; os 39 acrescentados em 2026-10-08).
 
-## Passo a passo
-1. Colete o material (ver `docs/semana2.md`) e escolha o subconjunto a anotar, com todos os tipos de tela.
-2. Anote 5 itens e veja se as regras funcionam; ajuste as regras antes de continuar.
-3. Crie e mantenha `data/gabarito/entidades.json` à medida que surgirem entidades novas.
-4. Anote o restante do subconjunto.
-5. Rode `python scripts/validar_gabarito.py` (formato, nomes, tipos e domínio e alcance dos predicados).
-6. No dia seguinte, revise 5 itens sorteados sem olhar as anotações antigas e compare. Diferenças mostram regras ambíguas.
-7. Faça commit. Quando a ontologia mudar, atualize os arquivos e rode a validação de novo.
+Escolhas de anotação a conhecer:
+- A regra 9 é a que mais pesa: cenas em que só o rosto identifica o personagem rendem poucas entidades.
+- Algumas relações são inferidas (`img_008`, `img_054`, `img_073`, `img_094`, `vid_023`); as demais vêm de texto ou objetivo explícito.
+- Contratos de quadro de avisos são `missao` com `estado: disponivel` (`tipo_tela: outro`). `img_080` é o único caso de `obtido_em` e de missão concluída.
+- `img_024` e `vid_035` são controles sem entidades; `img_016` é tutorial classificado como diálogo.
+- Cutscene e escolhas de diálogo em imagem vêm de quadros de clipe (`img_084` a `img_097`).
 
-## Armadilhas comuns
-- Anotar o que você sabe do jogo, e não o que a tela mostra.
-- Nomes diferentes para a mesma entidade, que viram "erro" falso na avaliação.
-- Anotar demais em telas de HUD.
-- Mudar as regras no meio do caminho sem reanotar os itens antigos.
+## Correções posteriores (2026-10-08)
+- **`img_088` e `img_094`:** a B3a mostrou duas omissões (a lista do diário e o painel do mapa também traziam "O Monstro de Pomar Branco"); acrescentadas, com a relação `ocorre_em` Pomar Branco.
+- **Auditoria dos clipes:** os clipes tinham sido anotados com 6 quadros cada. Com 1 quadro por segundo, o OCR confirmou 9 entidades que faltavam: `vid_008` decisão "Aí nós treinamos Ciri"; `vid_023` Nilfgaard; `vid_030` e `vid_031` Cavaleiros Negros; `vid_031` Grifo; `vid_032` O Monstro de Pomar Branco; `vid_034` Carniçal e Geralt de Rívia; `vid_037` Uma frigideira nos trinques. Só entraram as que o extrator achou, com evidência no texto lido; o que ele deixou passar pode continuar faltando (a revocação em vídeo é limite superior).
+- **Ontologia 1.1:** facções reanotadas em 11 itens.
 
-## Testar o avaliador
-```bash
-python scripts/validar_gabarito.py data/gabarito/exemplo
-python eval/avaliar.py --gab data/gabarito/exemplo --pred eval/exemplo_pred
-```
-Na avaliação real, as previsões ficam em `eval/predicoes/` (um JSON por item) e o comando é `python eval/avaliar.py`.
+## Como anotar um item novo
+1. Escolha o item (cobrir todos os tipos de tela) e anote seguindo as regras; atualize `entidades.json` com nomes novos.
+2. Rode `python scripts/validar_gabarito.py data/gabarito`.
+3. No dia seguinte, revise 5 itens sorteados sem olhar as anotações e compare; diferenças mostram regra ambígua.
+4. Se a ontologia mudar, ajuste os arquivos e valide de novo. Evite mudar regras no meio do caminho sem reanotar os itens antigos.
 
-## Gabarito do subconjunto (anotado e verificado em 2026-10-07)
-Rascunho feito por Claude a partir das imagens e dos clipes, **verificado pelo autor em 2026-10-07 (gabarito confirmado como correto, com 5 itens já revisados)**. Os 24 arquivos estão em `data/gabarito/` e passam em `python scripts/validar_gabarito.py` (0 problemas). Total: 85 entidades e 24 relações; `entidades.json` tem 32 nomes canônicos em pt-BR.
-
-| Tipo de tela | Itens |
-|---|---|
-| Diálogo com legenda (e HUD de missão) | `img_004`, `img_016`, `img_018`, `img_021`, `img_042`, `img_048`, `vid_014` |
-| Exploração / HUD | `img_005`, `img_019`, `vid_023` |
-| Glossário | `img_010`, `img_011`, `img_012`, `img_022` |
-| Diário de missões | `img_009`, `img_047`, `img_054` |
-| Mapa | `img_008`, `img_053` |
-| Item e inventário | `img_045`, `img_055` |
-| Cutscene (sem entidades de propósito) | `img_024` |
-| Escolhas de diálogo | `vid_008`, `vid_025` |
-
-As dúvidas abaixo foram resolvidas na verificação (as regras 8 a 13 ficam como estão); permanecem aqui como registro das escolhas e ficam também em `observacoes` de cada JSON:
-1. **Regra 9 (nome na tela):** é a decisão que mais pesa. Com ela, cenas em que só o rosto identifica o personagem (`img_018`, `img_005`, os clipes) rendem poucas entidades. Se preferir contar o personagem reconhecível, muda o gabarito de vários itens.
-2. **Missão com nome de local:** "Kaer Morhen (missão)" (regra 8) em `img_004`, `img_005`, `img_008`, `img_009`, `img_016`.
-3. **Relações inferidas:** `img_008` (missão ocorre_em Kaer Morhen), `vid_023` (Peter Saar Gwynleve localizado_em Guarnição Nilfgaardiana) e `img_054` (Grifo participa_de O Monstro de Pomar Branco). As demais vêm de texto ou objetivo explícito.
-4. **Rótulos pequenos:** em `img_053` (mapa), os marcadores Moinho, Ponte da Canção do Desalento e Travessia de rio foram lidos em miniatura; confira a grafia na imagem original.
-5. **Tempos dos clipes:** vêm de quadros a cada 2 s e são aproximados (±2 s).
-6. **Decisões de clipe:** a opção escolhida foi deduzida da fala seguinte; nenhum quadro mostra o botão sendo apertado.
-7. **`img_016`:** é tela de tutorial com legenda e HUD; foi classificada como diálogo.
-8. **Cobertura:** não há escolhas em screenshot (só nos clipes), item e mapa têm 2 imagens cada e o `img_024` é um controle sem entidades.
-
-## Ampliação do gabarito (2026-10-07, verificada em 2026-10-08)
-Para alimentar o grafo e testar mais tipos de tela, foram anotados 28 itens do material novo, seguindo as regras 1 a 13. Foram **verificados pelo autor em 2026-10-08 e confirmados como corretos**, assim como os 24 itens anteriores. A relação "Odolan concede Contrato: O Demônio do Poço" (`img_073`) e as de mapa (`img_094`) são inferidas, e os contratos de quadro de avisos foram anotados como `missao` com `estado: disponivel`.
-
-| Tipo de tela | Itens |
-|---|---|
-| Glossário de personagens | `img_057` a `img_063` |
-| Bestiário | `img_076`, `img_077` |
-| Quadro de avisos (`tipo_tela: outro`) | `img_070`, `img_072`, `img_073`, `img_074`, `img_075` |
-| Item, inventário e cartas | `img_064`, `img_065`, `img_066`, `img_079`, `img_081`, `img_082`, `img_083` |
-| Escolhas de diálogo (quadros de clipe) | `img_084`, `img_085`, `img_086` |
-| Diário | `img_088` |
-| Mapa | `img_092`, `img_094` |
-| Cutscene | `img_096` |
-
-Total do gabarito: 63 arquivos (com `img_080`, `img_071` e 9 clipes novos), 243 entidades, 46 relações, 61 nomes canônicos em `entidades.json`; `validar_gabarito.py` com 0 problemas. Facções reanotadas em 11 itens (ontologia 1.1, regra 14).
-
-`img_080_exploracao` (2026-10-08, verificado): tela de missão completada com recompensas; é o único item que exercita `obtido_em` e `estado: concluida`. Total: 53 arquivos, 190 entidades, 37 relações.
-
-**Clipes novos (2026-10-08, verificado):** `vid_029` (mapa), `vid_030`, `vid_031`, `vid_032`, `vid_033`, `vid_037` (diálogo), `vid_034` (diário), `vid_035` (diálogo sem entidade nomeada, controle) e `vid_036` (missão atualizada). Em `vid_033` Geralt aparece sem nome escrito; o autor confirmou a anotação, que fica como exceção à regra 9 (registrada nas observações do arquivo).
-O roteiro de verificação por sorteio está em `docs/verificacao-gabarito.md`.
-
-## Relatório da avaliação (eval/avaliar.py)
-Além do total (micro, sem elementos em reserva), o avaliador imprime a quebra por tipo de entidade, por predicado e por tipo de tela, com a média simples entre tipos, e relata `evento` e `gera` à parte. `--csv-quebras arquivo.csv` grava as quebras e `--sem-quebras` imprime só o total. Sempre reporte o micro junto com a média simples: o glossário tem muitas anotações repetidas de personagem e domina o micro.
-
-**Correção de 2026-10-08:** o extrator mostrou duas omissões. `img_088` (diário) também lista "O Monstro de Pomar Branco" além da missão aberta, e `img_094` (mapa) tem a missão no painel de rastreada; ambas foram acrescentadas (mais a relação `ocorre_em` Pomar Branco, como em `img_054` e `img_092`), e o gabarito passou de 232 para 234 entidades e de 44 para 46 relações.
-
-**Auditoria dos clipes (2026-10-08):** os clipes tinham sido anotados com 6 quadros cada. Com 1 quadro por segundo, o OCR confirmou entidades legítimas que faltavam, e 9 foram acrescentadas: `vid_008` decisão "Aí nós treinamos Ciri"; `vid_023` Nilfgaard (facção); `vid_030` e `vid_031` Cavaleiros Negros (facção, novo nome canônico); `vid_031` Grifo; `vid_032` O Monstro de Pomar Branco; `vid_034` Carniçal e Geralt de Rívia (citado no texto do diário); `vid_037` Uma frigideira nos trinques. Só entraram as que o extrator achou e que tinham evidência clara no texto lido; o que ele deixou passar pode continuar faltando.
+Testar o avaliador com os exemplos: `python eval/avaliar.py --gab data/gabarito/exemplo --pred eval/exemplo_pred`.

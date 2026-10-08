@@ -1,112 +1,21 @@
 # Diário de bordo
 
-## Semana 1 · 2026-10-01
-- Feito: estrutura do repositório; jogo-piloto definido (The Witcher 3); hardware registrado; revisão enxuta verificada (resumo, introdução e conclusão); justificativa, estado da arte e referências redigidos
-- Decisões: ver `docs/decisoes/001-jogo-piloto.md`; sem Zotero, referências só para justificar escolhas; instalações ficam para a Semana 2
-- Próximos passos: instalar ferramentas no computador do projeto
+Registro cronológico resumido. Resultados consolidados: `docs/resumo-do-projeto.md`; detalhes técnicos: `docs/estudo-viabilidade.md`.
 
-## Semana 2 (adiantado) · 2026-10-01
-- Feito: primeiro commit; guia do gabarito, esquema provisório, scripts de validação e avaliação testados com exemplo; plano da Semana 2
-- Próximos passos: instalar ferramentas no computador do projeto, coletar o conjunto de teste e anotar o gabarito
+## 2026-10-01 a 10-05 · Preparação
+- Estrutura do repositório, justificativa, estado da arte e referências (sem Zotero; referências só para justificar escolhas); jogo-piloto definido, The Witcher 3 (decisão 001); hardware registrado.
+- Guia do gabarito, esquema provisório, scripts de validação e avaliação testados com exemplos; ontologia 0.1 (7 tipos, 8 relações), grafo e vault de exemplo do prólogo, protótipo do exportador.
+- Configuração de captura definida (pt-BR, 1920x1080), depois tratada como guia e não regra. Nomes do gabarito em pt-BR.
 
-## Semana 3 (adiantado) · 2026-10-02
-- Feito: ontologia v0.1 (7 tipos, 8 relações), esquema e validador com domínio e alcance, grafo de exemplo do prólogo, protótipo do exportador e vault de exemplo
-- Decisões presumidas: ver `docs/ontologia.md`
-- Próximos passos: revisar as decisões, abrir o vault no Obsidian, testar a ontologia nas telas coletadas
+## 2026-10-07 · Coleta, gabarito e primeiro pipeline
+- Ferramentas instaladas (Tesseract com `por`, FFmpeg); 56 screenshots e 27 clipes coletados, catalogados em `metadados.csv`; teste de fumaça de OCR (bom em menus, ruim em HUD e legenda sobre cena).
+- Gabarito de 20 screenshots e 4 clipes anotado (rascunho de IA), verificado pelo autor; pipeline de exemplo rodado no gabarito real (32 nós, 20 arestas).
+- Segunda leva: 27 screenshots e 10 clipes identificados e renomeados; 14 quadros extraídos de clipes para fechar lacunas (escolhas, diário, mapa, cutscene); 28 itens novos anotados; `vid_028` removido (conteúdo pessoal na tela).
 
-## Revisão da documentação · 2026-10-05
-- Feito: conferência do repositório contra a documentação; pipeline de exemplo rodado no `.venv` (validação sem problemas, grafo de 16 nós e 17 arestas, avaliador funcionando); README e Semana 3 atualizados
-- Observação: `pydantic` só existe no `.venv`; fora dele `validar_gabarito.py` e `grafo.py` falham
-- Pendências inalteradas: instalar ferramentas, confirmar hardware, coletar o conjunto de teste, teste de OCR, revisar e congelar a ontologia
-
-## Configuração de captura · 2026-10-05
-- Decidido: jogo em pt-BR; 1920x1080; screenshots pela tecla F12 da Steam; vídeos em 1080p, 30 fps, MP4 pelo OBS Studio ou clipe do último minuto pelo AMD Adrenalin
-- Efeito nos docs: decisão 5 da ontologia fechada (nomes em pt-BR); `semana2.md`, `gabarito.md` e decisão 001 atualizados
-- Próximos passos: ajustar o Adrenalin para 1080p/30 fps/MP4, instalar ferramentas (Tesseract com `por`), coletar o conjunto de teste, teste de fumaça de OCR
-
-## Coleta e teste de OCR · 2026-10-07
-- Feito: 56 screenshots (Steam, JPG) e 27 clipes (Adrenalin, MP4) organizados como `img_NNN_tipo` e `vid_NNN_tipo`; `data/raw/metadados.csv` criado; teste de fumaça de OCR (`por+eng`) rodado nas 56 imagens e registrado na decisão 001
-- Resultado do OCR: bom em glossário, diário e tutorial; médio em inventário e mapa; ruim em legenda sobre cena clara e HUD
-- Desvios: vídeos em 1920x1088 e 60 fps (previsto 1080p/30 fps); screenshots em JPG
-- Lacunas: nenhuma screenshot de escolhas; poucas de diário, item, mapa e cutscene; 31 de 56 são tutorial
-- Próximos passos: completar as lacunas, escolher o subconjunto do gabarito (cerca de 20 screenshots e 3 a 4 clipes) e anotar 5 itens para testar as regras
-
-## Rascunho do gabarito · 2026-10-07
-- Feito: escolhidos 20 screenshots e 4 clipes cobrindo diálogo, HUD, glossário, diário, mapa, item, cutscene e escolhas; anotados 85 entidades e 24 relações em 24 JSON; `entidades.json` com 32 nomes canônicos em pt-BR; validação sem problemas e grafo gerado (32 nós, 20 arestas)
-- Regras novas no `docs/gabarito.md` (8 a 13): sufixo "(missão)" para nome igual ao de um local, personagem só com nome escrito na tela, menção conta, só a decisão escolhida, itens fora de escopo, título do HUD é a missão
-- Atenção: é rascunho de IA e precisa de verificação humana; as dúvidas estão em `docs/gabarito.md` e nas `observacoes` de cada arquivo
-- Próximos passos: verificar o gabarito, revisar 5 itens sorteados no dia seguinte, completar a coleta e testar pré-processamento do OCR
-
-## Gabarito verificado · 2026-10-07
-- Feito: o autor verificou o gabarito (correto, 5 itens revisados); pipeline rodado sobre o gabarito real (validação 0 problemas, grafo de 32 nós e 20 arestas, vault de 32 notas em `vault_output/`, não versionado)
-- Cobertura da ontologia: tudo coube nos 7 tipos e 8 predicados; sem uso no subconjunto: `evento`, `gera`, `concede`, `obtido_em`
-- Próximos passos: completar a coleta (escolhas em screenshot, diário, item, mapa, cutscene), abrir o vault no Obsidian, testar pré-processamento do OCR e rodar a primeira extração para comparar com o gabarito
-
-## Organização da documentação · 2026-10-07
-- Feito: criado `docs/proximos-passos.md` como fonte única das pendências (ordem, critério de pronto, mapa para o cronograma da proposta); README, `semana2.md` e `semana3.md` apontam para ele; `docs/checklist-semana1.md` (obsoleto) retirado do README; `workspace.json` do Obsidian adicionado ao `.gitignore` (estado local)
-- Achado: ainda não há extrator em `src/`; as Semanas 5–7 dependem de fechar a coleta (A1–A2) e congelar a ontologia (A5)
-
-## Segunda leva da coleta · 2026-10-07
-- Feito: identificadas e renomeadas 27 screenshots (`img_057` a `img_083`) e 10 clipes (`vid_028` a `vid_037`); `metadados.csv` com 120 itens; OCR rodado nas novas imagens (resumo na decisão 001); semana2.md com a nova tabela de cobertura
-- Achados: tipo novo "quadro de avisos" (6 telas); glossário de Personagens e Bestiário completos; `vid_028_cutscene` mostra WhatsApp nos ~30 s iniciais (não usar sem cortar); 5 JPG na pasta são cópias de `img_052` a `img_056`
-- Lacunas: escolhas (0 screenshots), diário (faltam 5), mapa (2), cutscene (3)
-
-## Quadros extraídos de vídeo · 2026-10-07
-- Feito: 14 quadros de clipes (`img_084` a `img_097`: 4 escolhas, 3 diário, 4 mapa, 3 cutscene) com `ffmpeg`, catalogados como `frame_de_video`; OCR confirmou as opções de diálogo, o diário e os tooltips do mapa
-- Cuidado: não contar esses quadros como "screenshot" na comparação screenshot × vídeo (mesmo conteúdo dos clipes); `vid_028_cutscene` sumiu da pasta (linha em `metadados.csv` marcada)
-
-## Fecho da Semana 2 · 2026-10-07
-- Decidido: formato, resolução e fonte do material (screenshot ou quadro de vídeo) são só guia, não regra; o foco é testar a aplicação
-- Feito: lacunas da coleta fechadas com quadros de vídeo; pipeline rodado no gabarito real (validação 0 problemas, 32 nós, 20 arestas, 32 notas); criada a linha de base `scripts/baseline_ocr.py` e rodado o avaliador (entidades P 1,00 / R 0,70 / F1 0,83; relações 0; vazamento do dicionário explicado em `semana2.md`)
-- Próximos passos: `docs/proximos-passos.md` (A1 a A4, depois o estudo de viabilidade)
-
-## Ampliação do gabarito e atualização do vault · 2026-10-07
-- Contexto: o grafo no Obsidian estava igual ao do dia anterior porque o gabarito não tinha mudado (o vault já tinha sido regenerado, com o mesmo conteúdo)
-- Feito: 28 itens novos anotados (glossário de personagens e bestiário, quadros de avisos, itens, escolhas, diário, mapa, cutscene); 19 nomes novos em `entidades.json`; validação 0 problemas; grafo de 51 nós e 26 arestas; `vault_output/` regenerado com 51 notas; linha de base atualizada (entidades F1 0,88)
-- Atenção: os 28 itens são rascunho de IA, ainda sem verificação (A5 em `docs/proximos-passos.md`)
-
-## Ontologia 1.0 · 2026-10-08
-- Feito: análise do gabarito (cobertura, uso dos predicados, grafo, perguntas do jogador) e decisão 002; ontologia congelada como 1.0 (7 tipos e 8 predicados; `evento` e `gera` em reserva; chave de identidade sem tipo; estado `disponivel`; facções adiadas para a 1.1); anotado `img_080` para exercitar `obtido_em`; retirada do aval do orientador das pendências
-- Resultado: 53 arquivos de gabarito, 52 nós e 29 arestas no grafo, validação 0 problemas
-- Próximos passos: `docs/proximos-passos.md` (A1 a A4, depois o estudo de viabilidade)
-
-## Emenda 1: facção entra na ontologia (1.1) · 2026-10-08
-- Decidido: incluir o tipo `faccao` e o predicado `membro_de` (ontologia 1.1), revertendo o adiamento da decisão 002. Motivo: medição por OCR nas 64 screenshots que não são de tutorial mostrou nomes de facção em 11 telas (17%, piso); o "menos de 5%" anterior vinha só das observações do gabarito. Ainda não há extrator, então é o momento mais barato
-- Feito: `ontologia.json`, `schema.py` e `exportar_vault.py` atualizados; 4 facções em `entidades.json`; facções anotadas em 11 itens (2 relações `membro_de`); regra 14 no gabarito; validação 0 problemas; grafo de 56 nós e 31 arestas; vault com pasta `Faccoes/`; linha de base de entidades F1 0,87
-- Próximos passos: `docs/proximos-passos.md` (A1 a A4)
-
-## Pendências A: avaliação por tipo, clipes novos e roteiro de verificação · 2026-10-08
-- Feito: `eval/avaliar.py` com quebras por tipo de entidade, predicado e tipo de tela, média simples e elementos em reserva à parte; 9 clipes novos anotados (`vid_029` a `vid_037`, rascunho); grafo de 60 nós e 32 arestas; vault com 60 notas; roteiro de verificação por sorteio em `docs/verificacao-gabarito.md`; `.obsidian/` da raiz e `eval/quebras*.csv` no `.gitignore`
-- Resultado da linha de base (50 screenshots): micro F1 0,87, média simples 0,82; missão 0,54 e item 0,67 são os tipos fracos; HUD 0,00 e mapa 0,48 são as telas fracas; relações 0
-- Confirmado: grafo visível no Obsidian (A1). Falta: verificação humana do gabarito novo (A2)
-
-## Gabarito verificado e limpeza · 2026-10-08
-- Feito: autor verificou o gabarito novo (39 itens) e o confirmou correto; "rascunho" trocado por "verificado" nos docs e nos JSON; apagadas as 9 cópias idênticas de `data/raw/` (5 JPG e 4 MP4); A2 concluída
-- Próximo: B1, extrator de OCR com dicionário independente do gabarito
-
-## B1: extrator de OCR com dicionário independente · 2026-10-08
-- Feito: `src/extracao/` (OCR e busca de nomes), `scripts/rodar_extracao.py`, dicionário `data/gazetteer/witcher3_ptbr.json` (90 nomes, com distratores); rodadas com e sem tolerância a erro de OCR; registro em `docs/estudo-viabilidade.md`
-- Resultado: F1 de entidades 0,76 (micro) e 0,49 (média entre tipos); o vazamento da linha de base valia 0,11; fuzzy piora (0,74); missão e decisão 0,00 (sem dicionário), HUD 0,00; 6 dos 11 falsos positivos são o equipamento do inventário
-- Próximo: B2, pré-processamento (recorte da legenda e do HUD, ampliação, binarização)
-
-## B2: pré-processamento do OCR · 2026-10-08
-- Feito: recortes (legenda, HUD da missão, avisos) ampliados com filtros cinza, otsu e brilho; modos em `src/extracao/ocr.py`; `eval/cobertura_ocr.py` para medir o OCR sem dicionário; experimento de parâmetros do HUD; 6 modos comparados no registro `docs/estudo-viabilidade.md`
-- Resultado: cobertura de nomes no texto 0,81 → 0,89 (`rois_brilho`, 2,13 s por imagem); diálogo 0,53 → 0,87; missão 0,39 → 0,61; F1 com dicionário 0,76 → 0,78. Ampliar a imagem inteira sozinho piora. HUD segue fraco (título de ~10 px)
-- Próximo: B3a, extração estruturada por tipo de tela para tirar missão e decisão de 0,00
-
-## B3a: extração estruturada por tipo de tela · 2026-10-08
-- Feito: `src/extracao/estruturada.py` (missão pelo título do HUD, banner, diário, mapa e quadro de avisos; decisão pela opção de diálogo; consolidação no lote com sufixo "(missão)"); correção de grafia pelo dicionário; modo `estruturado` em `scripts/rodar_extracao.py`; ajustes em 5 iterações sobre as mesmas imagens
-- Resultado (50 screenshots): missão 0,00 → 0,89, decisão 0,00 → 1,00 (n = 3), F1 micro 0,76 → 0,84, média entre tipos 0,49 → 0,77; 3,08 s por imagem. Calibrado nas mesmas imagens (sem conjunto separado); checagem nas 47 imagens fora do gabarito coerente
-- Achado: `img_088` e `img_094` parecem ter missões não anotadas no gabarito (decisão do autor)
-- Próximo: B3b, LLM local sobre o texto para relações e itens
-
-## B3b: relações e itens com LLM local · 2026-10-08
-- Feito: gabarito corrigido (`img_088`, `img_094`: omissões apontadas pela B3a); Ollama configurado com a RX 7600 (ROCm, 100% GPU) e os modelos qwen2.5:7b e 3b; `src/extracao/llm.py` (back-end plugável, esquema JSON, normalização e filtros), `scripts/rodar_llm.py`; itens pela ficha do inventário e relações estruturais (`ocorre_em`, `participa_de`) na base; avaliador passou a tratar `relacionado_a` como simétrico; 3 iterações de prompt e filtros sobre as mesmas imagens
-- Resultado (base + 7B): entidades F1 0,87 → 0,89, relações 0,29 → 0,44, itens 0,11 → 0,50; 7,8 s por imagem e 4,42 GB de VRAM; o 3B (2,01 GB, 6,1 s) mantém as entidades (0,88) mas cai em relações (0,30). Sem conjunto separado: números de desenvolvimento
-- Próximo: B4, vídeo (quadros por clipe com o mesmo pipeline)
-
-## B4 e B5: vídeo e combinação das fontes · 2026-10-08
-- Feito: `src/extracao/video.py` e `scripts/rodar_video.py` (quadros a 1 s em cache, agregação por clipe, LLM por clipe); 681 quadros de 13 clipes processados; auditoria do gabarito dos clipes (+9 entidades confirmadas no texto, com "Cavaleiros Negros" em `entidades.json`); regra de 2 imagens ou quadros para título de missão em todas as fontes
-- Resultado: 1 quadro por clipe F1 0,37; 4 s 0,71; **2 s 0,76**; 1 s 0,74 (mais ruído); com LLM por clipe, relações 0,29; screenshots + clipes: revocação 0,72 → 0,82 (entidades únicas); pipeline completo nos 63 itens: entidades F1 0,86 e relações 0,40
-- Limites: gabarito dos clipes grosso (7 relações) e ampliado só onde o extrator achou; números de desenvolvimento
-- Próximo: IA pública como back-end alternativo (Semanas 8–10) e avaliação final com material novo
+## 2026-10-08 · Ontologia, estudo de viabilidade e organização
+- Ontologia congelada como 1.0 (análise do gabarito, decisão 002) e emendada para 1.1 (tipo `faccao` e predicado `membro_de`, depois de medir facções em 17% das telas); `evento` e `gera` em reserva.
+- Gabarito novo (39 itens) verificado pelo autor; 9 cópias duplicadas de `data/raw/` apagadas; avaliador com quebra por tipo de entidade, predicado e tela, `relacionado_a` simétrico.
+- **B1** extrator de OCR com dicionário independente (o vazamento da primeira linha de base valia 0,11 de F1); **B2** recortes e filtro de brilho (nomes no texto 0,81 → 0,89); **B3a** regras por tipo de tela (missão e decisão saem de 0,00); **B3b** LLM local em cascata (Ollama na RX 7600, `qwen2.5:7b` e `3b`; relações 0,29 → 0,44); **B4** vídeo (quadro a cada 2 s, F1 0,76) e **B5** combinação das fontes (revocação 0,72 → 0,82). Gabarito corrigido duas vezes a partir do que o extrator mostrou (`img_088`, `img_094` e 9 entidades dos clipes).
+- Documentação reorganizada: resumo principal, `coleta.md` (substitui os planos das semanas 2 e 3 e o roteiro de verificação), histórico enxuto; script de linha de base com vazamento removido.
+- Observação: o Ollama atualizou-se sozinho e criou um atalho de inicialização do Windows; o servidor foi iniciado com `ollama serve`.
+- Próximo: `docs/proximos-passos.md`.
