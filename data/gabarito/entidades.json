@@ -228,5 +228,25 @@
   "Uma frigideira nos trinques": {
     "tipo": "missao",
     "aliases": []
+  },
+  "Nilfgaard": {
+    "tipo": "faccao",
+    "aliases": [
+      "Império Nilfgaardiano"
+    ]
+  },
+  "Caçada Selvagem": {
+    "tipo": "faccao",
+    "aliases": []
+  },
+  "Exército Imperial": {
+    "tipo": "faccao",
+    "aliases": [
+      "Forças Imperiais"
+    ]
+  },
+  "Escola do Lobo": {
+    "tipo": "faccao",
+    "aliases": []
   }
 }

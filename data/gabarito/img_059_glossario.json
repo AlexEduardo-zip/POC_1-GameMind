@@ -51,6 +51,11 @@
       "nome": "Toussaint",
       "tipo": "local",
       "evidencia": "texto: \"de Poviss a Toussaint\""
+    },
+    {
+      "nome": "Escola do Lobo",
+      "tipo": "faccao",
+      "evidencia": "texto: \"seus colegas da Escola do Lobo\""
     }
   ],
   "relacoes": [
@@ -59,6 +64,12 @@
       "predicado": "localizado_em",
       "objeto": "Kaer Morhen",
       "evidencia": "texto: \"O mais novo bruxo de Kaer Morhen\""
+    },
+    {
+      "sujeito": "Lambert",
+      "predicado": "membro_de",
+      "objeto": "Escola do Lobo",
+      "evidencia": "texto: \"irritar os seus colegas da Escola do Lobo\""
     }
   ],
   "observacoes": "Entrada aberta: LAMBERT."

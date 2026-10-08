@@ -102,3 +102,6 @@ Leitura: serve para provar que o ciclo extração → avaliação funciona. A pr
 
 ### Atualização (2026-10-07, depois da ampliação do gabarito)
 Com 28 itens novos anotados (rascunho, a verificar), a linha de base nas 48 screenshots do gabarito deu **entidades precisão 0,93, revocação 0,82, F1 0,88; relações 0**; 41,6 s. A precisão caiu de 1,00 (a causa não foi investigada; o OCR achou nomes que o gabarito novo não anota). O dicionário continua vindo do gabarito (vazamento). O grafo passou de 32 nós e 20 arestas para **51 nós e 26 arestas**; o vault de `vault_output/` tem 51 notas.
+
+### Atualização (2026-10-08, ontologia 1.1)
+Com as facções anotadas (ontologia 1.1, decisão 002 emenda 1), a linha de base nas 49 screenshots do gabarito deu **entidades precisão 0,94, revocação 0,81, F1 0,87; relações 0**; 44,6 s. O grafo tem **56 nós e 31 arestas** e o vault de `vault_output/` ganhou a pasta `Faccoes/` (4 notas) e tem 56 notas.

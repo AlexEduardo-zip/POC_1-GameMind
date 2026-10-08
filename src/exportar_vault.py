@@ -7,7 +7,7 @@ from collections import defaultdict
 from pathlib import Path
 
 PASTAS = {"personagem": "Personagens", "criatura": "Criaturas", "local": "Locais", "missao": "Missoes",
-          "item": "Itens", "evento": "Eventos", "decisao": "Decisoes"}
+          "item": "Itens", "evento": "Eventos", "decisao": "Decisoes", "faccao": "Faccoes"}
 
 
 def arquivo(nome):

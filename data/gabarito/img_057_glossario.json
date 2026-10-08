@@ -36,6 +36,11 @@
       "nome": "Yennefer de Vengerberg",
       "tipo": "personagem",
       "evidencia": "lista lateral: Yennefer de Vengerberg"
+    },
+    {
+      "nome": "Caçada Selvagem",
+      "tipo": "faccao",
+      "evidencia": "texto: \"interrompido pela Caçada Selvagem, que levou Yennefer como prisioneira\""
     }
   ],
   "relacoes": [
@@ -47,5 +52,5 @@
       "evidencia": "texto: \"O amor de Geralt e Yennefer\""
     }
   ],
-  "observacoes": "Entrada aberta: YENNEFER DE VENGERBERG. A Caçada Selvagem (facção) fica fora da ontologia."
+  "observacoes": "Entrada aberta: YENNEFER DE VENGERBERG. A Caçada Selvagem (facção) fica fora da ontologia. Facção anotada na ontologia 1.1."
 }

@@ -1,9 +1,9 @@
-# Ontologia do GameMind (versão 1.0, congelada em 2026-10-08)
+# Ontologia do GameMind (versão 1.1, congelada em 2026-10-08)
 
-A análise e as decisões do fechamento estão em `docs/decisoes/002-ontologia-1-0.md`. Mudanças depois deste ponto só entram como 1.1, com nova decisão registrada.
+A análise e as decisões do fechamento estão em `docs/decisoes/002-ontologia-1-0.md`, com a emenda que criou a 1.1 (tipo `faccao` e predicado `membro_de`). Mudanças depois deste ponto só entram como 1.2, com nova decisão registrada.
 
 ## Objetivo e princípios
-- **Simples:** 7 tipos e 8 relações, o suficiente para representar a jornada do jogador.
+- **Simples:** 8 tipos e 9 relações, o suficiente para representar a jornada do jogador.
 - **Alinhada ao jogo:** os tipos seguem as seções do Journal do The Witcher 3 (Quests, Characters, Locations, Monsters, Formula, Ingredients, Glossary, Tutorials).
 - **Só o que o jogador viu:** cada elemento nasce de uma fonte (screenshot ou clipe), o que evita spoiler.
 - **Avaliável:** tudo o que está aqui pode ser anotado no gabarito e comparado com a previsão.
@@ -21,6 +21,7 @@ Método: roteiro simplificado de Noy e McGuinness (2001): escopo e perguntas, te
 | O que decidi e o que isso gerou? | decisão `parte_de` missão e `gera` evento |
 | Onde achei este item? | `localizado_em` ou `obtido_em` |
 | Como X e Y se relacionam? | `relacionado_a` com `rotulo` |
+| A que grupo X pertence? | `membro_de` |
 
 ## Tipos
 | Tipo | Definição | Subtipos sugeridos (texto livre) | Seção do Journal | Exemplo |
@@ -32,13 +33,16 @@ Método: roteiro simplificado de Noy e McGuinness (2001): escopo e perguntas, te
 | item | Objeto, arma, ingrediente, fórmula ou livro | ingrediente, formula, arma, livro | Ingredients, Formula | Buckthorn |
 | evento | Acontecimento com começo e fim (cena, ataque, encontro) | n/a | atualizações e cenas | Wild Hunt attack on the convoy |
 | decisao | Escolha do jogador com possível consequência | n/a | escolhas de diálogo | Answers to Emhyr about Letho |
+| faccao | Grupo organizado com nome próprio (reino, exército, ordem, escola, organização) | reino, exército, escola, organização | texto de glossário, diário e quadros de avisos | Nilfgaard, Escola do Lobo |
 
 Regras de fronteira:
+- **Facção × local:** "Nilfgaard" como povo ou exército é facção; "Guarnição Nilfgaardiana" como lugar é local. Se o nome for igual, o sufixo desambigua, como nas missões.
+- **Facção só com nome escrito:** como nos demais tipos, vale o nome visível na tela, e relações entre facções (aliança, guerra) ficam de fora.
 - **Evento × decisão:** se o jogador escolheu, é decisão; se apenas aconteceu, é evento.
 - **Glossário:** se a entrada descreve personagem, local ou criatura, usa-se o tipo correspondente. Conceitos abstratos ficam fora na versão 0.1.
 
 ## Elementos em reserva
-`evento` e `gera` não têm nenhum uso no gabarito (53 arquivos). Seguem na 1.0 porque vídeo de cutscene pode trazer eventos, mas ficam fora das métricas principais e são reavaliados na avaliação comparativa (Semana 15); sem uso real até lá, saem na 1.1.
+`evento` e `gera` não têm nenhum uso no gabarito (54 arquivos). Seguem na 1.0 porque vídeo de cutscene pode trazer eventos, mas ficam fora das métricas principais e são reavaliados na avaliação comparativa (Semana 15); sem uso real até lá, saem na 1.1.
 
 ## Relações
 | Predicado | Domínio → alcance | Significado | Exemplo |
@@ -50,6 +54,7 @@ Regras de fronteira:
 | concede | personagem → missão | Quem dá a missão | Peter Saar Gwynleve concede The Beast of White Orchard |
 | obtido_em | item → missão, evento | Onde ou como foi obtido | recompensa de missão |
 | gera | decisão, evento → evento | Consequência | decisão gera evento |
+| membro_de | personagem, criatura → facção | Pertence ao grupo | Vesemir membro_de Escola do Lobo |
 | relacionado_a | personagem, criatura → personagem, criatura | Vínculo entre eles, com `rotulo` | Yennefer relacionado_a Geralt (rótulo "ex-amantes") |
 
 `rotulo` guarda o tipo de vínculo (aliado, inimigo, mentor, familiar) e não entra na avaliação. Isso mantém poucos predicados e ainda permite distinguir vínculos na nota do Obsidian.
@@ -70,6 +75,8 @@ flowchart LR
   missao -->|parte_de| missao
   local -->|parte_de| local
   personagem -->|relacionado_a| personagem
+  personagem -->|membro_de| faccao
+  criatura -->|membro_de| faccao
 ```
 
 ## Atributos
@@ -92,8 +99,8 @@ flowchart LR
 - `primeira_vez` permite consultar "o que sei até aqui".
 - Não há relação de ordem entre missões (`precede`), porque a missão seguinte pode ser spoiler.
 
-## Fora do escopo da versão 1.0
-Facções e grupos (candidato à 1.1, com tipo `faccao` e predicado `membro_de`, se o uso pedir), atributos de combate de itens, Gwent, cronologia detalhada, relação de ordem entre missões, conceitos abstratos do glossário e transcrição completa de falas.
+## Fora do escopo da versão 1.1
+Relações entre facções (aliança, guerra, hierarquia), atributos de combate de itens, Gwent, cronologia detalhada, relação de ordem entre missões, conceitos abstratos do glossário e transcrição completa de falas.
 
 ## Decisões fechadas
 1. `criatura` é tipo separado, porque o Journal tem a seção Monsters.
@@ -101,16 +108,18 @@ Facções e grupos (candidato à 1.1, com tipo `faccao` e predicado `membro_de`,
 3. Decisão é um nó, ligada por `parte_de` e `gera`.
 4. Conceitos abstratos do glossário ficam fora (menos de 5% do conteúdo do corpus).
 5. Nomes no idioma do jogo: português do Brasil (pt-BR). Os exemplos em `docs/exemplo/` seguem em inglês e só demonstram o pipeline.
-6. Nada de facções na 1.0; `evento` e `gera` em reserva; chave de identidade sem tipo; estado `disponivel` incluído (decisão 002).
+6. `evento` e `gera` em reserva; chave de identidade sem tipo; estado `disponivel` incluído (decisão 002).
+7. Facção entra como tipo, com `membro_de` como único predicado novo (emenda 1.1 da decisão 002, 2026-10-08).
 
 ## Validação (feita em 2026-10-08)
-- Gabarito com 53 arquivos anotados com esta ontologia: menos de 5% do conteúdo ficou sem tipo (limite de revisão: 10%).
+- Gabarito com 54 arquivos anotados com esta ontologia. Com facções incluídas, sobra fora de escopo só Gwent, cartas e categorias do bestiário, em menos de 3% do conteúdo (limite de revisão: 10%).
 - `python scripts/validar_gabarito.py data/gabarito`: 0 problemas (tipos, nomes e domínio e alcance dos predicados).
 - Das 7 perguntas do jogador, 6 são respondidas pelo grafo; "o que isso gerou?" só até a decisão, por não haver consequência na tela.
 
 ## Histórico
 - 0.1 (2026-10-02): 7 tipos, 8 relações, rascunho.
 - 1.0 (2026-10-08): congelada. Ajustes de definição: estado `disponivel`, chave sem tipo, `evento` e `gera` em reserva.
+- 1.1 (2026-10-08): tipo `faccao` e predicado `membro_de`, depois de medir que nomes de facção aparecem em pelo menos 17% das telas que não são tutorial. Nenhuma outra mudança.
 
 ## Fontes consultadas
 - Witcher Wiki (Fandom), página do Journal: seções do diário do jogo.

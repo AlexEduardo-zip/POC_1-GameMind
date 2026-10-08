@@ -41,6 +41,11 @@
       "nome": "Kaer Morhen",
       "tipo": "local",
       "evidencia": "texto: \"fortaleza de Kaer Morhen\""
+    },
+    {
+      "nome": "Escola do Lobo",
+      "tipo": "faccao",
+      "evidencia": "texto: \"o membro vivo mais velho da Escola do Lobo\""
     }
   ],
   "relacoes": [
@@ -50,6 +55,12 @@
       "objeto": "Geralt de Rívia",
       "rotulo": "mentor",
       "evidencia": "texto: \"instrutor rígido... na juventude de Geralt\""
+    },
+    {
+      "sujeito": "Vesemir",
+      "predicado": "membro_de",
+      "objeto": "Escola do Lobo",
+      "evidencia": "texto: \"o membro vivo mais velho da Escola do Lobo\""
     }
   ],
   "observacoes": "Entrada aberta: VESEMIR."

@@ -6,18 +6,18 @@ Atualizado em 2026-10-07. Este arquivo é o único lugar com a lista de pendênc
 | Semanas | Atividade da proposta | Situação |
 |---|---|---|
 | 1–2 | Revisão, jogo-piloto, coleta | Concluída |
-| 3–4 | Ontologia e esquema do grafo | v0.1 pronta e testada nos 24 itens do gabarito; falta congelar a 1.0 |
+| 3–4 | Ontologia e esquema do grafo | Concluída: ontologia 1.1 congelada em 2026-10-08 (decisão 002 e emenda) |
 | 5–7 | Estudo de viabilidade (screenshot × vídeo × combinação) | Não iniciada; é o passo B abaixo |
 | 8–10 | Camada de extração (IA local + IA pública opcional) | Não iniciada (`src/` ainda não tem extrator) |
 | 11–12 | Exportação Markdown/JSON | Protótipo pronto (`src/grafo.py`, `src/exportar_vault.py`) |
 
 ## A. Pendências antes do estudo de viabilidade
-Semana 2 concluída em 2026-10-07 e ontologia 1.0 congelada em 2026-10-08 (decisão 002).
+Semana 2 concluída em 2026-10-07 e ontologia 1.1 congelada em 2026-10-08 (decisão 002 e emenda 1: `faccao` e `membro_de`).
 
 | # | Tarefa | Critério de pronto |
 |---|---|---|
 | A1 | Abrir `vault_output/` no Obsidian e conferir o grafo | Conferido; ajustes anotados no diário |
-| A2 | **Verificar** os itens de gabarito novos (28 de 2026-10-07 e `img_080`; lista em `docs/gabarito.md`), revisando 5 sorteados | Verificação registrada; `validar_gabarito.py data/gabarito` com 0 problemas |
+| A2 | **Verificar** os itens de gabarito novos (28 de 2026-10-07, `img_080`, `img_071` e as facções reanotadas em 11 itens; lista em `docs/gabarito.md`), revisando 5 sorteados | Verificação registrada; `validar_gabarito.py data/gabarito` com 0 problemas |
 | A3 | Ampliar o gabarito onde a ontologia ficou sem teste: telas de recompensa, notificação de missão atualizada, cenas com consequência visível, clipes novos (`vid_029` a `vid_037`) | Pelo menos 1 caso de `concede`, `obtido_em` e, se existir, `evento`/`gera` além dos atuais |
 | A4 | Na avaliação, relatar F1 por tipo de tela e por tipo de entidade (o glossário domina o micro) e tratar `evento`/`gera` à parte | `eval/avaliar.py` com a quebra por tipo |
 

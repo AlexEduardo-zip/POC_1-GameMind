@@ -11,8 +11,13 @@
       "nome": "Emhyr var Emreis",
       "tipo": "personagem",
       "evidencia": "texto: \"Emhyr var Emreis\""
+    },
+    {
+      "nome": "Exército Imperial",
+      "tipo": "faccao",
+      "evidencia": "texto: \"o alistamento no Exército Imperial está aberto\""
     }
   ],
   "relacoes": [],
-  "observacoes": "Quadro de avisos: \"Precisa-se de Voluntários\". Exército Imperial é facção (fora de escopo)."
+  "observacoes": "Quadro de avisos: \"Precisa-se de Voluntários\". Exército Imperial é facção (fora de escopo). Peter Saar Gwynleve não é anotado como membro: o texto não afirma o vínculo."
 }

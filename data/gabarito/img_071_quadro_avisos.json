@@ -1,0 +1,18 @@
+{
+  "arquivo": "img_071_quadro_avisos.jpg",
+  "tipo_tela": "outro",
+  "entidades": [
+    {
+      "nome": "Nilfgaard",
+      "tipo": "faccao",
+      "evidencia": "texto: \"mostraremos aos vermes de Nilfgaard\""
+    },
+    {
+      "nome": "Temeria",
+      "tipo": "local",
+      "evidencia": "texto: \"o povo de Teméria\""
+    }
+  ],
+  "relacoes": [],
+  "observacoes": "Quadro de avisos: \"Morte aos invasores!\". Rascunho a verificar."
+}

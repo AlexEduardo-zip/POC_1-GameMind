@@ -35,6 +35,11 @@
       "nome": "Grifo",
       "tipo": "criatura",
       "evidencia": "texto: \"havia um grifo por perto, um monstro\""
+    },
+    {
+      "nome": "Nilfgaard",
+      "tipo": "faccao",
+      "evidencia": "texto: \"O comandante das tropas de Nilfgaard em Pomar Branco\""
     }
   ],
   "relacoes": [
@@ -57,5 +62,5 @@
       "evidencia": "texto: \"um grifo por perto... a cabeça do monstro em troca de sua colaboração\""
     }
   ],
-  "observacoes": "Objetivos: Pergunte ao caçador onde ele encontrou os cadáveres (pendente); Pergunte à herbalista sobre cáscara (ativo). Nilfgaard aparece no texto como facção (fora da ontologia)."
+  "observacoes": "Objetivos: Pergunte ao caçador onde ele encontrou os cadáveres (pendente); Pergunte à herbalista sobre cáscara (ativo). Nilfgaard aparece no texto como facção (fora da ontologia). Facção anotada na ontologia 1.1."
 }

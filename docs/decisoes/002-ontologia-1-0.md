@@ -1,7 +1,8 @@
-# Decisão 002 · Fechamento da ontologia (versão 1.0)
+# Decisão 002 · Fechamento da ontologia (versão 1.0, emendada para 1.1)
 
 - Data: 2026-10-08
-- Decisão: **congelar a ontologia como 1.0 com os 7 tipos e 8 predicados da 0.1**, com cinco ajustes de definição (abaixo) e sem criar nem remover tipos
+- Decisão original: **congelar a ontologia como 1.0 com os 7 tipos e 8 predicados da 0.1**, com cinco ajustes de definição (abaixo) e sem criar nem remover tipos
+- **Emenda 1 (mesmo dia): versão 1.1, com o tipo `faccao` e o predicado `membro_de`** (seção "Emenda 1" abaixo); a linha 1 da tabela de decisões foi revertida por ela
 - Base: análise do gabarito (53 arquivos, 190 anotações de entidade, 37 de relação, 52 nós no grafo), em 2026-10-08
 
 ## Análise
@@ -55,7 +56,7 @@ Conteúdo que **não coube** em nenhum tipo, contado nas `observacoes` do gabari
 
 | # | Questão | Decisão | Por quê |
 |---|---|---|---|
-| 1 | Criar tipo `faccao`? | **Não na 1.0**; candidato à 1.1 | Menos de 5% de conteúdo fora de escopo; exigiria novo predicado (`membro_de`) e mais anotação sem ter como medir ganho agora. Facções continuam fora e ficam citadas na descrição |
+| 1 | Criar tipo `faccao`? | ~~Não na 1.0~~ **Revertida pela Emenda 1: sim, na 1.1** | Menos de 5% de conteúdo fora de escopo; exigiria novo predicado (`membro_de`) e mais anotação sem ter como medir ganho agora. Facções continuam fora e ficam citadas na descrição |
 | 2 | Manter `evento` e `gera`, sem nenhum uso? | **Manter, marcados como "reserva"** | Remover não ganha nada (o validador já os suporta) e a análise de vídeo de cutscene é onde eventos podem aparecer. Ficam fora das métricas principais (relatar à parte) e são reavaliados na avaliação comparativa (Semana 15): sem uso real até lá, saem na 1.1 |
 | 3 | Manter `obtido_em` e `concede` com 1 a 3 usos? | **Manter** | Têm evidência (recompensa de missão, assinatura de cartaz) e respondem a perguntas do jogador |
 | 4 | Chave de identidade | **Nome canônico normalizado; tipo não entra na chave**, e nomes iguais de tipos diferentes levam sufixo "(missão)" etc. | É o que o código e o gabarito já fazem; corrige o texto da ontologia |
@@ -70,4 +71,25 @@ Conteúdo que **não coube** em nenhum tipo, contado nas `observacoes` do gabari
 4. Estender o gabarito com telas de recompensa, notificação de missão atualizada e cenas com consequência visível, para exercitar o que falta.
 
 ## Efeito nos arquivos
-`docs/ontologia.md` (versão 1.0, identidade, estados, reserva, histórico), `src/ontologia.json` e `src/schema.py` (versão e estados), `docs/gabarito.md` (nova anotação `img_080`), `README.md` e `docs/proximos-passos.md`.
+`docs/ontologia.md` (versão 1.1, identidade, estados, reserva, histórico), `src/ontologia.json`, `src/schema.py` e `src/exportar_vault.py` (versão, estados, `faccao`, `membro_de`), `docs/gabarito.md` (nova anotação `img_080`), `README.md` e `docs/proximos-passos.md`.
+
+## Emenda 1 · tipo `faccao` e predicado `membro_de` (versão 1.1)
+
+**Motivo da reversão.** A decisão original usava "menos de 5%" como medida, mas esse número vinha só das observações que eu escrevi no gabarito, contra o total de anotações de entidade. Ao medir de outra forma, com OCR em todas as 64 screenshots que não são de tutorial, nomes de facção (Nilfgaard, Exército Imperial, Império, Escola do Lobo) apareceram em **11 telas, 17%**, e isso é um piso (o OCR não achou "Caçada Selvagem", que se sabe estar em dois glossários). Os dois números respondem a perguntas diferentes (entidades × telas), mas a segunda é a que importa para o produto: facção é o conceito não modelado mais frequente.
+
+**Por que agora.** Ainda não existe extrator; o esquema só será embutido em código e prompts nas Semanas 8–10, então mudar custa pouco. E a facção responde a perguntas reais ("Quem é o comandante de Nilfgaard?", "De que escola Lambert faz parte?").
+
+**O que muda (e só isso)**
+- Novo tipo `faccao`: grupo organizado com nome próprio (reino, exército, ordem, escola, organização).
+- Novo predicado `membro_de`: personagem ou criatura → facção.
+- Continuam de fora: relações entre facções (aliança, guerra, hierarquia). Nome de facção só vale se estiver escrito na tela.
+- Nova regra de anotação (14, em `docs/gabarito.md`) e `Faccoes/` no vault do Obsidian.
+
+**Reanotação.** Facções anotadas em 11 itens do gabarito: `img_012`, `img_054`, `img_057`, `img_058`, `img_059`, `img_070`, `img_071` (arquivo novo), `img_072`, `img_075`, `img_088` (e a relação `membro_de` em `img_058` e `img_059`). Entram 4 facções em `entidades.json`: Nilfgaard (alias Império Nilfgaardiano), Caçada Selvagem, Exército Imperial (alias Forças Imperiais) e Escola do Lobo. Peter Saar Gwynleve **não** é anotado como membro de Nilfgaard ou do Exército Imperial: nenhuma tela afirma o vínculo.
+
+**Resultado após a emenda**
+- 54 arquivos de gabarito, 202 anotações de entidade (11 de facção), 39 relações (2 `membro_de`); grafo de 56 nós e 31 arestas; `validar_gabarito.py` com 0 problemas.
+- Fora de escopo restam Gwent, cartas e categorias do bestiário (menos de 3%).
+- Linha de base de OCR (dicionário vindo do gabarito, ver `semana2.md`): entidades precisão 0,94, revocação 0,81, F1 0,87.
+
+**Critério para reabrir.** Nenhuma nova mudança de tipo antes da avaliação da Semana 15, exceto se a extração mostrar um conceito recorrente sem tipo (mais de 10% das telas) ou o `membro_de` se mostrar inútil (nenhuma pergunta respondida por ele no corpus).

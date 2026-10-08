@@ -33,6 +33,11 @@
       "nome": "Taverna de Pomar Branco",
       "tipo": "local",
       "evidencia": "objetivo: \"Vá até a taverna de Pomar Branco\""
+    },
+    {
+      "nome": "Nilfgaard",
+      "tipo": "faccao",
+      "evidencia": "objetivo: \"Pergunte ao povo de Nilfgaard sobre a Yennefer\""
     }
   ],
   "relacoes": [

@@ -18,7 +18,7 @@ Um arquivo JSON por screenshot ou clipe, com o mesmo nome do arquivo de mídia (
 
 O formato está em `src/schema.py` (é o mesmo que a extração vai produzir depois). Exemplo em `data/gabarito/exemplo/exemplo_img.json`.
 
-Predicados (ontologia 1.0, ver `docs/ontologia.md`): `participa_de`, `ocorre_em`, `localizado_em`, `parte_de`, `concede`, `obtido_em`, `gera`, `relacionado_a` (com `rotulo` opcional, como aliado ou inimigo). Se a ontologia mudar, ajuste os arquivos já anotados com busca e substituição e rode a validação.
+Predicados (ontologia 1.1, ver `docs/ontologia.md`): `participa_de`, `ocorre_em`, `localizado_em`, `parte_de`, `concede`, `obtido_em`, `gera`, `membro_de`, `relacionado_a` (com `rotulo` opcional, como aliado ou inimigo). Se a ontologia mudar, ajuste os arquivos já anotados com busca e substituição e rode a validação.
 
 ## Regras de anotação
 1. **Só o que está explícito na tela** (legenda, título de missão, nome em item, mapa). Não anote o que você sabe por ter jogado. Isso mede a extração de forma justa e preserva a ideia de memória sem spoiler.
@@ -32,8 +32,9 @@ Predicados (ontologia 1.0, ver `docs/ontologia.md`): `participa_de`, `ocorre_em`
 9. **Personagem sem nome na tela não se anota**, mesmo que você o reconheça (o rosto de Geralt, Vesemir ou Ciri em cutscene). Vale o nome escrito: rótulo da legenda ("Geralt: ..."), objetivo ("Siga o Vesemir"), lista do glossário ou texto da entrada.
 10. **Menção conta:** um nome próprio citado em legenda, objetivo ou texto de entrada é entidade, mesmo que o personagem não apareça. Relações só entram quando o texto as afirma.
 11. **Decisão:** anota-se só a opção escolhida, deduzida da fala seguinte; as outras opções ficam em `observacoes`. O nome da decisão é o texto da opção.
-12. **Fora de escopo (ver ontologia):** Gwent e cartas, facções (Nilfgaard, Caçada Selvagem), categorias do bestiário e rótulos de espaços do inventário.
+12. **Fora de escopo (ver ontologia):** Gwent e cartas, categorias do bestiário e rótulos de espaços do inventário.
 13. **HUD:** o título amarelo do HUD de missão é o nome da missão, e o texto abaixo é o objetivo.
+14. **Facção (ontologia 1.1):** anota-se como `faccao` o grupo com nome escrito na tela (Nilfgaard, Caçada Selvagem, Exército Imperial, Escola do Lobo). `membro_de` só quando o texto afirma que o personagem pertence ao grupo; "comandante das tropas de Nilfgaard" sem nome do comandante não gera relação. Relações entre facções não se anotam.
 
 ## Como a comparação funciona
 - Uma entidade da previsão acerta se o **nome canônico** (após aliases, sem acento e sem maiúsculas) e o **tipo** coincidem com o gabarito. O modo brando (`--sem-tipo`) ignora o tipo.
@@ -106,6 +107,6 @@ Para alimentar o grafo e testar mais tipos de tela, foram anotados 28 itens do m
 | Mapa | `img_092`, `img_094` |
 | Cutscene | `img_096` |
 
-Total do gabarito: 52 arquivos, 185 entidades, 34 relações, 51 nomes canônicos em `entidades.json`; `validar_gabarito.py` com 0 problemas.
+Total do gabarito: 54 arquivos (com `img_080` e `img_071`), 202 entidades, 39 relações, 56 nomes canônicos em `entidades.json`; `validar_gabarito.py` com 0 problemas. Facções reanotadas em 11 itens (ontologia 1.1, regra 14).
 
 `img_080_exploracao` (2026-10-08, rascunho a verificar): tela de missão completada com recompensas; é o único item que exercita `obtido_em` e `estado: concluida`. Total: 53 arquivos, 190 entidades, 37 relações.

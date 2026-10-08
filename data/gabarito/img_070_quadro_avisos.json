@@ -13,6 +13,11 @@
       "nome": "Odrin",
       "tipo": "personagem",
       "evidencia": "texto: \"Ele se chama Odrin\""
+    },
+    {
+      "nome": "Exército Imperial",
+      "tipo": "faccao",
+      "evidencia": "texto: \"decidiu juntar-se ao Exército Imperial\""
     }
   ],
   "relacoes": [],

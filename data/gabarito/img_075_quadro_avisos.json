@@ -16,6 +16,16 @@
       "nome": "Pomar Branco",
       "tipo": "local",
       "evidencia": "texto: \"residentes de Pomar Branco\""
+    },
+    {
+      "nome": "Nilfgaard",
+      "tipo": "faccao",
+      "evidencia": "texto: \"grande Império Nilfgaardiano\""
+    },
+    {
+      "nome": "Exército Imperial",
+      "tipo": "faccao",
+      "evidencia": "texto: \"As Forças Imperiais trouxeram-lhes a tocha do avanço\""
     }
   ],
   "relacoes": [],

@@ -1,5 +1,5 @@
 {
-  "versao": "1.0",
+  "versao": "1.1",
   "estados_missao": ["ativa", "disponivel", "concluida", "falhou"],
   "reserva": ["evento", "gera"],
   "tipos": {
@@ -9,6 +9,7 @@
     "missao": "Missão principal, secundária, contrato ou caça ao tesouro",
     "item": "Objeto, arma, armadura, ingrediente, fórmula ou livro",
     "evento": "Acontecimento da história com começo e fim (cena, ataque, encontro)",
+    "faccao": "Grupo organizado com nome próprio (reino, exército, ordem, escola, organização) ao qual personagens e criaturas pertencem",
     "decisao": "Escolha do jogador (opção de diálogo ou ação) que pode ter consequências"
   },
   "predicados": {
@@ -19,6 +20,7 @@
     "concede": {"dominio": ["personagem"], "alcance": ["missao"]},
     "obtido_em": {"dominio": ["item"], "alcance": ["missao", "evento"]},
     "gera": {"dominio": ["decisao", "evento"], "alcance": ["evento"]},
+    "membro_de": {"dominio": ["personagem", "criatura"], "alcance": ["faccao"]},
     "relacionado_a": {"dominio": ["personagem", "criatura"], "alcance": ["personagem", "criatura"]}
   }
 }

@@ -69,3 +69,8 @@
 - Feito: análise do gabarito (cobertura, uso dos predicados, grafo, perguntas do jogador) e decisão 002; ontologia congelada como 1.0 (7 tipos e 8 predicados; `evento` e `gera` em reserva; chave de identidade sem tipo; estado `disponivel`; facções adiadas para a 1.1); anotado `img_080` para exercitar `obtido_em`; retirada do aval do orientador das pendências
 - Resultado: 53 arquivos de gabarito, 52 nós e 29 arestas no grafo, validação 0 problemas
 - Próximos passos: `docs/proximos-passos.md` (A1 a A4, depois o estudo de viabilidade)
+
+## Emenda 1: facção entra na ontologia (1.1) · 2026-10-08
+- Decidido: incluir o tipo `faccao` e o predicado `membro_de` (ontologia 1.1), revertendo o adiamento da decisão 002. Motivo: medição por OCR nas 64 screenshots que não são de tutorial mostrou nomes de facção em 11 telas (17%, piso); o "menos de 5%" anterior vinha só das observações do gabarito. Ainda não há extrator, então é o momento mais barato
+- Feito: `ontologia.json`, `schema.py` e `exportar_vault.py` atualizados; 4 facções em `entidades.json`; facções anotadas em 11 itens (2 relações `membro_de`); regra 14 no gabarito; validação 0 problemas; grafo de 56 nós e 31 arestas; vault com pasta `Faccoes/`; linha de base de entidades F1 0,87
+- Próximos passos: `docs/proximos-passos.md` (A1 a A4)
