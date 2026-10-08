@@ -93,3 +93,9 @@
 - Feito: recortes (legenda, HUD da missão, avisos) ampliados com filtros cinza, otsu e brilho; modos em `src/extracao/ocr.py`; `eval/cobertura_ocr.py` para medir o OCR sem dicionário; experimento de parâmetros do HUD; 6 modos comparados no registro `docs/estudo-viabilidade.md`
 - Resultado: cobertura de nomes no texto 0,81 → 0,89 (`rois_brilho`, 2,13 s por imagem); diálogo 0,53 → 0,87; missão 0,39 → 0,61; F1 com dicionário 0,76 → 0,78. Ampliar a imagem inteira sozinho piora. HUD segue fraco (título de ~10 px)
 - Próximo: B3a, extração estruturada por tipo de tela para tirar missão e decisão de 0,00
+
+## B3a: extração estruturada por tipo de tela · 2026-10-08
+- Feito: `src/extracao/estruturada.py` (missão pelo título do HUD, banner, diário, mapa e quadro de avisos; decisão pela opção de diálogo; consolidação no lote com sufixo "(missão)"); correção de grafia pelo dicionário; modo `estruturado` em `scripts/rodar_extracao.py`; ajustes em 5 iterações sobre as mesmas imagens
+- Resultado (50 screenshots): missão 0,00 → 0,89, decisão 0,00 → 1,00 (n = 3), F1 micro 0,76 → 0,84, média entre tipos 0,49 → 0,77; 3,08 s por imagem. Calibrado nas mesmas imagens (sem conjunto separado); checagem nas 47 imagens fora do gabarito coerente
+- Achado: `img_088` e `img_094` parecem ter missões não anotadas no gabarito (decisão do autor)
+- Próximo: B3b, LLM local sobre o texto para relações e itens

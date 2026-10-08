@@ -19,6 +19,7 @@ class Gazetteer:
         # termo normalizado -> nome canônico; termos longos primeiro evitam que "Peter Saar" vença "Peter Saar Gwynleve"
         termos = {norm(n): c for c, v in dados.items() for n in [c, *v.get("aliases", [])]}
         self.termos = dict(sorted(termos.items(), key=lambda x: -len(x[0])))
+        self.grafia = {norm(n): n for c, v in dados.items() for n in [c, *v.get("aliases", [])]}
 
     def buscar(self, texto: str, fuzzy: float = 0.0) -> dict[str, str]:
         """Devolve {canônico: trecho encontrado}. `fuzzy` é a razão mínima de similaridade (0 desliga)."""
@@ -43,3 +44,18 @@ class Gazetteer:
                         achados[canon] = janela
                         break
         return achados
+
+    def corrigir(self, texto: str, limiar: float = 0.85) -> str:
+        """Corrige erro de OCR em trechos que lembram um nome do dicionário (ex.: "Kaey Morhen" -> "Kaer Morhen")."""
+        palavras = texto.split()
+        for termo, canon in self.termos.items():
+            if len(termo) < 6:
+                continue
+            k = len(termo.split())
+            for i in range(len(palavras) - k + 1):
+                trecho = " ".join(palavras[i:i + k])
+                n = norm(trecho)
+                if n != termo and abs(len(n) - len(termo)) <= 2 and SequenceMatcher(None, n, termo).ratio() >= limiar:
+                    palavras[i:i + k] = [self.grafia.get(termo, canon)]
+                    break
+        return " ".join(palavras)

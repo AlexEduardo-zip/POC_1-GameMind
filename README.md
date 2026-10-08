@@ -13,7 +13,7 @@ POC I / MSI I · DCC/UFMG · Aluno: Alex Eduardo Alves dos Santos · Orientador:
 - **Próximos passos: `docs/proximos-passos.md` (fonte única das pendências, com critério de pronto)**
 - Feito em 2026-10-07: ferramentas instaladas (Tesseract com `por`, FFmpeg), 83 screenshots, 14 quadros de vídeo e 36 clipes coletados e catalogados em `data/raw/metadados.csv`, teste de fumaça de OCR registrado na decisão 001
 - Gabarito em `data/gabarito/`: 63 arquivos (50 screenshots e 13 clipes), **verificado pelo autor** (24 itens em 2026-10-07 e os 39 itens novos em 2026-10-08); 232 entidades, 44 relações, 60 nomes canônicos
-- Extrator de base pronto (B1): OCR + dicionário independente, F1 de entidades 0,76 nas 50 screenshots, relações 0; B2 (pré-processamento) feita: o texto lido passou a conter 89% dos nomes do gabarito (era 81%), e o gargalo agora é extrair missões, decisões e itens, que não estão em dicionário (B3a). Ver `docs/estudo-viabilidade.md`
+- Extrator de base pronto (B1): OCR + dicionário independente, F1 de entidades 0,76 nas 50 screenshots, relações 0; B2 (pré-processamento) e B3a (extração estruturada por tela) feitas: missão F1 0,89, decisão 1,00, entidades F1 micro 0,84 nas 50 screenshots (desenvolvimento, sem conjunto separado); faltam relações e itens (B3b) e o vídeo (B4). Ver `docs/estudo-viabilidade.md`
 
 ## Mapa do projeto
 | Caminho | O que é |
@@ -40,7 +40,7 @@ POC I / MSI I · DCC/UFMG · Aluno: Alex Eduardo Alves dos Santos · Orientador:
 | `scripts/validar_gabarito.py` | Valida o formato e os nomes do gabarito |
 | `scripts/baseline_ocr.py` | Linha de base com vazamento (dicionário vindo do gabarito); só referência |
 | `scripts/rodar_extracao.py` | Roda uma estratégia de extração e grava previsões em `eval/predicoes/` |
-| `src/extracao/` | OCR, pré-processamento (recortes e filtros) e busca de nomes em dicionário (B1 e B2) |
+| `src/extracao/` | OCR, pré-processamento, busca de nomes em dicionário e extração estruturada de missões e decisões (B1 a B3a) |
 | `eval/cobertura_ocr.py` | Mede o OCR sem dicionário: quantos nomes do gabarito aparecem no texto lido |
 | `data/gazetteer/` | Dicionário de nomes do jogo, independente do gabarito |
 | `docs/estudo-viabilidade.md` | Registro das rodadas do estudo de viabilidade |

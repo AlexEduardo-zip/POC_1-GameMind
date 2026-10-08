@@ -54,11 +54,34 @@ diálogo 0,53 → **0,87** · HUD 0,00 → 0,22 (0,56 com aproximação) · mapa
 5. **Escolhido: `rois_brilho`.** Melhor cobertura exata (0,89) com 2,1 s por imagem; `rois_mix` ganha só 0,01 na cobertura aproximada e custa quase o dobro.
 6. **Mapa (0,47) e escolhas (0,67) não melhoraram:** rótulos de mapa sobre o terreno e opções de diálogo pequenas pedem recorte próprio, que só vale a pena se a B4 mostrar que o vídeo não resolve.
 
+## B3a: extração estruturada por tipo de tela (2026-10-08)
+`src/extracao/estruturada.py` lê regiões fixas da interface e converte a estrutura em entidades que dicionário nenhum alcança, sem consultar o gabarito:
+- **Missão:** título em maiúsculas do HUD, banner "Missão completada/atualizada" (com o estado), lista de missões do diário (a linha com o nome da região logo abaixo é legenda, não missão), painel de missão rastreada do mapa e "Procurado:/Contrato:" do quadro de avisos (contrato ainda não aceito, estado `disponivel`).
+- **Decisão:** primeira opção de diálogo, só em tela de jogo (fora de menu, quadro e telas com "Voltar"), com checagem de que o texto é frase de verdade e correção de grafia pelo dicionário (ex.: "Kaey Morhen" vira "Kaer Morhen").
+- **Consolidação no lote:** junta variações de leitura do mesmo título (ex.: "KAERIMORHEN" e "Kaer Morhen"), prefere a grafia de banner e diário, recupera o artigo perdido ("O Monstro de...") quando uma fonte confiável o tem, aplica o sufixo "(missão)" quando o título coincide com um local (regra de identidade da ontologia) e **só aceita título vindo apenas do HUD se ele aparecer em 2 ou mais imagens** (texto de tutorial também sai em maiúsculas e gerava "Passando" e "Joias de Vida").
+- Roda por `python scripts/rodar_extracao.py --estrategia estruturado --modo estruturado`; soma o dicionário sobre o `rois_brilho` da B2.
+
+| Rodada | Precisão | Revocação | F1 micro | F1 média entre tipos | Missão | Decisão | Tempo por imagem |
+|---|---|---|---|---|---|---|---|
+| B1 `ocr_gazetteer` | 0,89 | 0,66 | 0,76 | 0,49 | 0,00 | 0,00 | 0,87 s |
+| B2 `rois_brilho` | 0,88 | 0,70 | 0,78 | 0,50 | 0,00 | 0,00 | 2,13 s |
+| **B3a `estruturado`** | **0,88** | **0,81** | **0,84** | **0,77** | **0,89** (P 0,85, R 0,94) | **1,00** (3 de 3) | **3,08 s** (50 imagens em 154,4 s, sequencial) |
+
+F1 por tipo de entidade (B3a): personagem 0,94 · criatura 0,96 · facção 0,80 · local 0,70 · missão 0,89 · decisão 1,00 · item 0,11. Por tipo de tela: glossário 0,98 · diário 0,89 · escolhas 0,91 · diálogo 0,83 · mapa 0,55 · HUD 0,53 · quadro de avisos (`outro`) 0,69 · item 0,44. Relações: 0.
+
+### Leituras
+1. **Missão e decisão saíram de 0,00:** missão 0,89 e decisão 1,00; a média entre tipos foi de 0,50 para 0,77 e o F1 micro de 0,78 para 0,84. O custo é 1 s a mais por imagem (3,08 s, só CPU).
+2. **Cuidado com o otimismo:** as regras foram calibradas olhando **estas mesmas 50 imagens**, sem conjunto separado, então os números são de desenvolvimento e provavelmente superestimam. A decisão tem **n = 3** (e usa a primeira opção, porque o cursor começa nela; nos 3 casos do gabarito a decisão também é a primeira, então isso não prova que generaliza). Como checagem leve, rodei o extrator nas 47 imagens **fora do gabarito**: as missões achadas fazem sentido (Kaer Morhen, Lilás e Groselha, O Monstro de Pomar Branco em HUD, diário e mapa; "Está combinado" no `img_087`), e as duas falhas vistas foram um prefixo "A" em "A Lilás e Groselha" (artigo inventado pelo OCR, que na rodada principal é corrigido pela consolidação) e os falsos positivos de tutorial, tratados pela regra de 2 imagens. Precisão em material novo continua sem medida; para medir, é preciso anotar telas novas.
+3. **Dois falsos positivos aparentes são omissões do gabarito:** `img_088` (diário com as duas missões na lista, anotada só a aberta) e `img_094` (mapa com a missão rastreada no painel, anotada só a de `img_092`). Se fossem anotadas, a precisão de missão subiria de 0,85 para 0,95. Ficam como estão até decisão do autor, já que o gabarito foi verificado.
+4. **Erro que sobra em missão:** "Uma Frigideira Nos Trinquese" (banner lido com um "e" a mais; o nome só aparece uma vez, então não há como corrigir por consolidação).
+5. **Ainda fraco:** item (0,11), local fora do dicionário (0,70), HUD (0,53) e mapa (0,55). Itens aparecem em tooltips de inventário e comida/ingredientes, sem dicionário; é o alvo natural da B3b (LLM sobre o texto) junto com as relações.
+6. **Limites declarados:** só imagens (os 13 clipes ficam para a B4), sem relações, e dependente da geometria 1920x1080 do jogo em pt-BR.
+
 ## Próximas rodadas
 | Etapa | O que testar | Esperado |
 |---|---|---|
 | ~~B2~~ | ~~Pré-processamento~~ (feito, ver acima) | cobertura 0,81 → 0,89; diálogo 0,53 → 0,87 |
-| **B3a (próximo)** | Extração estruturada por tipo de tela (título do HUD e do diário = missão, opções de diálogo = decisão), com casamento aproximado só para nomes de 2 ou mais palavras, usando `rois_brilho` | tirar missão e decisão de 0,00 |
-| B3b | LLM local (Ollama, 7–8B) sobre o texto do OCR, saída no formato de `src/schema.py` | relações e itens; medir tempo e VRAM |
+| ~~B3a~~ | ~~Extração estruturada por tipo de tela~~ (feito, ver acima) | missão 0,00 → 0,89; decisão 0,00 → 1,00 |
+| **B3b (próximo)** | LLM local (Ollama, 7–8B) sobre o texto do OCR, saída no formato de `src/schema.py` | relações (hoje 0) e itens (0,11); medir tempo e VRAM |
 | B4 | Vídeo: quadros a cada 1–2 s com o mesmo extrator, unindo por clipe | comparar com screenshot; cobrir os 13 clipes |
 | B5 | Combinação screenshot + vídeo | etapa final do estudo |
