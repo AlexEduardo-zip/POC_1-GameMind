@@ -37,3 +37,12 @@ def ocr_imagem(caminho: Path, lang: str = "por+eng", modo: str = "completo") -> 
     else:
         raise ValueError(f"modo desconhecido: {modo} (use um de {MODOS})")
     return "\n".join(textos), time.perf_counter() - t0
+
+
+def ocr_secoes(caminho: Path, lang: str = "por+eng", filtro: str = "brilho") -> dict[str, str]:
+    """OCR separado por região (tela inteira, legenda, hud, aviso), para dar contexto a um LLM."""
+    img = _ler(caminho)
+    secoes = {"tela": pytesseract.image_to_string(Image.open(caminho), lang=lang)}
+    for nome, roi in ROIS.items():
+        secoes[nome] = pytesseract.image_to_string(preparar(recortar(img, roi), filtro), lang=lang, config=f"--psm {PSM[nome]}")
+    return secoes

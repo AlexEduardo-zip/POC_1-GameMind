@@ -77,11 +77,45 @@ F1 por tipo de entidade (B3a): personagem 0,94 · criatura 0,96 · facção 0,80
 5. **Ainda fraco:** item (0,11), local fora do dicionário (0,70), HUD (0,53) e mapa (0,55). Itens aparecem em tooltips de inventário e comida/ingredientes, sem dicionário; é o alvo natural da B3b (LLM sobre o texto) junto com as relações.
 6. **Limites declarados:** só imagens (os 13 clipes ficam para a B4), sem relações, e dependente da geometria 1920x1080 do jogo em pt-BR.
 
+## B3b: relações e itens com LLM local (2026-10-08)
+**Arquitetura em cascata** (`src/extracao/llm.py`, `scripts/rodar_llm.py`): a B3a e o dicionário entram primeiro; o LLM recebe o texto lido da tela (tela inteira, legenda, HUD e avisos separados) e a lista do que já foi detectado, e devolve entidades e relações em JSON com esquema fixo (saída estruturada do Ollama). O back-end é plugável (`Backend`, hoje `OllamaBackend`; a IA pública entra como outra subclasse nas Semanas 8–10). A saída passa por `normalizar()`: nomes resolvidos pelo dicionário e pelos títulos já detectados, tipos e predicados validados pela ontologia (domínio e alcance) e pelos filtros abaixo. Modelos: `qwen2.5:7b` e `qwen2.5:3b` (Q4), Ollama 0.40.1, **GPU AMD RX 7600 via ROCm, 100% na GPU**, temperatura 0.
+
+Além do LLM, a B3b ganhou regras estruturais que não dependem dele: **item** pela ficha do inventário (título em maiúsculas seguido do tipo, como "SUCO DE MAÇÃ" / "COMESTÍVEIS"), item do dicionário só em linha de título (em minúsculas é o rótulo do equipamento em uso), **`ocorre_em`** pela legenda de região sob o título da missão no diário e **`participa_de`** pelo personagem citado no objetivo do HUD.
+
+### Iterações (mesmas 50 screenshots; o gabarito inclui a correção de `img_088` e `img_094`)
+| Versão | O que mudou | Entidades P / R / F1 | Relações P / R / F1 |
+|---|---|---|---|
+| Base (B3a + itens + relações estruturais, sem LLM) | | 0,92 / 0,83 / 0,87 | 0,78 / 0,18 / 0,29 |
+| v1 (7B) | prompt com a lista de nomes conhecidos, sem filtros | 0,58 / 0,88 / 0,70 | 0,19 / 0,13 / 0,15 |
+| v2 (7B) | sem lista de nomes, "lastro no texto" (entidade precisa estar na tela; item só em linha de título), rótulos de interface descartados | 0,80 / 0,87 / 0,84 | 0,31 / 0,33 / 0,32 |
+| **v3 (7B)** | só nome próprio (maiúscula inicial, fora de palavras comuns), nomes e relação a até 4 linhas de distância, `membro_de` só com indício de pertencimento, variações de grafia unificadas no lote, relações estruturais somadas | **0,91 / 0,87 / 0,89** | **0,52 / 0,38 / 0,44** |
+
+A v1 mostra o risco do LLM sozinho: com a lista de nomes no prompt ele inventou personagens e facções que não estavam na tela (Scoia'tael, Escola da Víbora, Triss) e rotulou equipamento como item (68 itens previstos, 10% de precisão). O que recuperou a precisão foi **exigir lastro no texto**, não o modelo.
+
+### Resultado final (v3) e comparação de modelos
+| | Entidades F1 | Relações P / R / F1 | Tempo por imagem (LLM) | VRAM |
+|---|---|---|---|---|
+| Base sem LLM | 0,87 | 0,78 / 0,18 / 0,29 | 3,1 s (OCR e regras) | só CPU |
+| **Base + qwen2.5:7b** | **0,89** | **0,52 / 0,38 / 0,44** | **7,8 s** (50 imagens em 393 s; 75 mil tokens de entrada, 12,7 mil de saída) | **4,42 GB** |
+| Base + qwen2.5:3b | 0,88 | 0,37 / 0,26 / 0,30 | 6,1 s (306 s) | 2,01 GB |
+| só o LLM 7B (sem a base) | 0,80 | 0,48 / 0,28 / 0,35 | 7,8 s | 4,42 GB |
+| só o LLM 3B (sem a base) | 0,58 | 0,21 / 0,10 / 0,14 | 6,1 s | 2,01 GB |
+
+Pipeline completo no 7B: cerca de **11 s por imagem** (3,1 s de OCR e regras mais 7,8 s do LLM; no teste o OCR roda duas vezes, e no produto seria uma). F1 por tipo de entidade (base + 7B): personagem 0,96 · criatura 0,92 · facção 0,91 · missão 0,95 · decisão 1,00 · local 0,73 · item 0,50 (média simples 0,85). Relações por predicado: `concede` 1,00 (1 caso) · `ocorre_em` 0,67 · `participa_de` 0,48 · `localizado_em` 0,40 · `relacionado_a` 0,31 · `membro_de`, `obtido_em`, `parte_de` 0,00.
+
+### Leituras
+1. **O LLM é a peça que traz relações, mas é pouco útil para entidades:** as entidades sobem de F1 0,87 para 0,89 e as relações de 0,29 para 0,44. Sozinho, o LLM 7B fica em 0,80 de F1 de entidades; a base faz a diferença.
+2. **7B contra 3B:** o 3B cabe em 2 GB de VRAM e é 22% mais rápido, e nas entidades da cascata quase empata (0,88 contra 0,89), mas **perde 14 pontos de F1 em relações** (0,30 contra 0,44). Se o objetivo for só entidades, o 3B basta; para relações vale o 7B. Os dois cabem folgados na RX 7600 de 8 GB.
+3. **Falta alcance, não só precisão:** a revocação de relações é 0,38. `obtido_em` (recompensa de missão) e `parte_de` ficam em zero: a recompensa vem em banner com texto que o OCR lê torto ("MACAASSADA X 5"), e `parte_de` pede conhecimento de hierarquia que a tela raramente afirma.
+4. **Cuidado com o otimismo:** prompt, filtros e regras foram ajustados em 3 iterações **sobre as mesmas 50 imagens e as mesmas relações do gabarito**. Não há conjunto separado; os números de v3 são de desenvolvimento. Para uma estimativa limpa, é preciso anotar telas novas e rodar sem mexer nas regras.
+5. **O gabarito de relações é pequeno** (46 relações) e várias vêm de inferência (mapa, assinatura de cartaz); uma relação a mais ou a menos mexe vários pontos.
+6. **Ainda não medido:** vídeo (B4), e a IA pública como back-end alternativo.
+
 ## Próximas rodadas
 | Etapa | O que testar | Esperado |
 |---|---|---|
 | ~~B2~~ | ~~Pré-processamento~~ (feito, ver acima) | cobertura 0,81 → 0,89; diálogo 0,53 → 0,87 |
 | ~~B3a~~ | ~~Extração estruturada por tipo de tela~~ (feito, ver acima) | missão 0,00 → 0,89; decisão 0,00 → 1,00 |
-| **B3b (próximo)** | LLM local (Ollama, 7–8B) sobre o texto do OCR, saída no formato de `src/schema.py` | relações (hoje 0) e itens (0,11); medir tempo e VRAM |
-| B4 | Vídeo: quadros a cada 1–2 s com o mesmo extrator, unindo por clipe | comparar com screenshot; cobrir os 13 clipes |
+| ~~B3b~~ | ~~LLM local sobre o texto do OCR~~ (feito, ver acima) | relações 0,29 → 0,44; itens 0,11 → 0,50 |
+| **B4 (próximo)** | Vídeo: quadros a cada 1–2 s com o mesmo extrator, unindo por clipe | comparar com screenshot; cobrir os 13 clipes |
 | B5 | Combinação screenshot + vídeo | etapa final do estudo |

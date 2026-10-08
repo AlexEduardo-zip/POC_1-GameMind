@@ -17,6 +17,9 @@ if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
 
 
+SIMETRICOS = {"relacionado_a"}  # igual a src/schema.py
+
+
 def norm(s):
     s = unicodedata.normalize("NFKD", s).encode("ascii", "ignore").decode()
     return " ".join(s.lower().split())
@@ -34,7 +37,12 @@ def mapa_aliases(entidades):
 def conjuntos(ann, m, com_tipo):
     c = lambda n: m.get(norm(n), norm(n))  # noqa: E731
     ents = {(c(e["nome"]), e["tipo"] if com_tipo else "") for e in ann.get("entidades", [])}
-    rels = {(c(r["sujeito"]), r["predicado"], c(r["objeto"])) for r in ann.get("relacoes", [])}
+    def rel(r):
+        a, b = c(r["sujeito"]), c(r["objeto"])
+        if r["predicado"] in SIMETRICOS and a > b:  # (A, B) e (B, A) são a mesma relação
+            a, b = b, a
+        return (a, r["predicado"], b)
+    rels = {rel(r) for r in ann.get("relacoes", [])}
     return ents, rels
 
 

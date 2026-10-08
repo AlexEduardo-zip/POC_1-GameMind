@@ -99,3 +99,8 @@
 - Resultado (50 screenshots): missão 0,00 → 0,89, decisão 0,00 → 1,00 (n = 3), F1 micro 0,76 → 0,84, média entre tipos 0,49 → 0,77; 3,08 s por imagem. Calibrado nas mesmas imagens (sem conjunto separado); checagem nas 47 imagens fora do gabarito coerente
 - Achado: `img_088` e `img_094` parecem ter missões não anotadas no gabarito (decisão do autor)
 - Próximo: B3b, LLM local sobre o texto para relações e itens
+
+## B3b: relações e itens com LLM local · 2026-10-08
+- Feito: gabarito corrigido (`img_088`, `img_094`: omissões apontadas pela B3a); Ollama configurado com a RX 7600 (ROCm, 100% GPU) e os modelos qwen2.5:7b e 3b; `src/extracao/llm.py` (back-end plugável, esquema JSON, normalização e filtros), `scripts/rodar_llm.py`; itens pela ficha do inventário e relações estruturais (`ocorre_em`, `participa_de`) na base; avaliador passou a tratar `relacionado_a` como simétrico; 3 iterações de prompt e filtros sobre as mesmas imagens
+- Resultado (base + 7B): entidades F1 0,87 → 0,89, relações 0,29 → 0,44, itens 0,11 → 0,50; 7,8 s por imagem e 4,42 GB de VRAM; o 3B (2,01 GB, 6,1 s) mantém as entidades (0,88) mas cai em relações (0,30). Sem conjunto separado: números de desenvolvimento
+- Próximo: B4, vídeo (quadros por clipe com o mesmo pipeline)

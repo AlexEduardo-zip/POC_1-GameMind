@@ -38,6 +38,13 @@
       "nome": "Nilfgaard",
       "tipo": "faccao",
       "evidencia": "objetivo: \"Pergunte ao povo de Nilfgaard sobre a Yennefer\""
+    },
+    {
+      "nome": "O Monstro de Pomar Branco",
+      "tipo": "missao",
+      "subtipo": "principal",
+      "estado": "ativa",
+      "evidencia": "lista de missões principais: \"O monstro de Pomar Branco / Pomar Branco\""
     }
   ],
   "relacoes": [
@@ -52,7 +59,13 @@
       "predicado": "participa_de",
       "objeto": "Lilás e Groselha",
       "evidencia": "objetivo: \"Siga o Vesemir\""
+    },
+    {
+      "sujeito": "O Monstro de Pomar Branco",
+      "predicado": "ocorre_em",
+      "objeto": "Pomar Branco",
+      "evidencia": "legenda sob o título na lista: Pomar Branco"
     }
   ],
-  "observacoes": "Quadro do vid_034."
+  "observacoes": "Quadro do vid_034. Corrigido em 2026-10-08: a lista também mostra O Monstro de Pomar Branco (omitido antes)."
 }

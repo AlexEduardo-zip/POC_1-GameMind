@@ -32,6 +32,13 @@ RUIDO_HUD = {"por perto", "perto", "limpo", "chovendo", "nublado"}
 CABECALHOS_DIARIO = {"missoes principais", "missoes secundarias", "missoes", "completa", "principais", "secundarias", "caca ao tesouro", "contratos"}
 
 
+# rótulos da interface do jogo que nomeiam o tipo do item na ficha (tooltip) do inventário
+TIPOS_FICHA = ("comestiveis", "ingrediente alquimico", "outros", "pocao", "bomba", "arma", "armadura", "livro", "carta", "oleo",
+               "item de missao", "ingrediente", "formula", "diagrama")
+VOCAB_MENU = {"itens de missao", "glossario", "inventario", "alquimia", "missoes", "personagem", "meditacao", "mapa do mundo",
+              "vitalidade", "toxicidade", "nivel", "armas", "armadura", "outros", "comestiveis", "carpeado", "bombas", "oleos"}
+
+
 @dataclass
 class Cand:
     nome: str
@@ -39,6 +46,14 @@ class Cand:
     fonte: str          # hud, banner, diario, mapa, quadro, opcoes
     estado: str = ""
     subtipo: str = ""
+    evidencia: str = ""
+
+
+@dataclass
+class Rel:
+    sujeito: object      # Cand (nome ainda por consolidar) ou str
+    predicado: str
+    objeto: object
     evidencia: str = ""
 
 
@@ -105,19 +120,23 @@ def caso_titulo(toks: list[str]) -> str:
     return " ".join(out)
 
 
-def _lugar(nome: str, gaz) -> bool:
-    """O nome é o de um local do dicionário, com no máximo uma palavra de ruído antes ("Ven Pomar Branco")."""
+def _lugar_canon(nome: str, gaz) -> str | None:
+    """Nome canônico do local do dicionário a que `nome` corresponde, com no máximo uma palavra de ruído antes."""
     k = norm(nome)
     for c in gaz.tipo:
         if gaz.tipo[c] != "local":
             continue
         p = norm(c)
         if SequenceMatcher(None, k, p).ratio() >= 0.9:
-            return True
+            return c
         resto = k[: max(len(k) - len(p), 0)].split()
         if len(resto) <= 1 and SequenceMatcher(None, k[len(k) - len(p):], p).ratio() >= 0.9 and k != p:
-            return True
-    return False
+            return c
+    return None
+
+
+def _lugar(nome: str, gaz) -> bool:
+    return _lugar_canon(nome, gaz) is not None
 
 
 def _cabecalho(k: str) -> bool:
@@ -132,20 +151,28 @@ def _plausivel(texto: str) -> bool:
     return len(toks) >= 2 and len(boas) / len(toks) >= 0.8 and bool(re.search(r"[.?!…]\s*$", texto.strip()))
 
 
-def candidatos(img: np.ndarray, texto: str, gaz) -> list[Cand]:
-    """Candidatos de missão e decisão de uma imagem. `texto` é o OCR completo (decide o tipo de tela)."""
+def candidatos(img: np.ndarray, texto: str, gaz) -> tuple[list[Cand], list[Rel]]:
+    """Candidatos de missão, decisão e item de uma imagem, e as relações que a estrutura da tela afirma.
+    `texto` é o OCR completo (decide o tipo de tela)."""
     n = norm(texto)
     # barra superior dos menus (glossário, alquimia, inventário, mapa, missões, personagem, meditação)
     barra = sum(p in n for p in ("glossario", "alquimia", "inventario", "personagem", "meditacao", "missoes"))
     menu = barra >= 3 or (barra >= 1 and "voltar" in n)
     out: list[Cand] = []
+    rels: list[Rel] = []
 
     # 1) título da missão no HUD (fora dos menus): primeira linha em maiúsculas
     if not menu:
-        for l in linhas(img, "hud"):
+        ls = linhas(img, "hud")
+        for i, l in enumerate(ls):
             t = titulo_maiusculo(l["texto"])
             if t:
-                out.append(Cand(caso_titulo(t), "missao", "hud", "ativa", "", f"HUD: '{l['texto']}'"))
+                cand = Cand(caso_titulo(t), "missao", "hud", "ativa", "", f"HUD: '{l['texto']}'")
+                out.append(cand)
+                objetivo = " ".join(x["texto"] for x in ls[i + 1:i + 3])  # o objetivo vem logo abaixo do título
+                for nome in gaz.buscar(objetivo):
+                    if gaz.tipo[nome] == "personagem":
+                        rels.append(Rel(nome, "participa_de", cand, f"objetivo do HUD: '{objetivo.strip()}'"))
                 break
 
     # 2) banner "MISSÃO COMPLETADA!" / "MISSÃO ATUALIZADA!" / "NOVA MISSÃO" seguido do título
@@ -162,16 +189,20 @@ def candidatos(img: np.ndarray, texto: str, gaz) -> list[Cand]:
 
     # 3) diário: lista de missões à esquerda (título seguido da região, que é legenda e não missão)
     if "missoes principais" in n:
-        anterior = ""
+        anterior, ultima = "", None
         for l in linhas(img, "diario"):
             t = " ".join(_tokens(l["texto"]))
             k = norm(t)
-            if len(re.sub(r"[^a-z]", "", k)) < 6 or _cabecalho(k) or k == anterior:
+            if len(re.sub(r"[^a-z]", "", k)) < 6 or _cabecalho(k):
                 continue
-            if _lugar(t, gaz) and anterior:
-                continue  # legenda com o nome da região sob o título
+            lugar = _lugar_canon(t, gaz)
+            if (k == anterior or (lugar and anterior)) and ultima is not None:
+                if lugar:  # legenda com o nome da região sob o título: a missão ocorre nesse local
+                    rels.append(Rel(ultima, "ocorre_em", lugar, f"diário: legenda '{l['texto']}'"))
+                continue
             anterior = k
-            out.append(Cand(caso_titulo(sem_ruido_inicial(t.split())), "missao", "diario", "ativa", "principal", f"diário: '{l['texto']}'"))
+            ultima = Cand(caso_titulo(sem_ruido_inicial(t.split())), "missao", "diario", "ativa", "principal", f"diário: '{l['texto']}'")
+            out.append(ultima)
 
     # 4) painel da missão rastreada no mapa: o título vem logo depois da linha "Mudar missão rastreada"
     ls = linhas(img, "mapa")
@@ -200,6 +231,25 @@ def candidatos(img: np.ndarray, texto: str, gaz) -> list[Cand]:
             nome = re.sub(r"^\W*(?:[A-Za-z]{1,2}\W+\d\s*[.)]?\s*|\d\s*[.)]?\s*)?[^A-Za-zÀ-ÿ]*", "", ls[0]["texto"]).strip(" .…?!")
             nome = gaz.corrigir(nome)
             out.append(Cand(nome[0].upper() + nome[1:], "decisao", "opcoes", "", "opção de diálogo", f"opções: '{ls[0]['texto']}'"))
+    out.extend(itens_ficha(texto))
+    return out, rels
+
+
+def itens_ficha(texto_tela: str) -> list[Cand]:
+    """Item em destaque no inventário: linha de título em maiúsculas seguida da linha com o tipo do item
+    ("SUCO DE MAÇÃ" / "COMESTÍVEIS"). Equipamento em uso e atributos não têm esse par e ficam de fora."""
+    ls = [l.strip() for l in texto_tela.splitlines() if l.strip()]
+    out = []
+    for i in range(1, len(ls)):
+        k = " ".join(w for w in norm(ls[i]).split() if len(w) > 1)
+        if not any(k == t or k.startswith(t + " ") for t in TIPOS_FICHA) or len(k.split()) > 3:
+            continue
+        t = titulo_maiusculo(ls[i - 1])
+        titulo = " ".join(t) if t else ""
+        kt = norm(titulo)
+        if not titulo or kt in VOCAB_MENU or any(kt.startswith(m) for m in ("itens de", "glossario", "inventario")) or len(kt.split()) > 6:
+            continue
+        out.append(Cand(caso_titulo(t), "item", "ficha", "", "", f"ficha: '{ls[i - 1]}' / '{ls[i]}'"))
     return out
 
 
@@ -207,7 +257,8 @@ def _chave(nome: str) -> str:
     return re.sub(r"[^a-z]", "", norm(nome))
 
 
-def consolidar(por_item: dict[str, list[Cand]], gaz, limiar: float = 0.8) -> dict[str, list[Cand]]:
+def consolidar(por_item: dict[str, list[Cand]], gaz, rels_item: dict[str, list[Rel]] | None = None,
+               limiar: float = 0.8) -> tuple[dict[str, list[Cand]], dict[str, list[dict]]]:
     """Junta no lote as variações de leitura do mesmo nome e aplica o sufixo "(missão)" quando o título
     coincide com o nome de um local (ontologia: nomes iguais de tipos diferentes se desambiguam)."""
     todos = [(item, c) for item, cs in por_item.items() for c in cs]
@@ -242,6 +293,7 @@ def consolidar(por_item: dict[str, list[Cand]], gaz, limiar: float = 0.8) -> dic
         for _, c in g:
             canon[id(c)] = melhor
     aceitos = set(canon)
+    final: dict[int, str] = {}
     saida: dict[str, list[Cand]] = {}
     for item, cs in por_item.items():
         vistos, lista = set(), []
@@ -251,9 +303,20 @@ def consolidar(por_item: dict[str, list[Cand]], gaz, limiar: float = 0.8) -> dic
             nome = canon.get(id(c), c.nome)
             if c.tipo == "missao" and c.fonte != "quadro" and _lugar(nome, gaz):
                 nome = f"{nome} (missão)"
+            final[id(c)] = nome
             if (nome, c.tipo) in vistos:
                 continue
             vistos.add((nome, c.tipo))
             lista.append(Cand(nome, c.tipo, c.fonte, c.estado, c.subtipo, c.evidencia))
         saida[item] = lista
-    return saida
+    rels_out: dict[str, list[dict]] = {}
+    for item, rs in (rels_item or {}).items():
+        lista_r, vistas = [], set()
+        for r in rs:
+            sj = final.get(id(r.sujeito)) if isinstance(r.sujeito, Cand) else r.sujeito
+            ob = final.get(id(r.objeto)) if isinstance(r.objeto, Cand) else r.objeto
+            if sj and ob and (sj, r.predicado, ob) not in vistas:
+                vistas.add((sj, r.predicado, ob))
+                lista_r.append({"sujeito": sj, "predicado": r.predicado, "objeto": ob, "evidencia": r.evidencia})
+        rels_out[item] = lista_r
+    return saida, rels_out

@@ -14,3 +14,4 @@ eval/predicoes/
 eval/resultados*.csv
 .obsidian/
 eval/quebras*.csv
+eval/cache_ocr/

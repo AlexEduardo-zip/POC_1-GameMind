@@ -11,6 +11,13 @@
       "nome": "Vila Saqueada",
       "tipo": "local",
       "evidencia": "tooltip: \"VILA SAQUEADA\""
+    },
+    {
+      "nome": "O Monstro de Pomar Branco",
+      "tipo": "missao",
+      "subtipo": "principal",
+      "estado": "ativa",
+      "evidencia": "painel da missão rastreada: \"O monstro de Pomar Branco\""
     }
   ],
   "relacoes": [
@@ -19,7 +26,13 @@
       "predicado": "parte_de",
       "objeto": "Pomar Branco",
       "evidencia": "tooltip da vila dentro da região Pomar Branco"
+    },
+    {
+      "sujeito": "O Monstro de Pomar Branco",
+      "predicado": "ocorre_em",
+      "objeto": "Pomar Branco",
+      "evidencia": "missão rastreada dentro da região Pomar Branco"
     }
   ],
-  "observacoes": "Quadro do vid_029. Relação inferida da região."
+  "observacoes": "Quadro do vid_029. Relação inferida da região. Corrigido em 2026-10-08: o painel da missão rastreada estava sem anotação (relação inferida do mapa, como em img_092)."
 }

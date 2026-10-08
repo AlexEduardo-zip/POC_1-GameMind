@@ -15,7 +15,7 @@ from pathlib import Path
 RAIZ = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(RAIZ / "src"))
 from extracao.estruturada import candidatos, consolidar  # noqa: E402
-from extracao.gazetteer import Gazetteer  # noqa: E402
+from extracao.gazetteer import Gazetteer, norm  # noqa: E402
 from extracao.ocr import _ler, ocr_imagem  # noqa: E402
 
 ap = argparse.ArgumentParser()
@@ -48,18 +48,21 @@ def processa(gm):
     midia = gm[1]
     texto, dt = ocr_imagem(midia, a.lang, "rois_brilho" if estruturado else a.modo)
     t0 = time.perf_counter()
-    cands = candidatos(_ler(midia), texto, gaz) if estruturado else []
+    cands = candidatos(_ler(midia), texto, gaz) if estruturado else ([], [])
     return texto, dt + time.perf_counter() - t0, cands
 
 
 t0 = time.perf_counter()
 with ThreadPoolExecutor(max_workers=a.workers) as ex:
     res = list(ex.map(processa, itens))
-cands = consolidar({g.stem: r[2] for (g, _), r in zip(itens, res)}, gaz) if estruturado else {}
+cands, rels = consolidar({g.stem: r[2][0] for (g, _), r in zip(itens, res)}, gaz, {g.stem: r[2][1] for (g, _), r in zip(itens, res)}) if estruturado else ({}, {})
 
 tempos = {}
 for (g, midia), (texto, dt, _) in zip(itens, res):
     achados = gaz.buscar(texto, a.fuzzy)
+    # item do dicionário só vale em linha de título (maiúsculas): em minúsculas é o rótulo do equipamento em uso
+    caixa_alta = [norm(l) for l in texto.splitlines() if sum(c.isalpha() for c in l) >= 4 and sum(c.isupper() for c in l) >= 0.7 * sum(c.isalpha() for c in l)]
+    achados = {c: t for c, t in achados.items() if gaz.tipo[c] != "item" or any(norm(t) in l for l in caixa_alta)}
     ents = [{"nome": c, "tipo": gaz.tipo[c], "evidencia": f"OCR: '{t}'"} for c, t in achados.items()]
     for c in cands.get(g.stem, []):
         if not any(e["nome"] == c.nome and e["tipo"] == c.tipo for e in ents):
@@ -69,7 +72,7 @@ for (g, midia), (texto, dt, _) in zip(itens, res):
             if c.estado:
                 e["estado"] = c.estado
             ents.append(e)
-    pred = {"arquivo": midia.name, "tipo_tela": "outro", "entidades": ents, "relacoes": [], "observacoes": ""}
+    pred = {"arquivo": midia.name, "tipo_tela": "outro", "entidades": ents, "relacoes": rels.get(g.stem, []), "observacoes": ""}
     (saida / g.name).write_text(json.dumps(pred, ensure_ascii=False, indent=2), encoding="utf-8")
     tempos[g.stem] = round(dt, 2)
     (texto_dir / f"{g.stem}.txt").write_text(texto, encoding="utf-8")
