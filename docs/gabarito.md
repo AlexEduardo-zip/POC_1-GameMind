@@ -107,6 +107,12 @@ Para alimentar o grafo e testar mais tipos de tela, foram anotados 28 itens do m
 | Mapa | `img_092`, `img_094` |
 | Cutscene | `img_096` |
 
-Total do gabarito: 54 arquivos (com `img_080` e `img_071`), 202 entidades, 39 relações, 56 nomes canônicos em `entidades.json`; `validar_gabarito.py` com 0 problemas. Facções reanotadas em 11 itens (ontologia 1.1, regra 14).
+Total do gabarito: 63 arquivos (com `img_080`, `img_071` e 9 clipes novos), 232 entidades, 44 relações, 60 nomes canônicos em `entidades.json`; `validar_gabarito.py` com 0 problemas. Facções reanotadas em 11 itens (ontologia 1.1, regra 14).
 
 `img_080_exploracao` (2026-10-08, rascunho a verificar): tela de missão completada com recompensas; é o único item que exercita `obtido_em` e `estado: concluida`. Total: 53 arquivos, 190 entidades, 37 relações.
+
+**Clipes novos (2026-10-08, rascunho a verificar):** `vid_029` (mapa), `vid_030`, `vid_031`, `vid_032`, `vid_033`, `vid_037` (diálogo), `vid_034` (diário), `vid_035` (diálogo sem entidade nomeada, controle) e `vid_036` (missão atualizada). Atenção: em `vid_033` Geralt aparece sem nome escrito, o que viola a regra 9 se aplicada à risca; está marcado nas observações.
+O roteiro de verificação por sorteio está em `docs/verificacao-gabarito.md`.
+
+## Relatório da avaliação (eval/avaliar.py)
+Além do total (micro, sem elementos em reserva), o avaliador imprime a quebra por tipo de entidade, por predicado e por tipo de tela, com a média simples entre tipos, e relata `evento` e `gera` à parte. `--csv-quebras arquivo.csv` grava as quebras e `--sem-quebras` imprime só o total. Sempre reporte o micro junto com a média simples: o glossário tem muitas anotações repetidas de personagem e domina o micro.

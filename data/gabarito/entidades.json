@@ -232,7 +232,9 @@
   "Nilfgaard": {
     "tipo": "faccao",
     "aliases": [
-      "Império Nilfgaardiano"
+      "Império Nilfgaardiano",
+      "Nilfgaardianos",
+      "nilfgaardianos"
     ]
   },
   "Caçada Selvagem": {
@@ -247,6 +249,24 @@
   },
   "Escola do Lobo": {
     "tipo": "faccao",
+    "aliases": []
+  },
+  "Nenneke": {
+    "tipo": "personagem",
+    "aliases": [
+      "Madre Nenneke"
+    ]
+  },
+  "Goslav": {
+    "tipo": "personagem",
+    "aliases": []
+  },
+  "Templo de Melitele": {
+    "tipo": "local",
+    "aliases": []
+  },
+  "Ellander": {
+    "tipo": "local",
     "aliases": []
   }
 }

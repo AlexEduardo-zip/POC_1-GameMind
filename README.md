@@ -12,7 +12,7 @@ POC I / MSI I · DCC/UFMG · Aluno: Alex Eduardo Alves dos Santos · Orientador:
 - Captura: pt-BR; resolução, formato e ferramenta são só guia (desvios registrados em `data/raw/metadados.csv`)
 - **Próximos passos: `docs/proximos-passos.md` (fonte única das pendências, com critério de pronto)**
 - Feito em 2026-10-07: ferramentas instaladas (Tesseract com `por`, FFmpeg), 83 screenshots, 14 quadros de vídeo e 36 clipes coletados e catalogados em `data/raw/metadados.csv`, teste de fumaça de OCR registrado na decisão 001
-- Gabarito em `data/gabarito/`: 24 itens verificados pelo autor (20 screenshots e 4 clipes) e 30 itens novos de 2026-10-07 e 08 (rascunho de IA, **a verificar**, incluindo a reanotação de facções); 54 arquivos, 202 entidades, 39 relações, 56 nomes canônicos
+- Gabarito em `data/gabarito/`: 24 itens verificados pelo autor (20 screenshots e 4 clipes) e 39 itens novos de 2026-10-07 e 08 (30 imagens e 9 clipes, rascunho de IA, **a verificar**: roteiro em `docs/verificacao-gabarito.md`); 63 arquivos, 232 entidades, 44 relações, 60 nomes canônicos
 - Ainda não existe extrator em `src/`; o estudo de viabilidade (Semanas 5–7) começa depois de fechar a coleta e congelar a ontologia
 
 ## Mapa do projeto
@@ -43,7 +43,8 @@ POC I / MSI I · DCC/UFMG · Aluno: Alex Eduardo Alves dos Santos · Orientador:
 | `src/ontologia.json` | Ontologia legível por máquina (tipos, domínio e alcance) |
 | `src/grafo.py` | Funde as anotações em um grafo único (nomes canônicos, fontes, ordem de aparição) |
 | `src/exportar_vault.py` | Protótipo do exportador para vault do Obsidian |
-| `eval/avaliar.py` | Calcula precisão, revocação e F1 contra o gabarito |
+| `eval/avaliar.py` | Calcula precisão, revocação e F1 contra o gabarito (total e por tipo de entidade, predicado e tipo de tela) |
+| `docs/verificacao-gabarito.md` | Roteiro de verificação por sorteio do gabarito novo |
 | `data/raw/` | Screenshots e vídeos (não versionados); `metadados.csv` cataloga cada arquivo |
 | `data/gabarito/` | Anotações do gabarito real (24 JSON + `entidades.json`, verificados); `exemplo/` com 4 itens de demonstração |
 | `eval/exemplo_pred/` | Previsões de exemplo para testar o avaliador |

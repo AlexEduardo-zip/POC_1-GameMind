@@ -105,3 +105,6 @@ Com 28 itens novos anotados (rascunho, a verificar), a linha de base nas 48 scre
 
 ### Atualização (2026-10-08, ontologia 1.1)
 Com as facções anotadas (ontologia 1.1, decisão 002 emenda 1), a linha de base nas 50 screenshots do gabarito deu **entidades precisão 0,94, revocação 0,81, F1 0,87; relações 0**; 44,6 s. O grafo tem **56 nós e 31 arestas** e o vault de `vault_output/` ganhou a pasta `Faccoes/` (4 notas) e tem 56 notas.
+
+### Atualização (2026-10-08, quebra por tipo)
+O avaliador passou a reportar F1 por tipo de entidade, por predicado e por tipo de tela (tabela em `docs/proximos-passos.md`). O gabarito tem agora 63 arquivos (9 clipes novos), mas a linha de base só processa imagens, então os números das 50 screenshots seguem iguais: micro F1 0,87 e média simples entre tipos 0,82; fracos em missão (0,54) e item (0,67); grafo de 60 nós e 32 arestas.

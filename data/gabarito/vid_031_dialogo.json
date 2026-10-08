@@ -1,0 +1,24 @@
+{
+  "arquivo": "vid_031_dialogo.mp4",
+  "tipo_tela": "dialogo",
+  "entidades": [
+    {
+      "nome": "Cáscara",
+      "tipo": "item",
+      "subtipo": "ingrediente",
+      "evidencia": "0:22 legenda: \"Estou procurando por cáscara\""
+    },
+    {
+      "nome": "Peter Saar Gwynleve",
+      "tipo": "personagem",
+      "evidencia": "0:52 legenda: \"Capitão Peter Saar... e outros nomes que esqueci\""
+    },
+    {
+      "nome": "Afogador",
+      "tipo": "criatura",
+      "evidencia": "0:42 legenda: \"afogadores sob a ponte\""
+    }
+  ],
+  "relacoes": [],
+  "observacoes": "Rascunho a verificar. Tempos aproximados (±2 s). Herbalista sem nome na tela. Citação \"Capitão Peter Saar\" truncada na fala; nome completo é o do dicionário."
+}

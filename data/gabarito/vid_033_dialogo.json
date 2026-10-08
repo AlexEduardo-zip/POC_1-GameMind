@@ -1,0 +1,28 @@
+{
+  "arquivo": "vid_033_dialogo.mp4",
+  "tipo_tela": "dialogo",
+  "entidades": [
+    {
+      "nome": "Goslav",
+      "tipo": "personagem",
+      "evidencia": "0:03 legenda: \"Havia um menino... Goslav\""
+    },
+    {
+      "nome": "Nenneke",
+      "tipo": "personagem",
+      "evidencia": "0:12 legenda: \"Nenneke se recusou a me aceitar de volta\""
+    },
+    {
+      "nome": "Grifo",
+      "tipo": "criatura",
+      "evidencia": "0:32 legenda: \"O grifo fez isso com ela?\""
+    },
+    {
+      "nome": "Geralt de Rívia",
+      "tipo": "personagem",
+      "evidencia": "0:32 quadro com Geralt falando, sem rótulo de nome"
+    }
+  ],
+  "relacoes": [],
+  "observacoes": "Rascunho a verificar. Tempos aproximados (±2 s). ATENÇÃO regra 9: Geralt não tem nome escrito neste clipe; anotação duvidosa, remover se a regra for aplicada à risca."
+}

@@ -1,0 +1,13 @@
+{
+  "arquivo": "vid_037_dialogo.mp4",
+  "tipo_tela": "dialogo",
+  "entidades": [
+    {
+      "nome": "Nilfgaard",
+      "tipo": "faccao",
+      "evidencia": "0:22 legenda: \"não mencione isso aos nilfgaardianos\""
+    }
+  ],
+  "relacoes": [],
+  "observacoes": "Rascunho a verificar. Tempos aproximados (±2 s). Velha sem nome na tela."
+}

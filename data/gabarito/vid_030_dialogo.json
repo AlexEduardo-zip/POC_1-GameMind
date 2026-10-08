@@ -1,0 +1,20 @@
+{
+  "arquivo": "vid_030_dialogo.mp4",
+  "tipo_tela": "dialogo",
+  "entidades": [
+    {
+      "nome": "O Monstro de Pomar Branco",
+      "tipo": "missao",
+      "subtipo": "principal",
+      "estado": "ativa",
+      "evidencia": "HUD amarelo: \"O MONSTRO DE POMAR BRANCO\""
+    },
+    {
+      "nome": "Nilfgaard",
+      "tipo": "faccao",
+      "evidencia": "0:52 legenda: \"Os nilfgaardianos não me pagam uma moeda\""
+    }
+  ],
+  "relacoes": [],
+  "observacoes": "Rascunho a verificar. Tempos aproximados (±2 s). Ferreiro sem nome na tela (regra 9). Legendas sem rótulo de falante."
+}

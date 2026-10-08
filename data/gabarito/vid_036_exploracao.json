@@ -1,0 +1,26 @@
+{
+  "arquivo": "vid_036_exploracao.mp4",
+  "tipo_tela": "hud",
+  "entidades": [
+    {
+      "nome": "Uma frigideira nos trinques",
+      "tipo": "missao",
+      "estado": "ativa",
+      "evidencia": "0:22 banner: \"MISSÃO ATUALIZADA! UMA FRIGIDEIRA NOS TRINQUES\""
+    },
+    {
+      "nome": "O Monstro de Pomar Branco",
+      "tipo": "missao",
+      "subtipo": "principal",
+      "estado": "ativa",
+      "evidencia": "HUD amarelo: \"O MONSTRO DE POMAR BRANCO\""
+    },
+    {
+      "nome": "Geralt de Rívia",
+      "tipo": "personagem",
+      "evidencia": "0:22 legenda: \"Geralt: A garganta dele foi esgoelada...\""
+    }
+  ],
+  "relacoes": [],
+  "observacoes": "Rascunho a verificar. Tempos aproximados (±2 s). Caso de missão atualizada. Tutorial \"Destruir objetos\" (0:03) não anotado."
+}

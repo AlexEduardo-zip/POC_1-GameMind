@@ -112,7 +112,7 @@ Relações entre facções (aliança, guerra, hierarquia), atributos de combate 
 7. Facção entra como tipo, com `membro_de` como único predicado novo (emenda 1.1 da decisão 002, 2026-10-08).
 
 ## Validação (feita em 2026-10-08)
-- Gabarito com 54 arquivos anotados com esta ontologia. Com facções incluídas, sobra fora de escopo só Gwent, cartas e categorias do bestiário, em menos de 3% do conteúdo (limite de revisão: 10%).
+- Gabarito com 63 arquivos anotados com esta ontologia (inclui clipes novos). Com facções incluídas, sobra fora de escopo só Gwent, cartas e categorias do bestiário, em menos de 3% do conteúdo (limite de revisão: 10%).
 - `python scripts/validar_gabarito.py data/gabarito`: 0 problemas (tipos, nomes e domínio e alcance dos predicados).
 - Das 7 perguntas do jogador, 6 são respondidas pelo grafo; "o que isso gerou?" só até a decisão, por não haver consequência na tela.
 

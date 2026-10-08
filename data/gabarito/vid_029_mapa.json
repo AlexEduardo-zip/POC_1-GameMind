@@ -1,0 +1,42 @@
+{
+  "arquivo": "vid_029_mapa.mp4",
+  "tipo_tela": "mapa",
+  "entidades": [
+    {
+      "nome": "Guarnição Nilfgaardiana",
+      "tipo": "local",
+      "evidencia": "0:13 título de local na tela: \"GUARNIÇÃO NILFGAARDIANA\""
+    },
+    {
+      "nome": "O Monstro de Pomar Branco",
+      "tipo": "missao",
+      "subtipo": "principal",
+      "estado": "ativa",
+      "evidencia": "HUD amarelo: \"O MONSTRO DE POMAR BRANCO\""
+    },
+    {
+      "nome": "Pomar Branco",
+      "tipo": "local",
+      "evidencia": "Mapa do Mundo, região no canto: POMAR BRANCO"
+    },
+    {
+      "nome": "Vila Saqueada",
+      "tipo": "local",
+      "evidencia": "0:49 tooltip do mapa: \"VILA SAQUEADA\""
+    },
+    {
+      "nome": "Ponte da Canção do Desalento",
+      "tipo": "local",
+      "evidencia": "0:43 tooltip do mapa: \"PONTE DA CANÇÃO DO DESALENTO\""
+    }
+  ],
+  "relacoes": [
+    {
+      "sujeito": "O Monstro de Pomar Branco",
+      "predicado": "ocorre_em",
+      "objeto": "Pomar Branco",
+      "evidencia": "marcador da missão dentro da região no mapa"
+    }
+  ],
+  "observacoes": "Rascunho a verificar. Tempos aproximados (±2 s). Exploração, bancada de alquimia (bombas Colmeia e Samum, não anotadas) e Mapa do Mundo. Relação inferida do mapa."
+}

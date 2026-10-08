@@ -1,0 +1,35 @@
+{
+  "arquivo": "vid_032_dialogo.mp4",
+  "tipo_tela": "dialogo",
+  "entidades": [
+    {
+      "nome": "Grifo",
+      "tipo": "criatura",
+      "evidencia": "0:03 legenda: \"esperar o grifo atacar de novo\""
+    },
+    {
+      "nome": "Templo de Melitele",
+      "tipo": "local",
+      "evidencia": "0:32 legenda: \"Templo de Melitele em Ellander\""
+    },
+    {
+      "nome": "Ellander",
+      "tipo": "local",
+      "evidencia": "0:32 legenda: \"Templo de Melitele em Ellander\""
+    },
+    {
+      "nome": "Nenneke",
+      "tipo": "personagem",
+      "evidencia": "0:42 legenda: \"com Madre Nenneke\""
+    }
+  ],
+  "relacoes": [
+    {
+      "sujeito": "Templo de Melitele",
+      "predicado": "parte_de",
+      "objeto": "Ellander",
+      "evidencia": "0:32 legenda: \"Templo de Melitele em Ellander\""
+    }
+  ],
+  "observacoes": "Rascunho a verificar. Tempos aproximados (±2 s). "
+}

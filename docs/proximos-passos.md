@@ -14,12 +14,28 @@ Atualizado em 2026-10-07. Este arquivo é o único lugar com a lista de pendênc
 ## A. Pendências antes do estudo de viabilidade
 Semana 2 concluída em 2026-10-07 e ontologia 1.1 congelada em 2026-10-08 (decisão 002 e emenda 1: `faccao` e `membro_de`).
 
-| # | Tarefa | Critério de pronto |
+| # | Tarefa | Situação |
 |---|---|---|
-| A1 | Abrir `vault_output/` no Obsidian e conferir o grafo | Conferido; ajustes anotados no diário |
-| A2 | **Verificar** os itens de gabarito novos (28 de 2026-10-07, `img_080`, `img_071` e as facções reanotadas em 11 itens; lista em `docs/gabarito.md`), revisando 5 sorteados | Verificação registrada; `validar_gabarito.py data/gabarito` com 0 problemas |
-| A3 | Ampliar o gabarito onde a ontologia ficou sem teste: telas de recompensa, notificação de missão atualizada, cenas com consequência visível, clipes novos (`vid_029` a `vid_037`) | Pelo menos 1 caso de `concede`, `obtido_em` e, se existir, `evento`/`gera` além dos atuais |
-| A4 | Na avaliação, relatar F1 por tipo de tela e por tipo de entidade (o glossário domina o micro) e tratar `evento`/`gera` à parte | `eval/avaliar.py` com a quebra por tipo |
+| A1 | Abrir `vault_output/` no Obsidian e conferir o grafo | **Feito** em 2026-10-08 (grafo visível; vault com 60 notas) |
+| A2 | **Verificar** o gabarito novo por sorteio | **Falta você**: roteiro pronto em `docs/verificacao-gabarito.md` (5 imagens e 1 clipe sorteados; ~1 h) |
+| A3 | Ampliar o gabarito onde a ontologia ficou sem teste | **Feito** em 2026-10-08: clipes novos `vid_029` a `vid_037` anotados (rascunho), com missão atualizada (`vid_036`), recompensa (`img_080`), diário e mapa em vídeo. `evento` e `gera` seguem sem nenhum caso real (não há consequência nem acontecimento visível nas telas coletadas) e continuam em reserva |
+| A4 | Relatório de F1 por tipo de entidade, por predicado e por tipo de tela, com `evento`/`gera` à parte | **Feito**: `eval/avaliar.py` (ver abaixo) |
+
+Resultado da linha de base com a quebra (50 screenshots; clipes ainda sem previsão), em 2026-10-08:
+
+| Tipo de entidade | Gabarito | Precisão | Revocação | F1 |
+|---|---|---|---|---|
+| personagem | 94 | 0,98 | 0,91 | 0,95 |
+| faccao | 11 | 1,00 | 1,00 | 1,00 |
+| criatura | 12 | 1,00 | 0,92 | 0,96 |
+| local | 38 | 0,90 | 0,74 | 0,81 |
+| item | 12 | 0,67 | 0,67 | 0,67 |
+| decisao | 3 | 1,00 | 0,67 | 0,80 |
+| missao | 18 | 0,88 | 0,39 | 0,54 |
+| **média simples** | | 0,92 | 0,76 | 0,82 |
+| **micro (total)** | | 0,94 | 0,81 | 0,87 |
+
+Leituras: (1) o micro (0,87) esconde que **missão** (0,54) e **item** (0,67) são os tipos fracos, e o dicionário vindo do gabarito (vazamento) ainda favorece todos eles; (2) por tipo de tela, o ponto fraco é HUD (0,00, nenhum nome achado), mapa (0,48) e diálogo (0,70), enquanto glossário (0,96) e quadro de avisos (1,00) saem quase perfeitos; (3) relações: nenhuma, porque a linha de base não extrai relações, o que fixa o alvo do extrator da etapa B; (4) a média simples entre tipos é a medida a reportar junto com o micro.
 
 ## B. Estudo de viabilidade (Semanas 5–7)
 Ordem sugerida, cada passo gera um número comparável com `eval/avaliar.py`:
@@ -30,7 +46,7 @@ Ordem sugerida, cada passo gera um número comparável com `eval/avaliar.py`:
 5. **Combinação**: screenshot + vídeo do mesmo trecho.
 6. Gravar previsões em `eval/predicoes/<estrategia>/` (um JSON por item, mesmo nome do gabarito) e rodar:
    ```bash
-   python eval/avaliar.py --gab data/gabarito --pred eval/predicoes/<estrategia> --csv eval/resultados_<estrategia>.csv
+   python eval/avaliar.py --gab data/gabarito --pred eval/predicoes/<estrategia> --csv eval/resultados_<estrategia>.csv --csv-quebras eval/quebras_<estrategia>.csv
    python eval/avaliar.py --gab data/gabarito --pred eval/predicoes/<estrategia> --sem-tipo
    ```
 7. Anotar para cada rodada: estratégia, back-end, modelo, tempo total, memória/VRAM, F1 de entidades e de relações. Registrar o resultado e a conclusão em `docs/decisoes/002-estrategia-de-entrada.md`.

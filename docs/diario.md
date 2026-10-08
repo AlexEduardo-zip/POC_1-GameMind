@@ -74,3 +74,8 @@
 - Decidido: incluir o tipo `faccao` e o predicado `membro_de` (ontologia 1.1), revertendo o adiamento da decisão 002. Motivo: medição por OCR nas 64 screenshots que não são de tutorial mostrou nomes de facção em 11 telas (17%, piso); o "menos de 5%" anterior vinha só das observações do gabarito. Ainda não há extrator, então é o momento mais barato
 - Feito: `ontologia.json`, `schema.py` e `exportar_vault.py` atualizados; 4 facções em `entidades.json`; facções anotadas em 11 itens (2 relações `membro_de`); regra 14 no gabarito; validação 0 problemas; grafo de 56 nós e 31 arestas; vault com pasta `Faccoes/`; linha de base de entidades F1 0,87
 - Próximos passos: `docs/proximos-passos.md` (A1 a A4)
+
+## Pendências A: avaliação por tipo, clipes novos e roteiro de verificação · 2026-10-08
+- Feito: `eval/avaliar.py` com quebras por tipo de entidade, predicado e tipo de tela, média simples e elementos em reserva à parte; 9 clipes novos anotados (`vid_029` a `vid_037`, rascunho); grafo de 60 nós e 32 arestas; vault com 60 notas; roteiro de verificação por sorteio em `docs/verificacao-gabarito.md`; `.obsidian/` da raiz e `eval/quebras*.csv` no `.gitignore`
+- Resultado da linha de base (50 screenshots): micro F1 0,87, média simples 0,82; missão 0,54 e item 0,67 são os tipos fracos; HUD 0,00 e mapa 0,48 são as telas fracas; relações 0
+- Confirmado: grafo visível no Obsidian (A1). Falta: verificação humana do gabarito novo (A2)
