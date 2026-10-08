@@ -1,0 +1,29 @@
+{
+  "arquivo": "vid_008_escolhas.mp4",
+  "tipo_tela": "escolhas",
+  "entidades": [
+    {
+      "nome": "Eu sonhei com Kaer Morhen",
+      "tipo": "decisao",
+      "subtipo": "opção de diálogo",
+      "evidencia": "0:04 opção de diálogo destacada: \"Eu sonhei com Kaer Morhen...\" (outra opção: \"Sério, prefiro não falar sobre isso.\")"
+    },
+    {
+      "nome": "Kaer Morhen",
+      "tipo": "local",
+      "evidencia": "0:04 opção e 0:12 legenda: \"quarto de hóspedes de Kaer Morhen\""
+    },
+    {
+      "nome": "Cirilla",
+      "tipo": "personagem",
+      "evidencia": "0:40 legenda: \"No sonho, fui e encontrei a Ciri. Depois, treinamos...\""
+    },
+    {
+      "nome": "Yennefer de Vengerberg",
+      "tipo": "personagem",
+      "evidencia": "0:20 legenda: \"Yennefer. Engraçado, né? Ela nunca foi lá.\""
+    }
+  ],
+  "relacoes": [],
+  "observacoes": "A opção escolhida é a primeira, deduzida da fala seguinte (\"Começou no quarto de hóspedes de Kaer Morhen...\"). Dois personagens sem nome na tela (Vesemir e Geralt) não foram anotados (regra 1). Sem HUD de missão nos quadros analisados; a decisão não ganhou relação parte_de."
+}

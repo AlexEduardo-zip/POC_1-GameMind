@@ -1,0 +1,19 @@
+{
+  "arquivo": "vid_014_dialogo.mp4",
+  "tipo_tela": "dialogo",
+  "entidades": [
+    {
+      "nome": "Estou procurando uma mulher",
+      "tipo": "decisao",
+      "subtipo": "opção de diálogo",
+      "evidencia": "0:00 opções: \"Estou procurando uma mulher... / Me mostre o que tem aí. / Que lugar agitado.\"; fala seguinte confirma a escolha"
+    },
+    {
+      "nome": "Arbusteira",
+      "tipo": "local",
+      "evidencia": "0:04 legenda: \"Chegando de Arbusteira.\""
+    }
+  ],
+  "relacoes": [],
+  "observacoes": "Cena na taverna sem nomes de personagens na tela. A descrição de Yennefer é feita por traços (cabelos negros, olhos violetas, cheiro de lilás e groselha) sem citar o nome, então ela não foi anotada."
+}

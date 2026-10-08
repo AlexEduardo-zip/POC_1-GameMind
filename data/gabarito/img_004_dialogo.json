@@ -1,0 +1,20 @@
+{
+  "arquivo": "img_004_dialogo.jpg",
+  "tipo_tela": "dialogo",
+  "entidades": [
+    {
+      "nome": "Geralt de Rívia",
+      "tipo": "personagem",
+      "evidencia": "legenda: \"Geralt: Você está ficando sem suco.\""
+    },
+    {
+      "nome": "Kaer Morhen (missão)",
+      "tipo": "missao",
+      "subtipo": "principal",
+      "estado": "ativa",
+      "evidencia": "HUD de missão em amarelo: \"KAER MORHEN / Encontre a chave para o quarto usando os sentidos de bruxo.\""
+    }
+  ],
+  "relacoes": [],
+  "observacoes": "Só a legenda nomeia o falante (Geralt). O título do HUD é o nome da missão, não do local."
+}

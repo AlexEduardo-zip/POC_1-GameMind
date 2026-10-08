@@ -1,0 +1,43 @@
+{
+  "arquivo": "vid_023_exploracao.mp4",
+  "tipo_tela": "hud",
+  "entidades": [
+    {
+      "nome": "Lilás e Groselha",
+      "tipo": "missao",
+      "subtipo": "principal",
+      "estado": "ativa",
+      "evidencia": "0:00 HUD de missão: \"LILÁS E GROSELHA / Pergunte ao povo de Nilfgaard sobre a Yennefer.\""
+    },
+    {
+      "nome": "Yennefer de Vengerberg",
+      "tipo": "personagem",
+      "evidencia": "0:00 objetivo: \"...sobre a Yennefer.\""
+    },
+    {
+      "nome": "Guarnição Nilfgaardiana",
+      "tipo": "local",
+      "evidencia": "0:16 aviso \"NOVO MARCADOR GUARNIÇÃO NILFGAARDIANA\" e legenda \"Acampamento militar\""
+    },
+    {
+      "nome": "Peter Saar Gwynleve",
+      "tipo": "personagem",
+      "evidencia": "0:56 legenda: \"O Capitão Peter Saar Gwynleve está na torre.\""
+    },
+    {
+      "nome": "Um guia miraculoso de gwent",
+      "tipo": "item",
+      "subtipo": "livro",
+      "evidencia": "0:16 notificação: \"Um guia miraculoso de gwent / Ler\""
+    }
+  ],
+  "relacoes": [
+    {
+      "sujeito": "Peter Saar Gwynleve",
+      "predicado": "localizado_em",
+      "objeto": "Guarnição Nilfgaardiana",
+      "evidencia": "0:56 \"está na torre\" dito dentro da guarnição"
+    }
+  ],
+  "observacoes": "Cavalgada, subida da escada e conversa com os guardas no portão. A relação localizado_em é inferida do contexto; confirmar. Falas dos guardas: \"Moradores locais não entram sem consentimento expresso do comandante da guarnição\"."
+}

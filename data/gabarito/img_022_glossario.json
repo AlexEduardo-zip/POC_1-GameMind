@@ -1,0 +1,14 @@
+{
+  "arquivo": "img_022_glossario.jpg",
+  "tipo_tela": "glossario",
+  "entidades": [
+    {
+      "nome": "Grifo",
+      "tipo": "criatura",
+      "subtipo": "híbrido",
+      "evidencia": "bestiário, entrada \"GRIFOS\" (categoria HÍBRIDOS)"
+    }
+  ],
+  "relacoes": [],
+  "observacoes": "Categorias NECRÓFAGOS e HÍBRIDOS são classes do bestiário, fora da ontologia. Há uma caixa de tutorial do BESTIÁRIO sobre a tela."
+}

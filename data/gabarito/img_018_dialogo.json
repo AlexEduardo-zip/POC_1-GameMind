@@ -1,0 +1,13 @@
+{
+  "arquivo": "img_018_dialogo.jpg",
+  "tipo_tela": "dialogo",
+  "entidades": [
+    {
+      "nome": "Arbusteira",
+      "tipo": "local",
+      "evidencia": "legenda: \"Devíamos ter nos encontrado em Arbusteira, foi o que ela escreveu.\""
+    }
+  ],
+  "relacoes": [],
+  "observacoes": "Os dois personagens aparecem sem nome na tela; não anotados (regra 1). Quem escreveu (\"ela\") não é nomeado."
+}

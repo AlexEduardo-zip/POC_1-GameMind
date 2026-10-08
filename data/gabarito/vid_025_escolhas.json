@@ -1,0 +1,31 @@
+{
+  "arquivo": "vid_025_escolhas.mp4",
+  "tipo_tela": "escolhas",
+  "entidades": [
+    {
+      "nome": "Está combinado",
+      "tipo": "decisao",
+      "subtipo": "opção de diálogo",
+      "evidencia": "0:08 opções: \"1. Está combinado. / 2. Por que você se importa com um grifo?\"; fala seguinte confirma a opção 1"
+    },
+    {
+      "nome": "Grifo",
+      "tipo": "criatura",
+      "evidencia": "0:04 legenda: \"Há um grifo na área. Mate-o...\""
+    },
+    {
+      "nome": "Floresta Vulpina",
+      "tipo": "local",
+      "evidencia": "0:20 legenda: \"De início, ele habitava a Floresta Vulpina.\""
+    }
+  ],
+  "relacoes": [
+    {
+      "sujeito": "Grifo",
+      "predicado": "localizado_em",
+      "objeto": "Floresta Vulpina",
+      "evidencia": "0:20 \"De início, ele habitava a Floresta Vulpina\""
+    }
+  ],
+  "observacoes": "O comandante que fala e Geralt não têm nome na tela. Opção 2 não escolhida, registrada só aqui. O mapa na mesa aparece sem rótulos legíveis."
+}

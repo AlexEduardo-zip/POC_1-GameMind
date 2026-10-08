@@ -1,0 +1,49 @@
+{
+  "arquivo": "img_021_dialogo.jpg",
+  "tipo_tela": "dialogo",
+  "entidades": [
+    {
+      "nome": "Geralt de Rívia",
+      "tipo": "personagem",
+      "evidencia": "legenda: \"Geralt: Você está falando dos Reinos de Radovid?...\""
+    },
+    {
+      "nome": "Temeria",
+      "tipo": "local",
+      "subtipo": "reino",
+      "evidencia": "legenda: \"Temeria e Aedirn já não são dele.\""
+    },
+    {
+      "nome": "Aedirn",
+      "tipo": "local",
+      "subtipo": "reino",
+      "evidencia": "legenda: \"Temeria e Aedirn já não são dele.\""
+    },
+    {
+      "nome": "Vila Saqueada",
+      "tipo": "local",
+      "evidencia": "aviso \"NOVO MARCADOR VILA SAQUEADA\""
+    },
+    {
+      "nome": "Lilás e Groselha",
+      "tipo": "missao",
+      "subtipo": "principal",
+      "estado": "ativa",
+      "evidencia": "HUD de missão: \"LILÁS E GROSELHA / Siga o Vesemir.\""
+    },
+    {
+      "nome": "Vesemir",
+      "tipo": "personagem",
+      "evidencia": "objetivo: \"Siga o Vesemir.\""
+    }
+  ],
+  "relacoes": [
+    {
+      "sujeito": "Vesemir",
+      "predicado": "participa_de",
+      "objeto": "Lilás e Groselha",
+      "evidencia": "objetivo da missão: \"Siga o Vesemir.\""
+    }
+  ],
+  "observacoes": "Radovid é citado (\"Reinos de Radovid\"), mas não foi anotado como personagem: a fala cita o reino dele, não a pessoa."
+}

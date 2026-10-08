@@ -1,0 +1,73 @@
+{
+  "arquivo": "img_009_diario.jpg",
+  "tipo_tela": "diario",
+  "entidades": [
+    {
+      "nome": "Kaer Morhen (missão)",
+      "tipo": "missao",
+      "subtipo": "principal",
+      "estado": "ativa",
+      "evidencia": "diário, MISSÕES PRINCIPAIS: \"KAER MORHEN\" (subtítulo \"KAER MORHEN\")"
+    },
+    {
+      "nome": "Kaer Morhen",
+      "tipo": "local",
+      "subtipo": "fortaleza",
+      "evidencia": "subtítulo da missão e texto: \"o quarto de hóspedes de Kaer Morhen, a fortaleza dos bruxos\""
+    },
+    {
+      "nome": "Montanhas Azuis",
+      "tipo": "local",
+      "subtipo": "região",
+      "evidencia": "texto: \"a fortaleza dos bruxos nas Montanhas Azuis\""
+    },
+    {
+      "nome": "Geralt de Rívia",
+      "tipo": "personagem",
+      "evidencia": "texto: \"Ela começa com Geralt tomando banho\""
+    },
+    {
+      "nome": "Yennefer de Vengerberg",
+      "tipo": "personagem",
+      "evidencia": "texto: \"Geralt é interrompido bruscamente por Yennefer\""
+    },
+    {
+      "nome": "Cirilla",
+      "tipo": "personagem",
+      "evidencia": "objetivo: \"Fale com a Ciri.\""
+    }
+  ],
+  "relacoes": [
+    {
+      "sujeito": "Kaer Morhen (missão)",
+      "predicado": "ocorre_em",
+      "objeto": "Kaer Morhen",
+      "evidencia": "subtítulo da missão: KAER MORHEN"
+    },
+    {
+      "sujeito": "Kaer Morhen",
+      "predicado": "parte_de",
+      "objeto": "Montanhas Azuis",
+      "evidencia": "\"a fortaleza dos bruxos nas Montanhas Azuis\""
+    },
+    {
+      "sujeito": "Geralt de Rívia",
+      "predicado": "participa_de",
+      "objeto": "Kaer Morhen (missão)",
+      "evidencia": "texto: \"Ela começa com Geralt tomando banho\""
+    },
+    {
+      "sujeito": "Yennefer de Vengerberg",
+      "predicado": "participa_de",
+      "objeto": "Kaer Morhen (missão)",
+      "evidencia": "texto: \"Geralt é interrompido bruscamente por Yennefer\""
+    },
+    {
+      "sujeito": "Cirilla",
+      "predicado": "participa_de",
+      "objeto": "Kaer Morhen (missão)",
+      "evidencia": "objetivos: \"Vá correndo com a Ciri...\", \"Fale com a Ciri.\""
+    }
+  ],
+  "observacoes": "Objetivos: encontrar a chave (feito), ir até o andar de baixo (feito), fale com a Ciri (ativo)."
+}

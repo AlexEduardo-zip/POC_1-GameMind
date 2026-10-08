@@ -1,0 +1,25 @@
+{
+  "arquivo": "img_016_tutorial.jpg",
+  "tipo_tela": "dialogo",
+  "entidades": [
+    {
+      "nome": "Vesemir",
+      "tipo": "personagem",
+      "evidencia": "legenda: \"Vesemir: Saque sua espada, Geralt.\""
+    },
+    {
+      "nome": "Geralt de Rívia",
+      "tipo": "personagem",
+      "evidencia": "legenda: \"Vesemir: Saque sua espada, Geralt.\""
+    },
+    {
+      "nome": "Kaer Morhen (missão)",
+      "tipo": "missao",
+      "subtipo": "principal",
+      "estado": "ativa",
+      "evidencia": "HUD de missão em amarelo: \"KAER MORHEN / Saque sua espada.\""
+    }
+  ],
+  "relacoes": [],
+  "observacoes": "Tela mista: caixa de tutorial COMBATE (espadas de aço e prata, Sinais, alquimia) sem entidade nomeada, mais legenda e HUD."
+}

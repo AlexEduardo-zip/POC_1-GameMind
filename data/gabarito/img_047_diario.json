@@ -1,0 +1,76 @@
+{
+  "arquivo": "img_047_diario.jpg",
+  "tipo_tela": "diario",
+  "entidades": [
+    {
+      "nome": "Lilás e Groselha",
+      "tipo": "missao",
+      "subtipo": "principal",
+      "estado": "ativa",
+      "evidencia": "diário, MISSÕES PRINCIPAIS: \"Lilás e groselha / POMAR BRANCO\""
+    },
+    {
+      "nome": "Pomar Branco",
+      "tipo": "local",
+      "evidencia": "subtítulo da missão: POMAR BRANCO"
+    },
+    {
+      "nome": "Taverna de Pomar Branco",
+      "tipo": "local",
+      "subtipo": "taverna",
+      "evidencia": "objetivo: \"Vá até a taverna de Pomar Branco.\""
+    },
+    {
+      "nome": "Yennefer de Vengerberg",
+      "tipo": "personagem",
+      "evidencia": "objetivo: \"Pergunte aos viajantes sobre a Yennefer.\""
+    },
+    {
+      "nome": "Vesemir",
+      "tipo": "personagem",
+      "evidencia": "objetivo: \"Siga o Vesemir.\""
+    },
+    {
+      "nome": "Carniçal",
+      "tipo": "criatura",
+      "evidencia": "objetivo: \"Mate os carniçais.\""
+    },
+    {
+      "nome": "Arbusteira",
+      "tipo": "local",
+      "evidencia": "texto: \"na vila de Arbusteira\""
+    },
+    {
+      "nome": "Geralt de Rívia",
+      "tipo": "personagem",
+      "evidencia": "texto: \"Yennefer havia entrado em contato com Geralt\""
+    }
+  ],
+  "relacoes": [
+    {
+      "sujeito": "Lilás e Groselha",
+      "predicado": "ocorre_em",
+      "objeto": "Pomar Branco",
+      "evidencia": "subtítulo da missão: POMAR BRANCO"
+    },
+    {
+      "sujeito": "Vesemir",
+      "predicado": "participa_de",
+      "objeto": "Lilás e Groselha",
+      "evidencia": "objetivo \"Siga o Vesemir.\" e texto \"Com a ajuda de Vesemir\""
+    },
+    {
+      "sujeito": "Geralt de Rívia",
+      "predicado": "participa_de",
+      "objeto": "Lilás e Groselha",
+      "evidencia": "texto: \"Yennefer havia entrado em contato com Geralt\""
+    },
+    {
+      "sujeito": "Taverna de Pomar Branco",
+      "predicado": "parte_de",
+      "objeto": "Pomar Branco",
+      "evidencia": "nome do local: \"taverna de Pomar Branco\""
+    }
+  ],
+  "observacoes": "Objetivos: Pergunte aos viajantes sobre a Yennefer (ativo); Mate os carniçais, Siga o Vesemir, Vá até a taverna (concluídos). Caixa de tutorial LISTA DE MISSÕES sobre a tela."
+}

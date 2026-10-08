@@ -1,1 +1,150 @@
-{}
+{
+  "Geralt de Rívia": {
+    "tipo": "personagem",
+    "aliases": [
+      "Geralt",
+      "Lobo Branco",
+      "Gwynbleidd",
+      "Carniceiro de Blaviken"
+    ]
+  },
+  "Cirilla": {
+    "tipo": "personagem",
+    "aliases": [
+      "Ciri",
+      "Cirilla Fiona Elen Riannon"
+    ]
+  },
+  "Yennefer de Vengerberg": {
+    "tipo": "personagem",
+    "aliases": [
+      "Yennefer"
+    ]
+  },
+  "Vesemir": {
+    "tipo": "personagem",
+    "aliases": []
+  },
+  "Dandelion": {
+    "tipo": "personagem",
+    "aliases": []
+  },
+  "Stjepan": {
+    "tipo": "personagem",
+    "aliases": []
+  },
+  "Peter Saar Gwynleve": {
+    "tipo": "personagem",
+    "aliases": [
+      "Capitão Peter Saar Gwynleve"
+    ]
+  },
+  "Grifo": {
+    "tipo": "criatura",
+    "aliases": [
+      "Grifos"
+    ]
+  },
+  "Carniçal": {
+    "tipo": "criatura",
+    "aliases": [
+      "Carniçais"
+    ]
+  },
+  "Kaer Morhen": {
+    "tipo": "local",
+    "aliases": []
+  },
+  "Montanhas Azuis": {
+    "tipo": "local",
+    "aliases": []
+  },
+  "Arbusteira": {
+    "tipo": "local",
+    "aliases": []
+  },
+  "Pomar Branco": {
+    "tipo": "local",
+    "aliases": []
+  },
+  "Taverna de Pomar Branco": {
+    "tipo": "local",
+    "aliases": []
+  },
+  "Oxenfurt": {
+    "tipo": "local",
+    "aliases": []
+  },
+  "Vila Saqueada": {
+    "tipo": "local",
+    "aliases": []
+  },
+  "Encruzilhada": {
+    "tipo": "local",
+    "aliases": []
+  },
+  "Temeria": {
+    "tipo": "local",
+    "aliases": []
+  },
+  "Aedirn": {
+    "tipo": "local",
+    "aliases": []
+  },
+  "Guarnição Nilfgaardiana": {
+    "tipo": "local",
+    "aliases": []
+  },
+  "Floresta Vulpina": {
+    "tipo": "local",
+    "aliases": []
+  },
+  "Moinho": {
+    "tipo": "local",
+    "aliases": []
+  },
+  "Ponte da Canção do Desalento": {
+    "tipo": "local",
+    "aliases": []
+  },
+  "Travessia de rio": {
+    "tipo": "local",
+    "aliases": []
+  },
+  "Kaer Morhen (missão)": {
+    "tipo": "missao",
+    "aliases": []
+  },
+  "Lilás e Groselha": {
+    "tipo": "missao",
+    "aliases": [
+      "Lilás e groselha"
+    ]
+  },
+  "O Monstro de Pomar Branco": {
+    "tipo": "missao",
+    "aliases": [
+      "O monstro de Pomar Branco"
+    ]
+  },
+  "Espada de Prata de Bruxo": {
+    "tipo": "item",
+    "aliases": []
+  },
+  "Um guia miraculoso de gwent": {
+    "tipo": "item",
+    "aliases": []
+  },
+  "Eu sonhei com Kaer Morhen": {
+    "tipo": "decisao",
+    "aliases": []
+  },
+  "Estou procurando uma mulher": {
+    "tipo": "decisao",
+    "aliases": []
+  },
+  "Está combinado": {
+    "tipo": "decisao",
+    "aliases": []
+  }
+}

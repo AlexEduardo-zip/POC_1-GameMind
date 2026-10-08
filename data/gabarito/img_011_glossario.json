@@ -1,0 +1,43 @@
+{
+  "arquivo": "img_011_glossario.jpg",
+  "tipo_tela": "glossario",
+  "entidades": [
+    {
+      "nome": "Cirilla",
+      "tipo": "personagem",
+      "subtipo": "aliada",
+      "evidencia": "lista lateral: Cirilla"
+    },
+    {
+      "nome": "Dandelion",
+      "tipo": "personagem",
+      "evidencia": "lista lateral: Dandelion"
+    },
+    {
+      "nome": "Geralt de Rívia",
+      "tipo": "personagem",
+      "subtipo": "protagonista",
+      "evidencia": "lista lateral: Geralt de Rívia"
+    },
+    {
+      "nome": "Vesemir",
+      "tipo": "personagem",
+      "evidencia": "lista lateral: Vesemir"
+    },
+    {
+      "nome": "Yennefer de Vengerberg",
+      "tipo": "personagem",
+      "evidencia": "lista lateral: Yennefer de Vengerberg"
+    }
+  ],
+  "relacoes": [
+    {
+      "sujeito": "Geralt de Rívia",
+      "predicado": "relacionado_a",
+      "objeto": "Dandelion",
+      "rotulo": "amigo",
+      "evidencia": "texto: \"a amizade que Geralt de Rívia compartilha comigo\""
+    }
+  ],
+  "observacoes": "Entrada aberta: GERALT DE RÍVIA, narrada por Dandelion (a assinatura não aparece na captura; o nome vem da lista lateral). Epítetos no texto: Gwynbleidd e Lobo Branco (aliases)."
+}

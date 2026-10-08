@@ -1,0 +1,14 @@
+{
+  "arquivo": "img_055_item.jpg",
+  "tipo_tela": "item",
+  "entidades": [
+    {
+      "nome": "Espada de Prata de Bruxo",
+      "tipo": "item",
+      "subtipo": "arma",
+      "evidencia": "tooltip: \"ESPADA DE PRATA DE BRUXO / ESPADA DE PRATA / 81-99 DANO\""
+    }
+  ],
+  "relacoes": [],
+  "observacoes": "Os rótulos dos espaços (Arma de aço, Espada de prata, Virotes, Bombas) são categorias do inventário, não anotados."
+}

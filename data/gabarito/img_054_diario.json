@@ -1,0 +1,61 @@
+{
+  "arquivo": "img_054_diario.jpg",
+  "tipo_tela": "diario",
+  "entidades": [
+    {
+      "nome": "O Monstro de Pomar Branco",
+      "tipo": "missao",
+      "subtipo": "principal",
+      "estado": "ativa",
+      "evidencia": "diário: \"O MONSTRO DE POMAR BRANCO / POMAR BRANCO / NÍVEL SUGERIDO 3\""
+    },
+    {
+      "nome": "Lilás e Groselha",
+      "tipo": "missao",
+      "subtipo": "principal",
+      "estado": "ativa",
+      "evidencia": "lista de missões principais: \"Lilás e groselha / Pomar Branco\""
+    },
+    {
+      "nome": "Pomar Branco",
+      "tipo": "local",
+      "evidencia": "subtítulo das missões"
+    },
+    {
+      "nome": "Yennefer de Vengerberg",
+      "tipo": "personagem",
+      "evidencia": "texto: \"sabia aonde Yennefer havia ido\""
+    },
+    {
+      "nome": "Geralt de Rívia",
+      "tipo": "personagem",
+      "evidencia": "texto: \"Geralt faria qualquer coisa para encontrar a feiticeira\""
+    },
+    {
+      "nome": "Grifo",
+      "tipo": "criatura",
+      "evidencia": "texto: \"havia um grifo por perto, um monstro\""
+    }
+  ],
+  "relacoes": [
+    {
+      "sujeito": "O Monstro de Pomar Branco",
+      "predicado": "ocorre_em",
+      "objeto": "Pomar Branco",
+      "evidencia": "subtítulo da missão: POMAR BRANCO"
+    },
+    {
+      "sujeito": "Geralt de Rívia",
+      "predicado": "participa_de",
+      "objeto": "O Monstro de Pomar Branco",
+      "evidencia": "texto: \"Geralt faria qualquer coisa...\""
+    },
+    {
+      "sujeito": "Grifo",
+      "predicado": "participa_de",
+      "objeto": "O Monstro de Pomar Branco",
+      "evidencia": "texto: \"um grifo por perto... a cabeça do monstro em troca de sua colaboração\""
+    }
+  ],
+  "observacoes": "Objetivos: Pergunte ao caçador onde ele encontrou os cadáveres (pendente); Pergunte à herbalista sobre cáscara (ativo). Nilfgaard aparece no texto como facção (fora da ontologia)."
+}

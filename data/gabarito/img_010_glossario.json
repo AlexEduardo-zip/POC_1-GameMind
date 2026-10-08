@@ -1,0 +1,61 @@
+{
+  "arquivo": "img_010_glossario.jpg",
+  "tipo_tela": "glossario",
+  "entidades": [
+    {
+      "nome": "Cirilla",
+      "tipo": "personagem",
+      "subtipo": "aliada",
+      "evidencia": "lista lateral: Cirilla"
+    },
+    {
+      "nome": "Dandelion",
+      "tipo": "personagem",
+      "evidencia": "lista lateral: Dandelion"
+    },
+    {
+      "nome": "Geralt de Rívia",
+      "tipo": "personagem",
+      "subtipo": "protagonista",
+      "evidencia": "lista lateral: Geralt de Rívia"
+    },
+    {
+      "nome": "Vesemir",
+      "tipo": "personagem",
+      "evidencia": "lista lateral: Vesemir"
+    },
+    {
+      "nome": "Yennefer de Vengerberg",
+      "tipo": "personagem",
+      "evidencia": "lista lateral: Yennefer de Vengerberg"
+    },
+    {
+      "nome": "Kaer Morhen",
+      "tipo": "local",
+      "evidencia": "texto: \"Geralt levou Ciri para Kaer Morhen\""
+    }
+  ],
+  "relacoes": [
+    {
+      "sujeito": "Cirilla",
+      "predicado": "relacionado_a",
+      "objeto": "Geralt de Rívia",
+      "rotulo": "filha adotiva",
+      "evidencia": "texto: \"a filha adotiva de Geralt\""
+    },
+    {
+      "sujeito": "Cirilla",
+      "predicado": "relacionado_a",
+      "objeto": "Vesemir",
+      "rotulo": "aprendiz",
+      "evidencia": "texto: \"ele e Vesemir ensinaram-lhe a tradição dos caçadores de monstros\""
+    },
+    {
+      "sujeito": "Cirilla",
+      "predicado": "localizado_em",
+      "objeto": "Kaer Morhen",
+      "evidencia": "texto: \"Geralt levou Ciri para Kaer Morhen\""
+    }
+  ],
+  "observacoes": "Entrada aberta: CIRILLA, na aba PERSONAGENS do glossário. Entrada com o nome Cirilla e apelido Ciri."
+}

@@ -1,0 +1,57 @@
+{
+  "arquivo": "img_053_mapa.jpg",
+  "tipo_tela": "mapa",
+  "entidades": [
+    {
+      "nome": "Pomar Branco",
+      "tipo": "local",
+      "evidencia": "título do mapa \"POMAR BRANCO\""
+    },
+    {
+      "nome": "O Monstro de Pomar Branco",
+      "tipo": "missao",
+      "subtipo": "principal",
+      "estado": "ativa",
+      "evidencia": "missão rastreada: \"O monstro de Pomar Branco / Pergunte à herbalista sobre cáscara.\""
+    },
+    {
+      "nome": "Guarnição Nilfgaardiana",
+      "tipo": "local",
+      "evidencia": "rótulo no mapa: \"Guarnição Nilfgaardiana\""
+    },
+    {
+      "nome": "Moinho",
+      "tipo": "local",
+      "evidencia": "rótulo no mapa"
+    },
+    {
+      "nome": "Ponte da Canção do Desalento",
+      "tipo": "local",
+      "evidencia": "rótulo no mapa"
+    },
+    {
+      "nome": "Travessia de rio",
+      "tipo": "local",
+      "evidencia": "rótulo no mapa"
+    },
+    {
+      "nome": "Encruzilhada",
+      "tipo": "local",
+      "evidencia": "rótulo no mapa"
+    },
+    {
+      "nome": "Vila Saqueada",
+      "tipo": "local",
+      "evidencia": "rótulo no mapa"
+    }
+  ],
+  "relacoes": [
+    {
+      "sujeito": "O Monstro de Pomar Branco",
+      "predicado": "ocorre_em",
+      "objeto": "Pomar Branco",
+      "evidencia": "missão rastreada sobre o mapa de Pomar Branco"
+    }
+  ],
+  "observacoes": "Rótulos pequenos de marcadores: conferir se todos estão legíveis na imagem. Relações parte_de dos marcadores com Pomar Branco não anotadas (a tela não as afirma)."
+}

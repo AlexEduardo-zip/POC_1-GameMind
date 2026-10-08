@@ -1,0 +1,13 @@
+{
+  "arquivo": "img_048_dialogo.jpg",
+  "tipo_tela": "dialogo",
+  "entidades": [
+    {
+      "nome": "Geralt de Rívia",
+      "tipo": "personagem",
+      "evidencia": "legenda: \"O próprio Geralt de Rívia. O Carniceiro de Blaviken.\""
+    }
+  ],
+  "relacoes": [],
+  "observacoes": "Blaviken aparece só no epíteto \"Carniceiro de Blaviken\" e não foi anotado como local."
+}

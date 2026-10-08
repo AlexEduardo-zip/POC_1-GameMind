@@ -1,0 +1,15 @@
+{
+  "arquivo": "img_005_exploracao.jpg",
+  "tipo_tela": "hud",
+  "entidades": [
+    {
+      "nome": "Kaer Morhen (missão)",
+      "tipo": "missao",
+      "subtipo": "principal",
+      "estado": "ativa",
+      "evidencia": "HUD de missão: \"KAER MORHEN / Encontre a chave para o quarto usando os sentidos de bruxo.\""
+    }
+  ],
+  "relacoes": [],
+  "observacoes": "Texto \"Trancada. Precisa de chave.\" e \"Abrir\" são interação, sem entidade. O personagem jogável aparece sem nome na tela, por isso não foi anotado (regra 1)."
+}

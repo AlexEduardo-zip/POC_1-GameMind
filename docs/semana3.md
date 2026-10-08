@@ -1,7 +1,7 @@
 # Semana 3: ontologia
 
 **Objetivo:** fechar os tipos, as relações e o esquema do grafo antes de anotar o gabarito em massa.
-**Estado:** rascunho completo da versão 0.1 pronto; falta você revisar e testar nas suas telas.
+**Estado:** versão 0.1 pronta e testada nas telas anotadas. Pendências em `docs/proximos-passos.md` (A4 a A6); este arquivo é só histórico.
 
 ## Já pronto
 - ✅ `docs/ontologia.md`: tipos, relações, atributos, identidade, anti-spoiler e decisões presumidas
@@ -23,7 +23,7 @@ Resultado: validador sem problemas em 4 arquivos; o grafo do prólogo em `docs/e
 ## Para você
 1. ☐ Abrir `docs/exemplo/vault` como vault no Obsidian e olhar a visualização de grafo (em Groups, crie um grupo por tag, como `tag:#personagem`).
 2. ☐ Revisar as 5 decisões presumidas em `docs/ontologia.md` e dizer o que muda.
-3. ☐ Quando tiver as telas da Semana 2, anotar 5 delas e conferir se a ontologia cobre o que aparece.
+3. ✅ Telas da Semana 2 anotadas (24 itens, 2026-10-07). A ontologia cobriu o que apareceu: 85 entidades e 24 relações couberam nos 7 tipos e 8 predicados. Ficaram de fora só facções (Nilfgaard, Caçada Selvagem), Gwent e categorias do bestiário, já previstos como fora do escopo. Faltou testar `evento`, que nenhum item usou, e `gera`/`concede`/`obtido_em`, sem exemplo no subconjunto.
 4. ☐ Congelar a versão 1.0 antes de anotar o gabarito em massa.
 
 ## Próximo passo (Semana 4)

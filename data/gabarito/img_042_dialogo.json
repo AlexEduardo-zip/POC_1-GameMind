@@ -1,0 +1,25 @@
+{
+  "arquivo": "img_042_dialogo.jpg",
+  "tipo_tela": "dialogo",
+  "entidades": [
+    {
+      "nome": "Oxenfurt",
+      "tipo": "local",
+      "evidencia": "legenda: \"Se qualquer dia você estiver em Oxenfurt...\""
+    },
+    {
+      "nome": "Stjepan",
+      "tipo": "personagem",
+      "evidencia": "legenda: \"procure o Stjepan. Um simples dono de pousada\""
+    }
+  ],
+  "relacoes": [
+    {
+      "sujeito": "Stjepan",
+      "predicado": "localizado_em",
+      "objeto": "Oxenfurt",
+      "evidencia": "legenda: \"em Oxenfurt... procure o Stjepan\""
+    }
+  ],
+  "observacoes": "O falante não é nomeado. Gwent não entra na ontologia 0.1."
+}

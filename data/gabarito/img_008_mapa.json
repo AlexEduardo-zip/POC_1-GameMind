@@ -1,0 +1,33 @@
+{
+  "arquivo": "img_008_mapa.jpg",
+  "tipo_tela": "mapa",
+  "entidades": [
+    {
+      "nome": "Kaer Morhen",
+      "tipo": "local",
+      "subtipo": "fortaleza",
+      "evidencia": "título do mapa \"KAER MORHEN\" e \"Posição atual do jogador\" sobre a fortaleza"
+    },
+    {
+      "nome": "Kaer Morhen (missão)",
+      "tipo": "missao",
+      "subtipo": "principal",
+      "estado": "ativa",
+      "evidencia": "missão rastreada \"Kaer Morhen\": \"Vá correndo com a Ciri pela muralha até chegar ao pátio inferior.\""
+    },
+    {
+      "nome": "Cirilla",
+      "tipo": "personagem",
+      "evidencia": "objetivo: \"Vá correndo com a Ciri pela muralha...\""
+    }
+  ],
+  "relacoes": [
+    {
+      "sujeito": "Kaer Morhen (missão)",
+      "predicado": "ocorre_em",
+      "objeto": "Kaer Morhen",
+      "evidencia": "missão rastreada \"Kaer Morhen\" sobre o mapa de Kaer Morhen"
+    }
+  ],
+  "observacoes": "Nome igual para local e missão: a missão leva o sufixo (missão). Relação ocorre_em é inferida pelo mapa; confirmar."
+}

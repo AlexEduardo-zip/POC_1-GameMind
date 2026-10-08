@@ -28,6 +28,12 @@ Predicados (ontologia v0.1, ver `docs/ontologia.md`): `participa_de`, `ocorre_em
 5. **Ignore ruído:** barras de vida, ícones e textos decorativos sem entidade.
 6. **Vídeo:** anote o clipe inteiro, não quadro a quadro. Se ajudar, anote o instante em `evidencia` (ex.: "0:12 legenda ...").
 7. **Relação só se a tela a mostra.** Se dois personagens aparecem juntos mas nada diz que são aliados, não anote `aliado_de`.
+8. **Nome igual para tipos diferentes:** `entidades.json` resolve nomes sem olhar o tipo, então o mesmo nome não pode ser local e missão. A missão inicial do jogo se chama "Kaer Morhen", como a fortaleza: a missão leva o sufixo, "Kaer Morhen (missão)".
+9. **Personagem sem nome na tela não se anota**, mesmo que você o reconheça (o rosto de Geralt, Vesemir ou Ciri em cutscene). Vale o nome escrito: rótulo da legenda ("Geralt: ..."), objetivo ("Siga o Vesemir"), lista do glossário ou texto da entrada.
+10. **Menção conta:** um nome próprio citado em legenda, objetivo ou texto de entrada é entidade, mesmo que o personagem não apareça. Relações só entram quando o texto as afirma.
+11. **Decisão:** anota-se só a opção escolhida, deduzida da fala seguinte; as outras opções ficam em `observacoes`. O nome da decisão é o texto da opção.
+12. **Fora de escopo (ver ontologia):** Gwent e cartas, facções (Nilfgaard, Caçada Selvagem), categorias do bestiário e rótulos de espaços do inventário.
+13. **HUD:** o título amarelo do HUD de missão é o nome da missão, e o texto abaixo é o objetivo.
 
 ## Como a comparação funciona
 - Uma entidade da previsão acerta se o **nome canônico** (após aliases, sem acento e sem maiúsculas) e o **tipo** coincidem com o gabarito. O modo brando (`--sem-tipo`) ignora o tipo.
@@ -61,3 +67,27 @@ python scripts/validar_gabarito.py data/gabarito/exemplo
 python eval/avaliar.py --gab data/gabarito/exemplo --pred eval/exemplo_pred
 ```
 Na avaliação real, as previsões ficam em `eval/predicoes/` (um JSON por item) e o comando é `python eval/avaliar.py`.
+
+## Gabarito do subconjunto (anotado e verificado em 2026-10-07)
+Rascunho feito por Claude a partir das imagens e dos clipes, **verificado pelo autor em 2026-10-07 (gabarito confirmado como correto, com 5 itens já revisados)**. Os 24 arquivos estão em `data/gabarito/` e passam em `python scripts/validar_gabarito.py` (0 problemas). Total: 85 entidades e 24 relações; `entidades.json` tem 32 nomes canônicos em pt-BR.
+
+| Tipo de tela | Itens |
+|---|---|
+| Diálogo com legenda (e HUD de missão) | `img_004`, `img_016`, `img_018`, `img_021`, `img_042`, `img_048`, `vid_014` |
+| Exploração / HUD | `img_005`, `img_019`, `vid_023` |
+| Glossário | `img_010`, `img_011`, `img_012`, `img_022` |
+| Diário de missões | `img_009`, `img_047`, `img_054` |
+| Mapa | `img_008`, `img_053` |
+| Item e inventário | `img_045`, `img_055` |
+| Cutscene (sem entidades de propósito) | `img_024` |
+| Escolhas de diálogo | `vid_008`, `vid_025` |
+
+As dúvidas abaixo foram resolvidas na verificação (as regras 8 a 13 ficam como estão); permanecem aqui como registro das escolhas e ficam também em `observacoes` de cada JSON:
+1. **Regra 9 (nome na tela):** é a decisão que mais pesa. Com ela, cenas em que só o rosto identifica o personagem (`img_018`, `img_005`, os clipes) rendem poucas entidades. Se preferir contar o personagem reconhecível, muda o gabarito de vários itens.
+2. **Missão com nome de local:** "Kaer Morhen (missão)" (regra 8) em `img_004`, `img_005`, `img_008`, `img_009`, `img_016`.
+3. **Relações inferidas:** `img_008` (missão ocorre_em Kaer Morhen), `vid_023` (Peter Saar Gwynleve localizado_em Guarnição Nilfgaardiana) e `img_054` (Grifo participa_de O Monstro de Pomar Branco). As demais vêm de texto ou objetivo explícito.
+4. **Rótulos pequenos:** em `img_053` (mapa), os marcadores Moinho, Ponte da Canção do Desalento e Travessia de rio foram lidos em miniatura; confira a grafia na imagem original.
+5. **Tempos dos clipes:** vêm de quadros a cada 2 s e são aproximados (±2 s).
+6. **Decisões de clipe:** a opção escolhida foi deduzida da fala seguinte; nenhum quadro mostra o botão sendo apertado.
+7. **`img_016`:** é tela de tutorial com legenda e HUD; foi classificada como diálogo.
+8. **Cobertura:** não há escolhas em screenshot (só nos clipes), item e mapa têm 2 imagens cada e o `img_024` é um controle sem entidades.

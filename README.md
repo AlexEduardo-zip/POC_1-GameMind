@@ -5,13 +5,15 @@ POC I / MSI I · DCC/UFMG · Aluno: Alex Eduardo Alves dos Santos · Orientador:
 
 ## Estado atual
 - Repositório: https://github.com/AlexEduardo-zip/POC_1-GameMind
-- Fase: POC I. Semana 1 (preparação) concluída; Semanas 2 (coleta e gabarito) e 3 (ontologia) adiantadas só no repositório
+- Fase: POC I. Semanas 1 e 2 (preparação, coleta e gabarito) concluídas; Semana 3 (ontologia) adiantada, falta congelar a 1.0
 - Jogo-piloto: The Witcher 3
 - Ontologia: v0.1 (7 tipos, 8 relações), ainda a revisar e congelar como 1.0
 - Pipeline de exemplo funcionando: gabarito → validação → grafo → vault do Obsidian → avaliação
-- Captura definida: pt-BR, 1920x1080, screenshots F12 da Steam, vídeos 1080p/30 fps/MP4 (OBS Studio ou clipe do AMD Adrenalin)
-- Próximos passos, em ordem: (1) instalar ferramentas e conferir com `check_env.py`; (2) coletar o conjunto de teste (`docs/semana2.md`); (3) teste de OCR em pt-BR; (4) anotar o gabarito; (5) revisar e congelar a ontologia
-- Pendente (precisa do computador do projeto): instalar ferramentas, coletar screenshots e clipes em `data/raw/`, anotar o gabarito real, testar OCR
+- Captura: pt-BR; resolução, formato e ferramenta são só guia (desvios registrados em `data/raw/metadados.csv`)
+- **Próximos passos: `docs/proximos-passos.md` (fonte única das pendências, com critério de pronto)**
+- Feito em 2026-10-07: ferramentas instaladas (Tesseract com `por`, FFmpeg), 83 screenshots, 14 quadros de vídeo e 36 clipes coletados e catalogados em `data/raw/metadados.csv`, teste de fumaça de OCR registrado na decisão 001
+- Gabarito (verificado pelo autor em 2026-10-07): 20 screenshots e 4 clipes em `data/gabarito/` (85 entidades, 24 relações; 32 nomes canônicos)
+- Ainda não existe extrator em `src/`; o estudo de viabilidade (Semanas 5–7) começa depois de fechar a coleta e congelar a ontologia
 
 ## Mapa do projeto
 | Caminho | O que é |
@@ -29,19 +31,20 @@ POC I / MSI I · DCC/UFMG · Aluno: Alex Eduardo Alves dos Santos · Orientador:
 | `docs/exemplo/` | Grafo de exemplo do prólogo e o vault do Obsidian gerado a partir dele |
 | `docs/semana2.md` | Plano da Semana 2: coleta e gabarito |
 | `docs/gabarito.md` | Guia do gabarito (o que é, formato, regras, avaliação) |
-| `docs/checklist-semana1.md` | O que já está pronto e o que falta |
+| `docs/proximos-passos.md` | **Pendências e ordem de execução** (leia primeiro) |
 | `docs/diario.md` | Diário de bordo |
-| `docs/hardware.md` | Inventário de hardware (falta confirmar VRAM, SO e disco) |
+| `docs/hardware.md` | Inventário de hardware (Ryzen 5 5500, 16 GB, RX 7600 8 GB, Windows 11) |
 | `scripts/check_env.py` | Verifica ferramentas instaladas |
 | `scripts/smoke_ocr.py` | Teste rápido de OCR (Semana 2) |
 | `scripts/validar_gabarito.py` | Valida o formato e os nomes do gabarito |
+| `scripts/baseline_ocr.py` | Linha de base: OCR + busca de nomes; testa o ciclo extração → avaliação |
 | `src/schema.py` | Esquema de entidades e relações (ontologia v0.1) |
 | `src/ontologia.json` | Ontologia legível por máquina (tipos, domínio e alcance) |
 | `src/grafo.py` | Funde as anotações em um grafo único (nomes canônicos, fontes, ordem de aparição) |
 | `src/exportar_vault.py` | Protótipo do exportador para vault do Obsidian |
 | `eval/avaliar.py` | Calcula precisão, revocação e F1 contra o gabarito |
-| `data/raw/` | Screenshots e vídeos (não versionados) |
-| `data/gabarito/` | Anotações manuais (`entidades.json` vazio até a anotação real; `exemplo/` com 4 itens de demonstração) |
+| `data/raw/` | Screenshots e vídeos (não versionados); `metadados.csv` cataloga cada arquivo |
+| `data/gabarito/` | Anotações do gabarito real (24 JSON + `entidades.json`, verificados); `exemplo/` com 4 itens de demonstração |
 | `eval/exemplo_pred/` | Previsões de exemplo para testar o avaliador |
 | `eval/predicoes/` | Previsões reais (a criar na avaliação) |
 | `vault_output/` | Vault gerado pelo exportador (não versionado) |

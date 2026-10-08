@@ -9,3 +9,6 @@ vault_output/*
 *.mkv
 .env
 grafo.json
+docs/exemplo/vault/.obsidian/workspace.json
+eval/predicoes/
+eval/resultados*.csv

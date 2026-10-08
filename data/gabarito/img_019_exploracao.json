@@ -1,0 +1,32 @@
+{
+  "arquivo": "img_019_exploracao.jpg",
+  "tipo_tela": "hud",
+  "entidades": [
+    {
+      "nome": "Lilás e Groselha",
+      "tipo": "missao",
+      "subtipo": "principal",
+      "estado": "ativa",
+      "evidencia": "HUD de missão: \"LILÁS E GROSELHA / Siga o Vesemir.\""
+    },
+    {
+      "nome": "Vesemir",
+      "tipo": "personagem",
+      "evidencia": "objetivo: \"Siga o Vesemir.\""
+    },
+    {
+      "nome": "Encruzilhada",
+      "tipo": "local",
+      "evidencia": "aviso \"NOVO MARCADOR ENCRUZILHADA\""
+    }
+  ],
+  "relacoes": [
+    {
+      "sujeito": "Vesemir",
+      "predicado": "participa_de",
+      "objeto": "Lilás e Groselha",
+      "evidencia": "objetivo da missão: \"Siga o Vesemir.\""
+    }
+  ],
+  "observacoes": ""
+}

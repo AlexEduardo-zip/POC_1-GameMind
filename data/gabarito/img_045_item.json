@@ -1,0 +1,26 @@
+{
+  "arquivo": "img_045_item.jpg",
+  "tipo_tela": "item",
+  "entidades": [
+    {
+      "nome": "Um guia miraculoso de gwent",
+      "tipo": "item",
+      "subtipo": "livro",
+      "evidencia": "notificação com ícone e \"Um guia miraculoso de gwent / Ler\""
+    },
+    {
+      "nome": "Lilás e Groselha",
+      "tipo": "missao",
+      "subtipo": "principal",
+      "estado": "ativa",
+      "evidencia": "HUD de missão: \"LILÁS E GROSELHA / Pergunte aos viajantes sobre a Yennefer.\""
+    },
+    {
+      "nome": "Yennefer de Vengerberg",
+      "tipo": "personagem",
+      "evidencia": "objetivo: \"Pergunte aos viajantes sobre a Yennefer.\""
+    }
+  ],
+  "relacoes": [],
+  "observacoes": "A notificação BARALHO DE GWENT (carta nova) não foi anotada: cartas ficam fora de escopo na versão 0.1."
+}
