@@ -13,7 +13,7 @@ POC I / MSI I · DCC/UFMG · Aluno: Alex Eduardo Alves dos Santos · Orientador:
 - **Próximos passos: `docs/proximos-passos.md` (fonte única das pendências, com critério de pronto)**
 - Feito em 2026-10-07: ferramentas instaladas (Tesseract com `por`, FFmpeg), 83 screenshots, 14 quadros de vídeo e 36 clipes coletados e catalogados em `data/raw/metadados.csv`, teste de fumaça de OCR registrado na decisão 001
 - Gabarito em `data/gabarito/`: 63 arquivos (50 screenshots e 13 clipes), **verificado pelo autor** (24 itens em 2026-10-07 e os 39 itens novos em 2026-10-08); 232 entidades, 44 relações, 60 nomes canônicos
-- Ainda não existe extrator em `src/`; o estudo de viabilidade (Semanas 5–7) começa depois de fechar a coleta e congelar a ontologia
+- Extrator de base pronto (B1): OCR + dicionário independente, F1 de entidades 0,76 nas 50 screenshots, relações 0; próximo passo é o pré-processamento do OCR (B2). Ver `docs/estudo-viabilidade.md`
 
 ## Mapa do projeto
 | Caminho | O que é |
@@ -38,7 +38,11 @@ POC I / MSI I · DCC/UFMG · Aluno: Alex Eduardo Alves dos Santos · Orientador:
 | `scripts/check_env.py` | Verifica ferramentas instaladas |
 | `scripts/smoke_ocr.py` | Teste rápido de OCR (Semana 2) |
 | `scripts/validar_gabarito.py` | Valida o formato e os nomes do gabarito |
-| `scripts/baseline_ocr.py` | Linha de base: OCR + busca de nomes; testa o ciclo extração → avaliação |
+| `scripts/baseline_ocr.py` | Linha de base com vazamento (dicionário vindo do gabarito); só referência |
+| `scripts/rodar_extracao.py` | Roda uma estratégia de extração e grava previsões em `eval/predicoes/` |
+| `src/extracao/` | OCR e busca de nomes em dicionário (B1) |
+| `data/gazetteer/` | Dicionário de nomes do jogo, independente do gabarito |
+| `docs/estudo-viabilidade.md` | Registro das rodadas do estudo de viabilidade |
 | `src/schema.py` | Esquema de entidades e relações (ontologia 1.1) |
 | `src/ontologia.json` | Ontologia legível por máquina (tipos, domínio e alcance) |
 | `src/grafo.py` | Funde as anotações em um grafo único (nomes canônicos, fontes, ordem de aparição) |

@@ -108,3 +108,5 @@ Com as facções anotadas (ontologia 1.1, decisão 002 emenda 1), a linha de bas
 
 ### Atualização (2026-10-08, quebra por tipo)
 O avaliador passou a reportar F1 por tipo de entidade, por predicado e por tipo de tela (tabela em `docs/proximos-passos.md`). O gabarito tem agora 63 arquivos (9 clipes novos), mas a linha de base só processa imagens, então os números das 50 screenshots seguem iguais: micro F1 0,87 e média simples entre tipos 0,82; fracos em missão (0,54) e item (0,67); grafo de 60 nós e 32 arestas.
+
+> Nota (2026-10-08): a linha de base acima usa o dicionário do próprio gabarito e foi superada pelo extrator com dicionário independente (F1 0,76), registrado em `docs/estudo-viabilidade.md`. Os números desta seção ficam só como histórico.

@@ -83,3 +83,8 @@
 ## Gabarito verificado e limpeza · 2026-10-08
 - Feito: autor verificou o gabarito novo (39 itens) e o confirmou correto; "rascunho" trocado por "verificado" nos docs e nos JSON; apagadas as 9 cópias idênticas de `data/raw/` (5 JPG e 4 MP4); A2 concluída
 - Próximo: B1, extrator de OCR com dicionário independente do gabarito
+
+## B1: extrator de OCR com dicionário independente · 2026-10-08
+- Feito: `src/extracao/` (OCR e busca de nomes), `scripts/rodar_extracao.py`, dicionário `data/gazetteer/witcher3_ptbr.json` (90 nomes, com distratores); rodadas com e sem tolerância a erro de OCR; registro em `docs/estudo-viabilidade.md`
+- Resultado: F1 de entidades 0,76 (micro) e 0,49 (média entre tipos); o vazamento da linha de base valia 0,11; fuzzy piora (0,74); missão e decisão 0,00 (sem dicionário), HUD 0,00; 6 dos 11 falsos positivos são o equipamento do inventário
+- Próximo: B2, pré-processamento (recorte da legenda e do HUD, ampliação, binarização)

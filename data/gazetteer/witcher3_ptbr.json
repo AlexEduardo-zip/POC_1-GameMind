@@ -1,0 +1,432 @@
+{
+ "_meta": {
+  "versao": "1",
+  "idioma": "pt-BR",
+  "ontologia": "1.1",
+  "origem": "conhecimento geral do jogo, escrito à parte do gabarito; inclui nomes que não aparecem no conjunto de teste (distratores). Não é estritamente cego: o autor da lista conhecia o gabarito.",
+  "nota": "faltam de propósito nomes de missões e muitos locais menores; um dicionário real nunca é completo"
+ },
+ "entidades": {
+  "Geralt de Rívia": {
+   "tipo": "personagem",
+   "aliases": [
+    "Geralt",
+    "Lobo Branco",
+    "Gwynbleidd"
+   ]
+  },
+  "Cirilla": {
+   "tipo": "personagem",
+   "aliases": [
+    "Ciri"
+   ]
+  },
+  "Yennefer de Vengerberg": {
+   "tipo": "personagem",
+   "aliases": [
+    "Yennefer"
+   ]
+  },
+  "Vesemir": {
+   "tipo": "personagem",
+   "aliases": []
+  },
+  "Eskel": {
+   "tipo": "personagem",
+   "aliases": []
+  },
+  "Lambert": {
+   "tipo": "personagem",
+   "aliases": []
+  },
+  "Triss Merigold": {
+   "tipo": "personagem",
+   "aliases": [
+    "Triss"
+   ]
+  },
+  "Dandelion": {
+   "tipo": "personagem",
+   "aliases": [
+    "Jaskier"
+   ]
+  },
+  "Zoltan Chivay": {
+   "tipo": "personagem",
+   "aliases": [
+    "Zoltan"
+   ]
+  },
+  "Emhyr var Emreis": {
+   "tipo": "personagem",
+   "aliases": [
+    "Emhyr"
+   ]
+  },
+  "Letho": {
+   "tipo": "personagem",
+   "aliases": []
+  },
+  "Philippa Eilhart": {
+   "tipo": "personagem",
+   "aliases": [
+    "Philippa"
+   ]
+  },
+  "Keira Metz": {
+   "tipo": "personagem",
+   "aliases": []
+  },
+  "Vernon Roche": {
+   "tipo": "personagem",
+   "aliases": [
+    "Roche"
+   ]
+  },
+  "Ves": {
+   "tipo": "personagem",
+   "aliases": []
+  },
+  "Barão Sangrento": {
+   "tipo": "personagem",
+   "aliases": []
+  },
+  "Anna Henrietta": {
+   "tipo": "personagem",
+   "aliases": [
+    "Duquesa Anna Henrietta"
+   ]
+  },
+  "Radovid": {
+   "tipo": "personagem",
+   "aliases": []
+  },
+  "Eredin": {
+   "tipo": "personagem",
+   "aliases": []
+  },
+  "Avallac'h": {
+   "tipo": "personagem",
+   "aliases": []
+  },
+  "Imlerith": {
+   "tipo": "personagem",
+   "aliases": []
+  },
+  "Caranthir": {
+   "tipo": "personagem",
+   "aliases": []
+  },
+  "Gaunter O'Dimm": {
+   "tipo": "personagem",
+   "aliases": [
+    "Gaunter"
+   ]
+  },
+  "Olgierd von Everec": {
+   "tipo": "personagem",
+   "aliases": [
+    "Olgierd"
+   ]
+  },
+  "Iorveth": {
+   "tipo": "personagem",
+   "aliases": []
+  },
+  "Saskia": {
+   "tipo": "personagem",
+   "aliases": []
+  },
+  "Cerys": {
+   "tipo": "personagem",
+   "aliases": []
+  },
+  "Crach an Craite": {
+   "tipo": "personagem",
+   "aliases": [
+    "Crach"
+   ]
+  },
+  "Hjalmar": {
+   "tipo": "personagem",
+   "aliases": []
+  },
+  "Regis": {
+   "tipo": "personagem",
+   "aliases": []
+  },
+  "Dijkstra": {
+   "tipo": "personagem",
+   "aliases": []
+  },
+  "Foltest": {
+   "tipo": "personagem",
+   "aliases": []
+  },
+  "Calanthe": {
+   "tipo": "personagem",
+   "aliases": []
+  },
+  "Nenneke": {
+   "tipo": "personagem",
+   "aliases": [
+    "Madre Nenneke"
+   ]
+  },
+  "Peter Saar Gwynleve": {
+   "tipo": "personagem",
+   "aliases": [
+    "Capitão Peter Saar Gwynleve"
+   ]
+  },
+  "Rei Henselt": {
+   "tipo": "personagem",
+   "aliases": [
+    "Henselt"
+   ]
+  },
+  "Auberon": {
+   "tipo": "personagem",
+   "aliases": []
+  },
+  "Mousesack": {
+   "tipo": "personagem",
+   "aliases": []
+  },
+  "Sigi Reuven": {
+   "tipo": "personagem",
+   "aliases": []
+  },
+  "Lugos": {
+   "tipo": "personagem",
+   "aliases": []
+  },
+  "Whoreson Junior": {
+   "tipo": "personagem",
+   "aliases": []
+  },
+  "Grifo": {
+   "tipo": "criatura",
+   "aliases": [
+    "Grifos"
+   ]
+  },
+  "Afogador": {
+   "tipo": "criatura",
+   "aliases": [
+    "Afogadores"
+   ]
+  },
+  "Carniçal": {
+   "tipo": "criatura",
+   "aliases": [
+    "Carniçais"
+   ]
+  },
+  "Nekker": {
+   "tipo": "criatura",
+   "aliases": [
+    "Nekkers"
+   ]
+  },
+  "Lobisomem": {
+   "tipo": "criatura",
+   "aliases": [
+    "Lobisomens"
+   ]
+  },
+  "Vodnik": {
+   "tipo": "criatura",
+   "aliases": [
+    "Vodniks"
+   ]
+  },
+  "Leshen": {
+   "tipo": "criatura",
+   "aliases": []
+  },
+  "Basilisco": {
+   "tipo": "criatura",
+   "aliases": []
+  },
+  "Troll": {
+   "tipo": "criatura",
+   "aliases": [
+    "Trolls"
+   ]
+  },
+  "Draug": {
+   "tipo": "criatura",
+   "aliases": []
+  },
+  "Espectro": {
+   "tipo": "criatura",
+   "aliases": [
+    "Espectros"
+   ]
+  },
+  "Bruxa da Água": {
+   "tipo": "criatura",
+   "aliases": []
+  },
+  "Ciclope": {
+   "tipo": "criatura",
+   "aliases": []
+  },
+  "Kaer Morhen": {
+   "tipo": "local",
+   "aliases": []
+  },
+  "Pomar Branco": {
+   "tipo": "local",
+   "aliases": []
+  },
+  "Velen": {
+   "tipo": "local",
+   "aliases": []
+  },
+  "Novigrad": {
+   "tipo": "local",
+   "aliases": []
+  },
+  "Skellige": {
+   "tipo": "local",
+   "aliases": []
+  },
+  "Oxenfurt": {
+   "tipo": "local",
+   "aliases": []
+  },
+  "Vizima": {
+   "tipo": "local",
+   "aliases": []
+  },
+  "Cintra": {
+   "tipo": "local",
+   "aliases": []
+  },
+  "Toussaint": {
+   "tipo": "local",
+   "aliases": []
+  },
+  "Kaer Trolde": {
+   "tipo": "local",
+   "aliases": []
+  },
+  "Temeria": {
+   "tipo": "local",
+   "aliases": [
+    "Teméria"
+   ]
+  },
+  "Redânia": {
+   "tipo": "local",
+   "aliases": []
+  },
+  "Aedirn": {
+   "tipo": "local",
+   "aliases": []
+  },
+  "Kaedwen": {
+   "tipo": "local",
+   "aliases": []
+  },
+  "Montanhas Azuis": {
+   "tipo": "local",
+   "aliases": []
+  },
+  "Ard Skellig": {
+   "tipo": "local",
+   "aliases": []
+  },
+  "Vengerberg": {
+   "tipo": "local",
+   "aliases": []
+  },
+  "Poviss": {
+   "tipo": "local",
+   "aliases": []
+  },
+  "Ellander": {
+   "tipo": "local",
+   "aliases": []
+  },
+  "Templo de Melitele": {
+   "tipo": "local",
+   "aliases": []
+  },
+  "Beauclair": {
+   "tipo": "local",
+   "aliases": []
+  },
+  "Carreira dos Aspirantes": {
+   "tipo": "local",
+   "aliases": []
+  },
+  "Nilfgaard": {
+   "tipo": "faccao",
+   "aliases": [
+    "Império Nilfgaardiano",
+    "Nilfgaardianos"
+   ]
+  },
+  "Caçada Selvagem": {
+   "tipo": "faccao",
+   "aliases": []
+  },
+  "Escola do Lobo": {
+   "tipo": "faccao",
+   "aliases": []
+  },
+  "Escola do Gato": {
+   "tipo": "faccao",
+   "aliases": []
+  },
+  "Escola do Grifo": {
+   "tipo": "faccao",
+   "aliases": []
+  },
+  "Escola da Víbora": {
+   "tipo": "faccao",
+   "aliases": []
+  },
+  "Escola do Urso": {
+   "tipo": "faccao",
+   "aliases": []
+  },
+  "Scoia'tael": {
+   "tipo": "faccao",
+   "aliases": []
+  },
+  "Cavaleiros Negros": {
+   "tipo": "faccao",
+   "aliases": []
+  },
+  "Ordem da Rosa Flamejante": {
+   "tipo": "faccao",
+   "aliases": []
+  },
+  "Lodge das Feiticeiras": {
+   "tipo": "faccao",
+   "aliases": [
+    "Loja das Feiticeiras"
+   ]
+  },
+  "Espada de Prata de Bruxo": {
+   "tipo": "item",
+   "aliases": [
+    "Espada de Prata"
+   ]
+  },
+  "Espada de Aço de Bruxo": {
+   "tipo": "item",
+   "aliases": [
+    "Espada de Aço"
+   ]
+  },
+  "Medalhão de Lobo": {
+   "tipo": "item",
+   "aliases": []
+  }
+ }
+}
