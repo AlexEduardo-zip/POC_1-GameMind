@@ -1,16 +1,15 @@
-"""Pré-processamento de screenshots para OCR (etapa B2).
-Recorta regiões onde o jogo põe texto pequeno (legenda, título e objetivo da missão, avisos),
-amplia e, opcionalmente, binariza. Coordenadas relativas (x0, y0, x1, y1) em tela 16:9."""
+"""Pré-processamento de capturas para OCR: recorta uma região, amplia e clareia o texto.
+Coordenadas relativas (x0, y0, x1, y1), a partir do canto superior esquerdo."""
 import cv2
 import numpy as np
 
-# Calibradas em screenshots 1920x1080 do The Witcher 3 (pt-BR); ver docs/estudo-viabilidade.md
+# Regiões genéricas, iguais para qualquer jogo: a maioria põe a legenda na faixa de baixo, o objetivo num canto de cima e os avisos no
+# alto, à esquerda ou ao centro. São o ponto de partida; `regioes.py` as refina por jogo e as guarda em regioes.json.
 ROIS = {
-    "legenda": (0.10, 0.72, 0.80, 0.86),  # fala com rótulo "Geralt: ..." e legenda de cena
-    "hud": (0.72, 0.26, 1.00, 0.50),      # título e objetivo da missão ativa, abaixo do minimapa
-    "aviso": (0.00, 0.18, 0.50, 0.66),    # tutorial, "Novo marcador", "Missão completada" e recompensas
+    "legenda": (0.08, 0.68, 0.92, 0.92),
+    "hud": (0.62, 0.12, 1.00, 0.55),
+    "aviso": (0.00, 0.10, 0.62, 0.70),
 }
-FILTROS = ("cinza", "otsu", "brilho")
 # modo de segmentação de página do Tesseract por região: 6 = bloco de texto, 11 = texto esparso (HUD, com poucas palavras soltas)
 PSM = {"legenda": 6, "hud": 11, "aviso": 6}
 

@@ -32,7 +32,7 @@ ESQUEMA = {
 def instrucoes() -> str:
     tipos = "\n".join(f"- {t}: {d}" for t, d in ONT["tipos"].items())
     preds = "\n".join(f"- {p}: {' ou '.join(v['dominio'])} -> {' ou '.join(v['alcance'])}" for p, v in PREDICADOS.items())
-    return f"""Você extrai entidades e relações do texto lido (por OCR) de uma tela do jogo The Witcher 3 em português do Brasil.
+    return f"""Você extrai entidades e relações do texto lido (por OCR) de uma tela de um jogo.
 O texto tem ruído de OCR (letras trocadas, linhas soltas): ignore o que não faz sentido.
 
 TIPOS DE ENTIDADE:
@@ -43,13 +43,13 @@ RELAÇÕES (sujeito -> objeto), só estas:
 
 REGRAS:
 1. Anote só o que está escrito no texto. Não use conhecimento do jogo, não complete nem invente nomes, e não crie entidade que não apareça no texto.
-2. Personagem só com nome próprio escrito (legenda "Nome: fala", objetivo, entrada de glossário). Citar o nome já conta.
+2. Personagem só com nome próprio escrito (legenda "Nome: fala", objetivo, lista da interface). Citar o nome já conta.
 3. Relação só se uma frase do texto a afirma com clareza; na dúvida, não crie. Sujeito e objeto precisam estar entre as entidades da lista "JÁ DETECTADO" ou entre as que você listou, com a mesma grafia.
    - Aparecer na mesma lista, tela ou entrada NÃO é relação. Por exemplo, a lista de personagens de um glossário não relaciona os personagens entre si.
-   - membro_de só se o texto diz que a pessoa pertence ao grupo ("membro da Escola do Lobo").
-   - participa_de: personagem que o objetivo ou a frase liga à missão ("Siga o Vesemir" na missão X). ocorre_em: missão ou evento que o texto situa num local. obtido_em: item que o texto dá como recompensa de uma missão.
-4. Item: só com nome próprio em destaque (ficha com título em maiúsculas, recompensa ou objetivo). Nunca anote rótulos de espaço de equipamento (Armadura de Peito, Luvas, Botas, Virotes, Bombas, Máscaras), atributos (Vitalidade, Toxicidade, dano), botões, nem a arma equipada.
-5. Não anote: categorias do bestiário (Necrófagos, Híbridos), Gwent e cartas, controles e dicas de tutorial, nem grupos de pessoas genéricos ("recrutas", "povo", "bruxos").
+   - membro_de só se o texto diz que a pessoa pertence ao grupo ("membro da Guarda do Norte").
+   - participa_de: personagem que o objetivo ou a frase liga à missão ("Siga o Aldric" na missão X). ocorre_em: missão ou evento que o texto situa num local. obtido_em: item que o texto dá como recompensa de uma missão.
+4. Item: só com nome próprio em destaque (ficha com título em maiúsculas, recompensa ou objetivo). Nunca anote rótulos de espaço de equipamento, atributos (vida, dano), botões, abas ou menus, nem o equipamento em uso.
+5. Não anote: categorias de listas da interface, minijogos e cartas, controles e dicas de tutorial, nem grupos de pessoas genéricos ("recrutas", "povo").
 6. Em "JÁ DETECTADO" estão as entidades que outras etapas já acharam na tela (tipo: nome). Não as repita; use-as nas relações quando o texto permitir.
 Exemplo (texto inventado): "MISSÃO ATUALIZADA! O CAMPO DE FEIRA. Fale com Lena na estalagem de Vale Claro." com JÁ DETECTADO "missao: O Campo de Feira" deve gerar as entidades Lena (personagem), Vale Claro (local), estalagem de Vale Claro (local) e as relações Lena participa_de O Campo de Feira, O Campo de Feira ocorre_em Vale Claro.
 Responda só com o JSON pedido."""
@@ -66,11 +66,27 @@ class Backend:
     def extrair(self, secoes: dict[str, str], detectado: list[str]) -> tuple[dict, dict]:
         raise NotImplementedError
 
+    def perguntar(self, instrucoes: str, pedido: str, esquema: dict) -> dict:
+        """Pergunta livre com resposta em JSON no `esquema` (só o Ollama implementa)."""
+        raise NotImplementedError(f"{self.nome} não responde perguntas livres")
+
 
 class OllamaBackend(Backend):
     def __init__(self, modelo: str = "qwen2.5:7b", url: str = "http://localhost:11434", num_ctx: int = 4096):
         self.modelo, self.url, self.num_ctx = modelo, url, num_ctx
         self.nome = f"ollama:{modelo}"
+
+    def perguntar(self, instrucoes: str, pedido: str, esquema: dict) -> dict:
+        corpo = {"model": self.modelo, "stream": False, "format": esquema, "keep_alive": "10m",
+                 "options": {"temperature": 0, "seed": 0, "num_ctx": self.num_ctx, "num_predict": 1200},
+                 "messages": [{"role": "system", "content": instrucoes}, {"role": "user", "content": pedido}]}
+        req = urllib.request.Request(self.url + "/api/chat", data=json.dumps(corpo).encode(), headers={"Content-Type": "application/json"})
+        with urllib.request.urlopen(req, timeout=600) as r:
+            resp = json.load(r)
+        try:
+            return json.loads(resp["message"]["content"])
+        except (KeyError, json.JSONDecodeError):
+            return {}
 
     def extrair(self, secoes, detectado):
         corpo = {"model": self.modelo, "stream": False, "format": ESQUEMA, "keep_alive": "10m",
@@ -97,12 +113,6 @@ class Resultado:
     descartes: list[str]
 
 
-# rótulos da interface que não são itens do jogo (espaços de equipamento, atributos e abas do inventário)
-ROTULOS_UI = {"armadura de peito", "luvas", "calcas", "botas", "virotes", "bombas", "viseiras", "mascaras", "utilitarios", "troféu", "trofeu", "sela",
-              "alforjes", "viveiras", "vitalidade", "toxicidade", "carpeado", "oleos", "pocoes", "armas", "armadura", "outros", "comestiveis",
-              "arma de aco", "arma de prata", "espada de prata", "espada de aco", "sentidos de bruxo", "garrafa d agua", "tocha", "chave"}
-
-
 def _janelas(texto: str) -> tuple[str, list[str], list[str]]:
     n = norm(texto)
     caixa_alta = [norm(l) for l in texto.splitlines() if sum(c.isalpha() for c in l) >= 4 and
@@ -123,9 +133,9 @@ def _presente(nome: str, n: str, palavras: list[str], limiar: float = 0.85) -> b
                for j in (" ".join(palavras[i:i + w]) for i in range(len(palavras) - w + 1)))
 
 
-GENERICOS = {"missao", "personagem", "serio", "ela", "ele", "oleo", "herbalista", "cacador", "bruxo", "bruxos", "recrutas", "povo", "demonio",
-             "jogador", "heroi", "inimigo", "aliado", "npc", "guarda", "guardas", "soldado", "soldados", "alistamento", "objetivo"}
-CUES_MEMBRO = ("membro", "colega", "pertenc", "parte d", "integr", "alistad", "recruta", "escola do", "filiad")
+GENERICOS = {"missao", "personagem", "serio", "ela", "ele", "recrutas", "povo", "jogador", "heroi", "inimigo", "aliado", "npc", "guarda", "guardas",
+             "soldado", "soldados", "objetivo"}
+CUES_MEMBRO = ("membro", "colega", "pertenc", "parte d", "integr", "alistad", "recruta", "filiad")
 
 
 def _maiuscula_inicial(nome: str, texto: str) -> bool:
@@ -151,7 +161,8 @@ def _coocorre(a: str, b: str, linhas: list[str], base: set[str], janela: int = 4
     return False, ""
 
 
-def normalizar(saida: dict, gaz: Gazetteer, nomes_base: list[tuple[str, str]], texto: str = "") -> Resultado:
+def normalizar(saida: dict, gaz: Gazetteer, nomes_base: list[tuple[str, str]], texto: str = "",
+               criaturas_minusculas: bool = False) -> Resultado:
     """Resolve nomes pelo dicionário e pelos títulos já detectados (`nomes_base`: lista de (nome, tipo)),
     valida tipos e predicados (domínio e alcance) e descarta o que a ontologia não aceita."""
     alias = {k: c for k, c in gaz.termos.items()}
@@ -180,8 +191,6 @@ def normalizar(saida: dict, gaz: Gazetteer, nomes_base: list[tuple[str, str]], t
         if not texto:
             return True
         if tipo == "item":
-            if norm(nome) in ROTULOS_UI:
-                return False
             return any(_presente(nome, c, c.split()) for c in caixa_alta)
         return _presente(nome, tn, palavras)
 
@@ -191,13 +200,15 @@ def normalizar(saida: dict, gaz: Gazetteer, nomes_base: list[tuple[str, str]], t
         if not nome or len(nome.split()) > 8 or e.get("tipo") not in TIPOS:
             descartes.append(f"entidade inválida: {nome!r}")
             continue
+        if criaturas_minusculas and e["tipo"] == "criatura":
+            nome = nome[:1].upper() + nome[1:]   # o nome de uma espécie é um substantivo comum ("grifo"): vale se está no texto
         n, t = resolve(nome, e["tipo"])
         if not aterrada(n, t) and not aterrada(nome, t):
             descartes.append(f"sem lastro no texto: {nome!r} ({t})")
             continue
         if norm(n) not in base_nomes and n not in gaz.tipo and texto:
-            # nome novo (fora do dicionário e das etapas estruturadas): precisa ser nome próprio, não palavra comum
-            if norm(n) in GENERICOS or not n[:1].isupper() or (t != "item" and not _maiuscula_inicial(n, texto)):
+            # nome novo (fora do dicionário): precisa ser nome próprio, não palavra comum
+            if norm(n) in GENERICOS or not n[:1].isupper() or (t != "item" and not (criaturas_minusculas and t == "criatura") and not _maiuscula_inicial(n, texto)):
                 descartes.append(f"nome comum, não próprio: {n!r}")
                 continue
         ents.setdefault(n, t)

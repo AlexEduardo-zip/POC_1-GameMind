@@ -11,8 +11,7 @@ vault_output/*
 grafo.json
 docs/exemplo/vault/.obsidian/workspace.json
 eval/predicoes/
-eval/resultados*.csv
 .obsidian/
-eval/quebras*.csv
-eval/cache_ocr/
-eval/cache_video/
+jogos/
+eval/resultado_*.json
+eval/vaults/

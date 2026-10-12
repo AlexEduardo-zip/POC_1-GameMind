@@ -87,9 +87,4 @@ Conteúdo que **não coube** em nenhum tipo, contado nas `observacoes` do gabari
 
 **Reanotação.** Facções anotadas em 11 itens do gabarito: `img_012`, `img_054`, `img_057`, `img_058`, `img_059`, `img_070`, `img_071` (arquivo novo), `img_072`, `img_075`, `img_088` (e a relação `membro_de` em `img_058` e `img_059`). Entram 4 facções em `entidades.json`: Nilfgaard (alias Império Nilfgaardiano), Caçada Selvagem, Exército Imperial (alias Forças Imperiais) e Escola do Lobo. Peter Saar Gwynleve **não** é anotado como membro de Nilfgaard ou do Exército Imperial: nenhuma tela afirma o vínculo.
 
-**Resultado após a emenda**
-- 54 arquivos de gabarito, 202 anotações de entidade (11 de facção), 39 relações (2 `membro_de`); grafo de 56 nós e 31 arestas; `validar_gabarito.py` com 0 problemas.
-- Fora de escopo restam Gwent, cartas e categorias do bestiário (menos de 3%).
-- Linha de base de OCR com dicionário vindo do gabarito (script removido depois; superada pelo dicionário independente, ver `docs/estudo-viabilidade.md`): entidades precisão 0,94, revocação 0,81, F1 0,87.
-
 **Critério para reabrir.** Nenhuma nova mudança de tipo antes da avaliação da Semana 15, exceto se a extração mostrar um conceito recorrente sem tipo (mais de 10% das telas) ou o `membro_de` se mostrar inútil (nenhuma pergunta respondida por ele no corpus).

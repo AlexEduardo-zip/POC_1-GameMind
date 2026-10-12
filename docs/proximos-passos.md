@@ -1,29 +1,29 @@
 # Próximos passos
 
-Atualizado em 2026-10-08. Única lista de pendências; o histórico está em `docs/diario.md` e os resultados em `docs/resumo-do-projeto.md`.
+Atualizado em 2026-10-10. Única lista de pendências; o histórico está em `docs/diario.md`.
 
 ## Onde estamos no cronograma da proposta
 | Semanas | Atividade | Situação |
 |---|---|---|
-| 1–2 | Revisão, jogo-piloto, coleta | Concluída (`docs/coleta.md`, `docs/decisoes/001-jogo-piloto.md`) |
-| 3–4 | Ontologia e esquema do grafo | Concluída: ontologia 1.1 congelada (`docs/decisoes/002-ontologia-1-0.md`) |
-| 5–7 | Estudo de viabilidade (screenshot, vídeo e combinação) | Feito, com conclusão provisória (`docs/estudo-viabilidade.md`) |
-| 8–10 | Camada de extração: IA local feita; **IA pública opcional falta** | Em andamento |
-| 11–12 | Exportação Markdown/Obsidian e JSON | Protótipo pronto (`src/grafo.py`, `src/exportar_vault.py`); falta o modelo de nota definitivo |
-| 13–14 | Protótipo integrado (pasta de teste → vault) | A fazer: hoje são scripts separados |
-| 15 | Avaliação comparativa e ajustes | A fazer, com material novo |
+| 1–2 | Revisão, jogo-piloto, coleta | Concluída (`docs/coleta.md`, decisão 001) |
+| 3–4 | Ontologia e esquema do grafo | Concluída: ontologia 1.1 (decisão 002) |
+| 5–7 | Estudo de viabilidade (screenshot, vídeo e combinação) | Concluído (`docs/estudo-viabilidade.md`) |
+| 8–10 | Camada de extração | IA local feita; conector de IA pública pronto, **sem comparação medida** |
+| 11–12 | Exportação Markdown/Obsidian e JSON | Pronta (notas, canvas e `grafo.json`); falta o modelo de nota definitivo |
+| 13–14 | Protótipo integrado (pasta → vault) | Pronto: aplicativo `gamemind.py`, independente de jogo (decisões 003 a 005) |
+| 15 | Avaliação comparativa e ajustes | A fazer |
 | 16 | Consolidação e relatório | A fazer |
 
 ## A fazer, em ordem
-1. **Medida em telas novas.** Capturar e anotar telas novas (sem mexer em regras, prompt e filtros) e rodar o pipeline: é a única forma de saber o quanto os números atuais, calibrados nas mesmas imagens, estão otimistas.
-2. **IA pública como back-end alternativo** (Semanas 8–10): segunda implementação de `Backend` em `src/extracao/llm.py`, credenciais do próprio usuário por `.env` (já ignorado pelo git), e comparação com o local em F1, tempo e custo.
-3. **Melhorar os pontos fracos**, em ordem de ganho esperado:
-   - relações (F1 0,40): recompensa de missão (`obtido_em`, hoje 0) com leitura melhor do banner; vizinhança entre nome e frase no vídeo;
-   - item (0,50) e local fora do dicionário (0,69);
-   - HUD e mapa (0,61): recorte próprio para rótulos de mapa e opções de diálogo.
-4. **Protótipo integrado** (Semanas 13–14): um comando que recebe uma pasta de imagens e clipes e gera o vault (hoje: `rodar_extracao`, `rodar_llm`, `rodar_video`, `grafo`, `exportar_vault`). Incluir contexto de sessão (missão ativa do HUD ligando decisões e itens a missões) e o modelo de nota definitivo.
-5. **Avaliação final e relatório** (Semanas 15–16): reavaliar `evento` e `gera` (em reserva, sem nenhum caso; saem na ontologia 1.2 se continuarem sem uso) e registrar a estratégia de entrada final em `docs/decisoes/003-estrategia-de-entrada.md`.
+1. **Missões, decisões e relações sem regras de jogo.** Desde a decisão 005 o aplicativo não acha nenhum dos três. Caminhos a testar, todos sem configuração por jogo:
+   - ler a tela com a posição de cada linha e deixar a IA dizer o papel de cada uma (título de missão, objetivo, opção de diálogo); o mecanismo já existe, opcional, para as regiões (`regioes.py`);
+   - IA local que veja a imagem (Qwen2.5-VL, Gemma 3; não testado nesta máquina);
+   - aprender as regiões pela persistência do texto entre capturas e vídeos (o que fica parado é interface; o que aparece e some é legenda).
+2. **Medir em outro jogo e em telas novas.** Coletar e anotar capturas de um segundo jogo, sem mexer em regras nem prompt. É a única forma de saber se o aplicativo generaliza e o quanto os números atuais, ajustados no mesmo material, estão otimistas.
+3. **Comparar a IA pública com a local.** Rodar `python scripts/testar_conector.py <provedor>` e `python scripts/avaliar_aplicativo.py --ia <provedor>` e comparar acerto, tempo e custo (`docs/ia-publica.md`).
+4. **Modelo de nota definitivo** e seção do usuário preservada dentro das notas geradas.
+5. **Avaliação final e relatório** (Semanas 15–16): reavaliar `evento` e `gera` (em reserva, sem nenhum caso; saem na ontologia 1.2 se continuarem sem uso) e registrar a estratégia de entrada final numa decisão.
 
 ## Pendências menores
 - `scripts/check_env.py` e `scripts/validar_gabarito.py` só funcionam dentro do `.venv` (precisam de `pydantic`).
-- No Obsidian, abrir `vault_output/` (e não a raiz do repositório) como vault; `workspace.json` e `graph.json` do Obsidian são estado local.
+- No Obsidian, abra como vault a pasta `jogos/<jogo>/vault` (ou `vault_output/` no exemplo), não a raiz do repositório.

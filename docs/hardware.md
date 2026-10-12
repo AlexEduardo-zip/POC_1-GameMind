@@ -15,9 +15,9 @@
 - **Consequência para o estudo:** testar primeiro modelos pequenos com visão e modelos de texto pequenos; registrar para cada teste modelo, quantização, uso de VRAM e tempo. Esses números alimentam a avaliação de "requisitos de hardware".
 - **Se a GPU não for usada:** conferir o log do Ollama; tentar a opção Vulkan antes de desistir da aceleração.
 
-## Medido em 2026-10-08 (Ollama 0.40.1, Windows 11)
+## O que foi observado
 - **A GPU é usada:** o Ollama detecta a RX 7600 via ROCm (`gfx1102`) e roda os modelos **100% na GPU**, sem precisar do modo Vulkan.
-- **qwen2.5:7b (Q4):** 4,42 GB de VRAM, 7,8 s por imagem na tarefa de extração (cerca de 1.500 tokens de entrada e 250 de saída por imagem).
-- **qwen2.5:3b (Q4):** 2,01 GB de VRAM, 6,1 s por imagem.
-- Sobra mais de 3 GB de VRAM com o 7B, o que deixa espaço para o jogo rodar junto só em parte; o processamento assíncrono (após a coleta) continua sendo a escolha certa.
-- O instalador do Ollama atualiza o app sozinho e cria um atalho de inicialização do Windows; o servidor foi iniciado com `ollama serve`.
+- **qwen2.5:7b (quantizado Q4):** cerca de 4,5 GB de memória de vídeo.
+- **qwen2.5:3b (quantizado Q4):** cerca de 2 GB.
+- Com o 7B sobram uns 3,5 GB, o que deixa pouco espaço para o jogo rodar junto; o processamento assíncrono (depois da sessão) continua sendo a escolha certa.
+- O instalador do Ollama atualiza o app sozinho e cria um atalho de inicialização do Windows; o servidor pode ser iniciado com `ollama serve`.
