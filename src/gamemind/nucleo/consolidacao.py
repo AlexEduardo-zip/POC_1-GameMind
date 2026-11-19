@@ -6,8 +6,13 @@ from difflib import SequenceMatcher
 
 from extracao.gazetteer import Gazetteer, norm
 from extracao.llm import normalizar
+from schema import SIMETRICOS
 
 from .repositorio import Midia
+
+# tela com mais entidades que isto é lista (glossário, diário, mapa): estar na mesma lista não indica relação
+TELA_LISTA = 6
+EVIDENCIA_LISTA = "LLM (lista)"
 
 
 def _texto(q: dict) -> str:
@@ -94,9 +99,12 @@ def somar_llm(base: dict[int, dict], leituras: list[tuple[Midia, dict]], respost
                 ja.add(nome)
                 an["entidades"].append({"nome": nome, "tipo": e["tipo"], "evidencia": "LLM"})
         ja_r = {(x["sujeito"], x["predicado"], x["objeto"]) for x in an["relacoes"]}
+        lista = len(an["entidades"]) > TELA_LISTA
         for x in r.relacoes:
             t = (canon.get(x["sujeito"], x["sujeito"]), x["predicado"], canon.get(x["objeto"], x["objeto"]))
             if t not in ja_r:
                 ja_r.add(t)
-                an["relacoes"].append({"sujeito": t[0], "predicado": t[1], "objeto": t[2], "evidencia": "LLM"})
+                # "relacionado a" tirado de uma lista pode ser só estar na mesma lista: vale se outra captura confirmar
+                evidencia = EVIDENCIA_LISTA if lista and t[1] in SIMETRICOS else "LLM"
+                an["relacoes"].append({"sujeito": t[0], "predicado": t[1], "objeto": t[2], "evidencia": evidencia})
     return saida

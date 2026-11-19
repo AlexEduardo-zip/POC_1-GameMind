@@ -1,0 +1,109 @@
+{
+ "descricao": "Gabarito do conjunto data/raw/escopo_reduzido: capturas em que o OCR e a IA trazem formas diferentes do mesmo nome. Confere o grafo final (nós e relações), não a anotação de cada captura. Verificado por scripts/avaliar_duplicados.py.",
+ "midias": [
+  "img_004_dialogo.jpg",
+  "img_005_exploracao.jpg",
+  "img_009_diario.jpg",
+  "img_010_glossario.jpg",
+  "img_012_glossario.jpg",
+  "img_018_dialogo.jpg",
+  "img_021_dialogo.jpg",
+  "img_022_glossario.jpg",
+  "img_054_diario.jpg",
+  "img_057_glossario.jpg",
+  "img_072_quadro_avisos.jpg",
+  "img_075_quadro_avisos.jpg",
+  "img_076_glossario.jpg",
+  "img_080_exploracao.jpg",
+  "img_086_escolhas.png"
+ ],
+ "mesmo_no": [
+  {
+   "nomes": [
+    "Geralt",
+    "Geralt de Rivia"
+   ],
+   "tipo": "personagem",
+   "por_que": "img_009 diz 'Geralt'; img_010 e img_057, 'Geralt de Rivia'"
+  },
+  {
+   "nomes": [
+    "Yennefer",
+    "Yennefer de Vengerberg"
+   ],
+   "tipo": "personagem",
+   "por_que": "img_009 e img_054 dizem 'Yennefer'; img_010 e img_057 (glossário), 'Yennefer de Vengerberg'"
+  },
+  {
+   "nomes": [
+    "Grifo",
+    "Grifos"
+   ],
+   "tipo": "criatura",
+   "por_que": "glossário (img_022, img_076) no plural; a IA tira 'Grifo' do diário (img_054)"
+  },
+  {
+   "nomes": [
+    "Caçada",
+    "Caçada Selvagem"
+   ],
+   "tipo": "faccao",
+   "por_que": "img_057: o OCR lê 'Caçada' e a IA, 'Caçada Selvagem'"
+  },
+  {
+   "nomes": [
+    "Comandante Peter Saar Gwynleve",
+    "Capitão Peter Saar Gwynleve"
+   ],
+   "tipo": "personagem",
+   "por_que": "mesmo nome com tratamentos diferentes nos quadros de avisos img_072 e img_075"
+  },
+  {
+   "nomes": [
+    "Afogadores",
+    "Afogadores mortais"
+   ],
+   "tipo": "criatura",
+   "por_que": "img_076: o OCR lê 'Afogadores' e a IA, 'Afogadores mortais'"
+  },
+  {
+   "nomes": [
+    "Nilfgaard",
+    "Império Nilfgaardiano"
+   ],
+   "tipo": "faccao",
+   "por_que": "no gabarito por captura (data/gabarito/entidades.json), 'Império Nilfgaardiano' é apelido de 'Nilfgaard'"
+  }
+ ],
+ "nos_distintos": [
+  {
+   "nomes": [
+    "Geralt",
+    "Yennefer"
+   ],
+   "por_que": "pessoas diferentes que aparecem juntas"
+  },
+  {
+   "nomes": [
+    "Grifos",
+    "Afogadores"
+   ],
+   "por_que": "criaturas diferentes no mesmo glossário"
+  },
+  {
+   "nomes": [
+    "Geralt",
+    "Vesemir"
+   ],
+   "por_que": "pessoas diferentes que aparecem juntas"
+  }
+ ],
+ "relacoes": [
+  {
+   "sujeito": "Geralt",
+   "predicado": "relacionado_a",
+   "objeto": "Yennefer",
+   "por_que": "'O amor de Geralt e Yennefer' em dois glossários (img_012 e img_057); de tela de lista, só vale confirmada em 2 capturas"
+  }
+ ]
+}

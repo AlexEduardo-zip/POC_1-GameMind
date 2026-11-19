@@ -32,10 +32,9 @@ Só a etapa da IA muda de um modo para outro.
 | **Só OCR** | lê o texto e reconhece os nomes que aprendeu | só o processador | teste rápido; acha personagens, lugares e facções, mas não criaturas, itens nem ligações |
 | **IA local média** (7 bilhões de parâmetros) | acrescenta criaturas, itens e ligações e ensina nomes ao dicionário | placa de vídeo com cerca de 5 GB livres | melhor resultado, sem nada sair do computador |
 | **IA local pequena** (3 bilhões) | o mesmo, com menos acerto nas ligações | placa de vídeo com cerca de 2 GB livres | computador mais fraco |
-| **IA pública** (OpenAI, Gemini, Claude) | o mesmo, num servidor do provedor | internet, chave de API e pagamento por uso | sem placa de vídeo; qualidade ainda não comparada com a local |
-| **Claude Code** (assinatura Pro/Max) | usa o login da assinatura em vez de chave | assinatura e login | testes; não serve para uso contínuo |
+| **Claude** (assinatura Pro/Max, pelo Claude Code) | o mesmo, com o login da assinatura, sem cobrança por uso | assinatura, login e internet | sem placa de vídeo; desconta da cota do plano |
 
-Em todos os modos com IA, ela recebe só o **texto lido da tela**, nunca as imagens, e a checagem da etapa 5 vale igual para a IA local e para a da nuvem.
+Em todos os modos com IA, ela recebe só o **texto lido da tela**, nunca as imagens, e a checagem da etapa 5 vale igual para a IA local e para o Claude.
 
 ## 5. O que o aplicativo acerta hoje
 Teste geral: 133 mídias (97 screenshots e 36 vídeos), processadas só com OCR e depois com a IA local média, e comparadas com a resposta conferida à mão, que cobre parte delas. De cada 100 entidades que existem nas telas, quantas o programa **acha** e, entre as que aponta, quantas **acerta**:
@@ -90,18 +89,10 @@ No teste geral (133 mídias, 4 leituras em paralelo, computador com Ryzen 5 5500
 - **Instalação:** Tesseract (OCR, com o idioma do jogo) e FFmpeg (vídeo); o Ollama roda a IA local e só é preciso nesse modo.
 
 ### 7.3 Privacidade
-Tudo roda no seu computador. Só no modo de IA pública sai algo, e é **só o texto lido** da tela, nunca imagem nem vídeo.
+Tudo roda no seu computador. Só com o Claude sai algo, e é **só o texto lido** da tela, nunca imagem nem vídeo.
 
-### 7.4 Preço estimado com IA pela internet
-No teste geral, a IA local recebeu em média cerca de **1.700 tokens de entrada e 210 de saída por mídia** (222 mil e 28 mil nas 133 mídias; 1.500 tokens são mais ou menos duas páginas de texto). Com os modelos mais baratos de cada provedor, os padrões do aplicativo, e preços de tabela por milhão de tokens de entrada e saída (gpt-5-mini US$ 0,25 e 2,00; gemini-2.5-flash US$ 0,30 e 2,50; claude-haiku-4-5 US$ 1,00 e 5,00):
-
-| Provedor (modelo padrão) | Estas 133 mídias | Mil mídias |
-|---|---|---|
-| OpenAI (gpt-5-mini) | cerca de US$ 0,11 | cerca de US$ 0,8 |
-| Google (gemini-2.5-flash) | cerca de US$ 0,14 | cerca de US$ 1,0 |
-| Anthropic (claude-haiku-4-5) | cerca de US$ 0,36 | cerca de US$ 2,7 |
-
-É **estimativa**: os preços mudam e precisam ser conferidos; o conector ainda não foi usado com chaves reais (modelos que "pensam" antes de responder gastam mais na saída). A IA local não tem custo por uso, e o Claude Code pela assinatura consome a cota do plano.
+### 7.4 Custo
+Nenhum modo cobra por uso: a IA local roda no seu computador, e o Claude desconta da cota da sua assinatura (cerca de 1.700 tokens de entrada e 210 de saída por mídia, a média do teste geral).
 
 ### 7.5 Que modo escolher
 | Prioridade | Modo |
@@ -109,12 +100,12 @@ No teste geral, a IA local recebeu em média cerca de **1.700 tokens de entrada 
 | Rodar em qualquer computador | Só OCR (personagens, lugares e facções) |
 | Melhor resultado sem mandar nada para fora | IA local média |
 | Computador mais fraco | IA local pequena |
-| Sem placa de vídeo e com internet | IA pública de modelo barato |
+| Sem placa de vídeo e com assinatura do Claude | Claude pelo login |
 
 ## 8. Limites
 - **Um jogo só foi medido:** o aplicativo não usa nada específico de jogo, mas o gabarito é de um jogo. Falta medir em outro jogo e em telas novas.
 - **Números de desenvolvimento:** a resposta conferida à mão é pequena e de um jogo, as regras de aprendizado de nomes foram ajustadas no mesmo material usado para medir, e a IA varia entre execuções; os resultados provavelmente são otimistas.
 - **Sem missões, decisões e ligações** até haver um substituto das regras de tela que não dependa de jogo.
 - **Recortes genéricos:** interfaces fora do padrão podem escapar deles.
-- **A IA pública** ainda não foi comparada com a local.
+- **O Claude** ainda não foi comparado com a IA local.
 - **Ainda não houve teste com jogadores.**

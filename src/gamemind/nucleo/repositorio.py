@@ -2,8 +2,11 @@
 O banco guarda o que é caro de refazer (leitura de cada mídia e resposta do LLM); anotações, grafo e vault são derivados
 e podem ser apagados e refeitos a qualquer momento. As mídias não são copiadas: só caminho, tamanho e data."""
 import json
+import os
 import re
+import shutil
 import sqlite3
+import stat
 import threading
 from dataclasses import dataclass
 from pathlib import Path
@@ -38,6 +41,9 @@ CREATE TABLE IF NOT EXISTS anotacao (
 );
 """
 
+
+# o que o usuário escolheu para o jogo: fica mesmo quando o jogo é reiniciado do zero (Limpar > Tudo)
+CONFIGURACAO = ("pasta_capturas", "pasta_videos", "executavel", "ia", "regioes_por_imagem", "revisar_entidades")
 
 @dataclass
 class Midia:
@@ -90,6 +96,20 @@ class Jogo:
     def abrir(cls, nome: str) -> "Jogo":
         return cls(cls.raiz() / nome_valido(nome))
 
+    @classmethod
+    def apagar(cls, nome: str) -> None:
+        """Apaga o jogo: a pasta dele inteira (banco, nomes e regiões aprendidos, resumos e o vault). Feche o `Jogo` antes. As
+        capturas e os vídeos do usuário não são tocados: ficam nas pastas de origem, fora da pasta do jogo."""
+        raiz = cls.raiz().resolve()
+        pasta = (raiz / nome_valido(nome)).resolve()
+        if pasta.parent != raiz or not (pasta / "gamemind.db").exists():
+            raise ValueError(f"não é um jogo do GameMind: {nome}")
+
+        def somente_leitura(funcao, caminho, _erro):   # arquivo marcado como somente leitura (Windows): libera e tenta de novo
+            os.chmod(caminho, stat.S_IWRITE)
+            funcao(caminho)
+        shutil.rmtree(pasta, onexc=somente_leitura)
+
     @property
     def nome(self) -> str:
         return self.pasta.name
@@ -107,6 +127,10 @@ class Jogo:
     def set(self, chave: str, valor) -> None:
         with self._trava, self._bd:
             self._bd.execute("INSERT OR REPLACE INTO meta VALUES (?, ?)", (chave, json.dumps(valor, ensure_ascii=False)))
+
+    def pastas(self) -> list[Path]:
+        """As pastas de capturas do jogo que estão configuradas (screenshots e vídeos)."""
+        return [Path(p) for p in dict.fromkeys([self.get("pasta_capturas"), self.get("pasta_videos")]) if p]
 
     @property
     def pasta_vault(self) -> Path:
@@ -153,6 +177,14 @@ class Jogo:
             cur = self._bd.execute("UPDATE midia SET estado = 'pendente' WHERE estado = 'erro' OR (? IS NOT NULL AND versao_leitura < ?)",
                                    (versao_atual, versao_atual))
             return cur.rowcount
+
+    def reiniciar(self) -> None:
+        """Volta o banco ao estado de um jogo recém-criado: esquece as mídias registradas, as leituras, as respostas da IA e as
+        anotações. Fica só a pasta de capturas escolhida."""
+        with self._trava, self._bd:
+            for tabela in ("llm", "anotacao", "midia"):
+                self._bd.execute(f"DELETE FROM {tabela}")
+            self._bd.execute(f"DELETE FROM meta WHERE chave NOT IN ({','.join('?' * len(CONFIGURACAO))})", CONFIGURACAO)
 
     def gravar_leitura(self, midia_id: int, leitura: dict, versao: int, tempo_s: float) -> None:
         with self._trava, self._bd:

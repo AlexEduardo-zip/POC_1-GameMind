@@ -18,11 +18,25 @@ def link(nome):
     return f"[[{arquivo(nome)}]]"
 
 
-def exportar(g: dict, saida: Path, anexos: dict[str, list[str]] | None = None, ao_gravar=None) -> int:
+def gravar_se_mudou(caminho: Path, texto: str) -> bool:
+    """Grava `texto` em `caminho` só se o conteúdo mudou (o vault é regravado várias vezes ao longo de uma rodada).
+    Devolve True se gravou."""
+    try:
+        if caminho.read_text(encoding="utf-8") == texto:
+            return False
+    except (OSError, UnicodeDecodeError):
+        pass
+    caminho.write_text(texto, encoding="utf-8")
+    return True
+
+
+def exportar(g: dict, saida: Path, anexos: dict[str, list[str]] | None = None, ao_gravar=None,
+             secoes: dict[str, list[str]] | None = None) -> int:
     """Escreve uma nota por nó do grafo (dict no formato de src/grafo.py) em `saida`. Devolve o número de notas.
-    `anexos`: linhas de Markdown acrescentadas logo abaixo do título de cada nota (ex.: link para o canvas da missão).
-    `ao_gravar(caminho)`, se dado, é chamado a cada nota escrita."""
-    anexos = anexos or {}
+    `anexos`: linhas de Markdown acrescentadas logo abaixo do título de cada nota (ex.: link para o canvas do mundo).
+    `secoes`: linhas de Markdown acrescentadas depois das relações e antes das fontes (ex.: capturas, vistos junto).
+    `ao_gravar(caminho)`, se dado, é chamado a cada nota criada ou alterada (notas idênticas não são regravadas)."""
+    anexos, secoes = anexos or {}, secoes or {}
     saida = Path(saida)
     saintes, entrantes = defaultdict(list), defaultdict(list)
     for r in g["arestas"]:
@@ -42,7 +56,8 @@ def exportar(g: dict, saida: Path, anexos: dict[str, list[str]] | None = None, a
         if e.get("primeira_vez"):
             fm.append(f"primeira_vez: {e['primeira_vez']}")
         fm.append("---")
-        linhas = fm + [f"# {e['nome']}", ""] + ([*anexos[e["nome"]], ""] if anexos.get(e["nome"]) else []) + [e.get("descricao", ""), ""]
+        linhas = (fm + [f"# {e['nome']}", ""] + ([*anexos[e["nome"]], ""] if anexos.get(e["nome"]) else [])
+                  + ([e["descricao"], ""] if e.get("descricao") else []))
         if saintes[e["nome"]]:
             linhas.append("## Relações")
             agrupadas = defaultdict(list)
@@ -57,13 +72,13 @@ def exportar(g: dict, saida: Path, anexos: dict[str, list[str]] | None = None, a
             for r in entrantes[e["nome"]]:
                 linhas.append(f"- {link(r['sujeito'])} {r['predicado']} este")
             linhas.append("")
+        linhas += secoes.get(e["nome"], [])
         if e.get("fontes"):
             linhas.append("## Fontes")
             for f in e["fontes"]:
                 linhas.append(f"- {f['arquivo']}" + (f": {f['evidencia']}" if f.get("evidencia") else ""))
             linhas.append("")
-        (pasta / f"{arquivo(e['nome'])}.md").write_text("\n".join(linhas), encoding="utf-8")
-        if ao_gravar:
+        if gravar_se_mudou(pasta / f"{arquivo(e['nome'])}.md", "\n".join(linhas)) and ao_gravar:
             ao_gravar(pasta / f"{arquivo(e['nome'])}.md")
     return len(g["nos"])
 

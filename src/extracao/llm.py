@@ -4,6 +4,7 @@ Padrão: modelo local via Ollama (privacidade e sem custo recorrente). A IA púb
 O resultado passa por `normalizar()`: nomes resolvidos pelo dicionário, tipos e predicados validados pela ontologia."""
 import json
 import time
+import urllib.error
 import urllib.request
 from dataclasses import dataclass
 from difflib import SequenceMatcher
@@ -66,27 +67,62 @@ class Backend:
     def extrair(self, secoes: dict[str, str], detectado: list[str]) -> tuple[dict, dict]:
         raise NotImplementedError
 
-    def perguntar(self, instrucoes: str, pedido: str, esquema: dict) -> dict:
-        """Pergunta livre com resposta em JSON no `esquema` (só o Ollama implementa)."""
+    def perguntar(self, instrucoes: str, pedido: str, esquema: dict, imagens: list[str] | None = None) -> dict:
+        """Pergunta livre com resposta em JSON no `esquema` (Ollama e Claude Code; só o Ollama aceita imagens). `imagens`: JPEG/PNG em base64, para um
+        modelo com visão."""
         raise NotImplementedError(f"{self.nome} não responde perguntas livres")
 
 
 class OllamaBackend(Backend):
     def __init__(self, modelo: str = "qwen2.5:7b", url: str = "http://localhost:11434", num_ctx: int = 4096):
         self.modelo, self.url, self.num_ctx = modelo, url, num_ctx
+        self.timeout = 600.0   # segundos por chamada; quem tem orçamento de tempo (regiões) reduz
         self.nome = f"ollama:{modelo}"
 
-    def perguntar(self, instrucoes: str, pedido: str, esquema: dict) -> dict:
+    def perguntar(self, instrucoes: str, pedido: str, esquema: dict, imagens: list[str] | None = None) -> dict:
+        usuario = {"role": "user", "content": pedido, **({"images": imagens} if imagens else {})}
         corpo = {"model": self.modelo, "stream": False, "format": esquema, "keep_alive": "10m",
-                 "options": {"temperature": 0, "seed": 0, "num_ctx": self.num_ctx, "num_predict": 1200},
-                 "messages": [{"role": "system", "content": instrucoes}, {"role": "user", "content": pedido}]}
-        req = urllib.request.Request(self.url + "/api/chat", data=json.dumps(corpo).encode(), headers={"Content-Type": "application/json"})
-        with urllib.request.urlopen(req, timeout=600) as r:
-            resp = json.load(r)
+                 # a imagem ocupa ~700 tokens de contexto a 1024 px: com ela, o contexto dobra
+                 "options": {"temperature": 0, "seed": 0, "num_ctx": self.num_ctx * (2 if imagens else 1), "num_predict": 1200},
+                 "messages": [{"role": "system", "content": instrucoes}, usuario]}
+        dados = json.dumps(corpo).encode()
+        for tentativa in (1, 2):
+            req = urllib.request.Request(self.url + "/api/chat", data=dados, headers={"Content-Type": "application/json"})
+            try:
+                with urllib.request.urlopen(req, timeout=self.timeout) as r:
+                    resp = json.load(r)
+            except urllib.error.HTTPError as e:
+                if tentativa == 2 or e.code < 500:
+                    raise
+                resp = {}
+            try:
+                return json.loads(resp["message"]["content"])
+            except (KeyError, json.JSONDecodeError, TypeError):
+                if tentativa == 1 and not resp.get("done"):
+                    # o executor do Ollama às vezes trava depois de várias chamadas com imagem (resposta vazia ou erro 500):
+                    # descarregar o modelo e repetir uma vez resolve
+                    self.descarregar()
+                    continue
+                return {}
+        return {}
+
+    def descarregar(self) -> None:
+        """Tira o modelo da memória do Ollama (a próxima chamada o carrega de novo, num executor novo)."""
+        self._manter(0, 30)
+
+    def carregar(self, com_imagem: bool = False) -> None:
+        """Põe o modelo na memória sem perguntar nada (para adiantar a carga enquanto outra coisa roda). O contexto precisa ser o
+        mesmo das perguntas que virão (`com_imagem`): com outro tamanho, o Ollama carrega o modelo de novo."""
+        self._manter("10m", self.timeout, self.num_ctx * (2 if com_imagem else 1))
+
+    def _manter(self, keep_alive: str | int, timeout: float, num_ctx: int | None = None) -> None:
+        corpo = {"model": self.modelo, "keep_alive": keep_alive, **({"options": {"num_ctx": num_ctx}} if num_ctx else {})}
+        req = urllib.request.Request(self.url + "/api/generate", data=json.dumps(corpo).encode(), headers={"Content-Type": "application/json"})
         try:
-            return json.loads(resp["message"]["content"])
-        except (KeyError, json.JSONDecodeError):
-            return {}
+            with urllib.request.urlopen(req, timeout=timeout):
+                pass
+        except OSError:
+            pass
 
     def extrair(self, secoes, detectado):
         corpo = {"model": self.modelo, "stream": False, "format": ESQUEMA, "keep_alive": "10m",

@@ -3,20 +3,20 @@
 Estado em 2026-10-10: núcleo, linha de comando e janela, **sem nenhuma configuração prévia ou específica de jogo**. Decisões: tecnologia em `docs/decisoes/003-aplicativo-desktop.md`, dicionário aprendido em `004`, nada específico de jogo em `005`.
 
 ## 1. O que o aplicativo faz
-O jogador cria o jogo e indica a pasta onde as capturas e os vídeos dele são gravados. O GameMind lê o texto de cada screenshot ou clipe novo (OCR), aprende os nomes do jogo (personagens, locais, facções) e, com IA local, acrescenta criaturas, itens e relações; mantém um grafo do jogo, exportado como vault do Obsidian. Tudo roda no computador do jogador. A IA pública é opcional e recebe só texto.
+O jogador cria o jogo e indica a pasta onde as capturas e os vídeos dele são gravados. O GameMind lê o texto de cada screenshot ou clipe novo (OCR), aprende os nomes do jogo (personagens, locais, facções) e, com IA local, acrescenta criaturas, itens e relações; mantém um grafo do jogo, exportado como vault do Obsidian. Tudo roda no computador do jogador. O Claude (pelo login da assinatura) é opcional e recebe só texto.
 
 **Fora desta fundação:** captura própria de tela (atalho global), instalador, desenho do grafo dentro do app e consulta em linguagem natural. A seção 12 diz onde cada um entra.
 
 ## 2. Requisitos que moldaram a arquitetura
 | Requisito | Consequência no desenho |
 |---|---|
-| Local e privado | dados numa pasta do usuário; nada sai do computador sem IA pública ligada, e mesmo assim só o texto do OCR |
+| Local e privado | dados numa pasta do usuário; nada sai do computador sem o Claude ligado, e mesmo assim só o texto do OCR |
 | Hardware modesto (OCR na CPU, LLM de 7B na GPU de 8 GB) | processamento assíncrono, depois da captura; OCR em paralelo e LLM em série |
 | Incremental | só a mídia nova é lida; o que é caro (OCR, LLM) fica guardado e não é refeito |
 | Nomes aprendidos no lote (o dicionário vale para todas as mídias, inclusive as lidas antes dele) | separação entre **leitura por mídia** (cara, guardada) e **consolidação do jogo** (barata, refeita sempre) |
 | Tolerante a falhas | uma mídia com erro não para a rodada; a IA fora do ar não impede o grafo; cancelar não perde o que já foi lido |
 | Sem spoiler | o grafo só contém o que apareceu nas capturas do jogo; não há base externa do jogo |
-| IA plugável | uma interface só (`Backend.extrair`) para Ollama, OpenAI, Gemini, Claude e Claude Code (`docs/ia-publica.md`) |
+| IA plugável | uma interface só (`Backend.extrair` e `perguntar`) para o Ollama e o Claude pelo login da assinatura (Claude Code; `docs/ia-publica.md`); as IAs cobradas por token foram retiradas por enquanto |
 | Independente de jogo | nenhuma lista de nomes, região calibrada ou regra de tela de um jogo (decisão 005) |
 
 ## 3. Visão geral
@@ -46,17 +46,20 @@ Externos: Tesseract (OCR), FFmpeg (clipes), Ollama ou API de IA (opcionais), Obs
 | `nucleo/config.py` | configuração global (IA, paralelismo, intervalo do vídeo, idioma do OCR) em `config.json` | recursos |
 | `nucleo/repositorio.py` | `Jogo`: pasta, banco SQLite, mídias, leituras, respostas do LLM, anotações | recursos |
 | `nucleo/dicionario.py` | aprende o dicionário de nomes do texto lido (falante de legenda, contexto, repetição); `dicionario.json` do jogo | `extracao.gazetteer` |
-| `nucleo/regioes.py` | regiões de leitura do jogo: padrões genéricos e refinamento com a IA local (papel de cada linha lida), gravadas em `regioes.json` | `extracao.ocr` |
+| `nucleo/regioes.py` | regiões de leitura do jogo (`regioes.json`): padrões genéricos, refinados uma vez pelo modelo de imagem | `extracao.ocr` |
+| `nucleo/visao.py` | acha o modelo com visão no Ollama e marca na captura as linhas lidas | Ollama local |
 | `nucleo/leitura.py` | etapa cara por mídia: o texto da tela inteira e dos recortes (OCR); clipes por quadro | `extracao` |
 | `nucleo/consolidacao.py` | etapa barata do jogo inteiro: anotação base pelos nomes do dicionário e soma do LLM validado | `extracao` |
 | `nucleo/canvas.py` | canvas do Obsidian (JSON Canvas) e miniaturas das capturas | `exportar_vault` (nomes), Pillow, FFmpeg |
 | `nucleo/pipeline.py` | orquestra uma rodada; progresso, cancelamento, relatório; grafo e vault | todos acima, `grafo`, `exportar_vault` |
 | `nucleo/obsidian.py` | abre o vault ou uma nota no Obsidian: o Obsidian só abre por link os vaults que conhece, então o vault do jogo é registrado no `obsidian.json` dele quando falta (só com o Obsidian fechado; aberto, o app explica como abrir a pasta como cofre) | — |
 | `nucleo/observador.py` | detecta mídia nova e estável na pasta de capturas | pipeline (tipos) |
-| `nucleo/diagnostico.py` | verifica Tesseract (e o idioma configurado), FFmpeg, Ollama e chaves; teste real da IA | `extracao.ia_publica` |
-| `cli.py` | comandos `processar`, `jogos`, `diagnostico`, `exportar-anotacoes` | núcleo |
-| `ui/tarefas.py` | ponte entre núcleo e Qt: QThread, sinais, log na janela | PySide6, núcleo |
-| `ui/janela.py` | janela: Processamento (capturas em leitura e notas do vault), Configurações e Registro | PySide6, núcleo |
+| `nucleo/chat.py` | chat sobre o jogo: base com o grafo (entidades, resumos, relações) e o texto de cada captura; busca por nome, outro nome, grafia parecida e palavras; pedido à IA do jogo só com isso, citando as capturas; conversa em `chat.json` | grafo, repositório, IA do jogo |
+| `nucleo/diagnostico.py` | verifica Tesseract (e o idioma configurado), FFmpeg, Ollama e Claude Code; teste real da IA | `extracao.ia_publica` |
+| `cli.py` | comandos `processar`, `jogos`, `diagnostico`, `limpar`, `exportar-anotacoes` | núcleo |
+| `ui/tarefas.py`, `ui/espera.py` | ponte entre núcleo e Qt: QThread, sinais, log na janela; janela de espera modal com os passos do que demora (testar a IA, modelo de imagem, verificar o computador, fechar durante a leitura) | PySide6, núcleo |
+| `ui/janela.py`, `ui/biblioteca.py`, `ui/assistente.py`, `ui/ajuda.py`, `ui/chat.py` | janela: biblioteca de jogos, assistente de novo jogo (questionário), página do jogo (com a aba de chat) e menu | PySide6, núcleo |
+| `ui/temas.py`, `ui/aparencia.py` | temas da janela: cada tema é só cores, opacidades e arredondamento (`raio` dos controles e painéis, `raio_cartao` dos cartões) numa folha de estilo única (padrão: Hydra, nas cores e cantos do Hydra Launcher; espaçamento de todos numa grade de 8 px); escolha em Aplicativo > Tema, gravada em `config.json`; o logo (à esquerda do menu e ícone da janela) é desenhado em código nas cores do tema | PySide6 |
 
 Regra de dependência: `ui` e `cli` conhecem o núcleo; o núcleo não conhece nenhum dos dois; a camada de análise não conhece o aplicativo.
 
@@ -64,12 +67,14 @@ Regra de dependência: `ui` e `cli` conhecem o núcleo; o núcleo não conhece n
 1. **Registro.** Lista a pasta de capturas. Arquivo novo vira `midia` pendente; arquivo que mudou de tamanho volta a pendente e perde a resposta do LLM antiga.
 2. **Releitura por versão.** Mídias com erro, ou lidas por uma versão antiga do extrator (`VERSAO_LEITURA`), voltam a pendente.
 3. **Leitura** (pendentes). O texto de cada mídia: OCR da tela inteira e de 3 recortes (legenda, objetivo, avisos; regiões genéricas de `regioes.json`). Imagens em paralelo (`workers` threads; o Tesseract roda em processos próprios); clipes um por vez, cada um com os quadros em paralelo, um quadro a cada `intervalo_video_s`, no tamanho do próprio vídeo. O resultado vai para o banco em JSON. Uma falha marca a mídia como `erro` e a rodada segue.
-4. **Dicionário e base.** Com o texto de **todas** as mídias do jogo, `dicionario.aprender()` descobre os nomes (decisão 004). A anotação base de cada mídia são os nomes do dicionário que aparecem no texto dela (clipe: contados por quadro).
+3b. **Regiões de leitura**, durante a própria leitura (rodada com IA, uma vez por jogo, se houver modelo com visão no Ollama). As pendentes são lidas em ordem sorteada; cada captura lida que parece cena (pouco texto na tela inteira e algum texto lido, contando os recortes) vai logo ao modelo, que aponta as linhas de legenda, objetivo e aviso, e as regiões são reestimadas. Para quando duas estimativas seguidas não fazem ajuste expressivo (ou em 8 amostras, ou no prazo); daí em diante, o que falta ler já usa as regiões novas. A região só cresce a partir da genérica e fica no `regioes.json` do jogo. Cada leitura guarda com que regiões foi feita: no fim, só os recortes desatualizados são relidos.
+4. **Dicionário e base.** Com o texto de **todas** as mídias do jogo, `dicionario.aprender()` descobre os nomes (decisão 004). Os indícios são do português, não do jogo: em outro idioma, o dicionário depende mais da repetição e da IA. A anotação base de cada mídia são os nomes do dicionário que aparecem no texto dela (clipe: contados por quadro).
 5. **IA** (se configurada). Para cada mídia sem resposta guardada **desta** IA, uma chamada com o texto por região e os nomes já detectados. A resposta crua é guardada. Se a IA falha, a rodada para de chamar e o grafo sai sem o restante; na próxima rodada continua de onde parou.
-6. **Soma do LLM.** `normalizar()` valida cada resposta (lastro no texto, ontologia, nomes do dicionário) e unifica grafias novas do jogo. Os nomes que o LLM acha em duas ou mais mídias entram no dicionário (marcados `origem: ia`), e a base é refeita com ele, para que sejam reconhecidos também onde o LLM não os viu.
-7. **Grafo.** `fundir()` junta as anotações na ordem de captura, gerando `grafo.json`.
-8. **Canvas e miniaturas.** `canvas.gerar()` desenha o quadro do mundo da partida e um canvas por personagem, criatura, facção e lugar (seção 9.1) e grava as miniaturas das capturas em `_midia/`.
-9. **Vault.** `exportar()` escreve as notas; a nota de cada entidade com canvas ganha o link para ele. O que o GameMind gerou antes (notas, canvas, miniaturas) e sumiu do grafo é apagado (manifesto `.gamemind-notas.json`); qualquer outro arquivo do vault fica.
+6. **Soma do LLM.** `normalizar()` valida cada resposta (lastro no texto, ontologia, nomes do dicionário). Nomes que o LLM acha em duas ou mais mídias entram no dicionário (`origem: ia`) e a base é refeita. Se a IA discorda do tipo de um nome aprendido pelo texto (2+ capturas, maioria), vale o tipo dela.
+7. **Grafo.** `fundir()` junta as anotações na ordem de captura (`grafo.json`). Formas do mesmo nome (forma completa, plural, tratamento, palavra genérica + nome, mesma grafia sem espaço ou com erro de leitura) viram um nó só (`dicionario.unificar`). "Relacionado a" tirado de tela de lista (glossário, diário) só vale confirmado em 2 capturas.
+7b. **Revisão das entidades** (com IA que responde perguntas livres, hoje o Ollama local; `resumos.py`). Em lotes, a IA vê, para cada entidade, o texto lido de todas as capturas dela e os nomes parecidos, e devolve uma frase de resumo, o tipo certo (ou "não é entidade") e se é outra grafia de um dos parecidos. Travas: só descarta o que foi visto em até 2 capturas, só absorve variante rara num nome mais visto, nunca mexe no dicionário manual. Guardada em `resumos.json`; refeita só quando o texto muda.
+8. **Canvas e miniaturas.** `canvas.gerar()` desenha o quadro do mundo da partida, monta o contexto que vai nas notas de personagens, criaturas, facções e lugares (seção 9.1) e grava as miniaturas das capturas em `_midia/`.
+9. **Vault.** `exportar()` escreve as notas, com o contexto do passo anterior (link para o mundo, capturas, vistos nas mesmas telas). O que o GameMind gerou antes (notas, canvas, miniaturas) e sumiu do grafo é apagado (manifesto `.gamemind-notas.json`); qualquer outro arquivo do vault fica.
 
 Cancelar vale entre mídias: o que foi lido fica guardado.
 
@@ -80,8 +85,8 @@ Cancelar vale entre mídias: o que foi lido fica guardado.
 <raiz do programa>\jogos\<jogo>\      (a pasta do .exe quando empacotado; GAMEMIND_DADOS sobrescreve a raiz)
 ├── gamemind.db                     SQLite (abaixo)
 ├── dicionario.json                 nomes aprendidos (derivado; refeito a cada rodada)
-├── regioes.json                    recortes de leitura (legenda, objetivo, avisos): genéricos; editável; refinamento com IA opcional (`--aprender-regioes`)
-├── dicionario_manual.json          opcional: nomes que o usuário queira acrescentar
+├── regioes.json                    recortes de leitura: criado com os genéricos; refinado pelo modelo de imagem, se houver
+├── dicionario_manual.json          opcional, nunca necessário: nomes acrescentados à mão
 ├── grafo.json                      derivado
 └── vault\                          derivado: é o vault do Obsidian do jogo (não há escolha de pasta)
 ```
@@ -112,11 +117,11 @@ As mídias **não são copiadas**. Apagar um jogo é apagar a pasta dele.
 ## 9. Interface
 Um jogo por pasta, criada pelo usuário (**Novo jogo**; a lista mostra os jogos que existem em `jogos/`). O grafo não é desenhado no app: explora-se no Obsidian.
 
-| Aba | O que tem |
+| Tela | O que tem |
 |---|---|
-| Processamento | jogo (**Novo jogo**), pasta de capturas, **Processar só OCR**, **Processar com IA** (a IA da aba Configurações; sem IA configurada, o botão leva até ela), Cancelar, **Observar a pasta**, **Abrir no Obsidian**. À esquerda, a prévia da captura que está sendo lida (de clipe, um quadro do meio); à direita, as notas e canvas do vault, que entram no topo da lista à medida que são gravados (duplo clique abre a nota no Obsidian) |
-| Configurações | IA (nenhuma, Ollama, OpenAI, Gemini, Claude API, Claude Code) e modelo, OCR em paralelo, idioma do texto dos jogos, intervalo do vídeo, **Testar conexão**, **Verificar o computador** |
-| Registro | log do núcleo |
+| Biblioteca (inicial) | um cartão por jogo (capa = ícone do .exe do jogo, ou a captura mais recente; o **⋯** abre ou apaga o jogo) e, do mesmo tamanho, **+ Adicionar jogo** |
+| Assistente (Adicionar jogo; Jogo > Configurar jogo) | uma pergunta por tela, com transição: nome (ou um dos jogos instalados, lidos dos registros da Steam, Epic e GOG em segundo plano; ou o .exe escolhido à mão, para o ícone); pastas de screenshots e de vídeos (atalhos e seletor abertos nas pastas da Steam, NVIDIA, AMD Adrenalin e Xbox Game Bar; a pasta da Steam do jogo com o mesmo nome já vem preenchida); usar IA?; qual IA (Ollama ou Claude, com o botão de entrar com a conta) e o teste; aprender as regiões?; revisar e resumir as entidades? As escolhas valem só para aquele jogo (`Config.do_jogo`) |
+| Página do jogo | **Iniciar leitura** (como o jogo foi configurado), **Acompanhar pasta** (botão com ícone de olho; ligado, lê sozinho o que aparecer nas pastas), **Abrir no Obsidian**, **⋯** (configurar, limpar vault, apagar o jogo), a captura em leitura e, ao lado, as abas **Notas** (do vault) e **Conversar com a IA** (só num jogo com IA; respostas só com o que foi lido, citando as capturas, que abrem na prévia; espera durante a leitura). Menu de cima: *Jogo* (configurar, abrir a pasta dos dados, limpar vault, apagar jogo, biblioteca) , *Aplicativo* (adicionar jogo, configurações gerais, verificar o computador, registro, tema), *Ajuda* (guias: primeiros passos, IA local com o Ollama, Claude, capturas, Obsidian, problemas comuns; F1) e *Sobre*. Durante a leitura, o que mexe no jogo ou começa outro trabalho fica desligado. Apagar um jogo apaga só `jogos/<jogo>/`; as capturas ficam |
 
 ### 9.1 Canvas (saída visual no Obsidian)
 O foco é o **contexto do mundo**: lugares, personagens, facções e criaturas. **Missões ficam em segundo plano**, porque o jogo já as mostra (diário, mapa); o valor do GameMind está em lembrar *onde* e *com quem* as coisas aconteceram. O grafo costuma ter poucas relações entre essas entidades e muitas telas, então o contexto vem de três fontes, sempre distinguidas no desenho:
@@ -126,17 +131,17 @@ O foco é o **contexto do mundo**: lugares, personagens, facções e criaturas. 
 
 ```
 vault/
-├── Quadro da partida.canvas        o mundo: uma coluna por lugar, depois facções, o que não se situa e, por último, as missões
-├── _canvas/<Tipo>/<nome>.canvas    contexto de um personagem, criatura, facção ou lugar (link no topo da nota dele)
+├── Quadro da partida.canvas        o mundo: protagonistas no alto, uma coluna por lugar com o que pertence a ele, o resto embaixo
+├── <Tipo>/<nome>.md                nota da entidade; personagem, criatura, facção e lugar trazem também capturas e "vistos nas mesmas telas"
 └── _midia/*.jpg                    miniaturas 640x360 (imagem reduzida; de clipe, o quadro em que a entidade aparece)
 ```
-- **Quadro da partida (o mundo):**
-  - Uma coluna por **lugar de nível mais alto**, na ordem de aparição. Cada coluna tem o lugar, a miniatura, os lugares que fazem parte dele, as pessoas e criaturas que a partida **situa ali** (`localizado_em`, inclusive nos lugares internos) e, num grupo à parte, as **vistas nas mesmas telas**.
-  - Personagem **recorrente** (mais de 8 capturas, como o protagonista) não é situado por proximidade, porque está em toda parte; só se houver relação `localizado_em`.
-  - Facção com membros ainda sem lugar ganha coluna própria. O resto vai em colunas por tipo (Personagens, Criaturas, Facções, Outros lugares, Decisões, Itens).
-  - **Missões:** uma coluna cinza no fim ("referência: o jogo já mostra"). Nenhuma seta vai para missão.
-  - Setas: relações lidas entre entidades do mundo, quando estão na mesma coluna ou são estruturais (`localizado_em`, `parte_de`, `membro_de`); `relacionado_a` entre colunas diferentes ficaria cruzando o quadro e fica nos canvas individuais.
-- **Canvas de uma entidade:** o cartão no centro; pessoas, criaturas e facções ligadas à esquerda; lugares à direita; até 4 capturas em cima; "Vistos nas mesmas telas" embaixo (até 12). As missões a que ela se liga viram **uma linha de texto** ("Missões (referência): ..."), sem cartões. Só ganha canvas quem tem o que mostrar além da própria nota (relação, tela dividida ou mais de uma captura).
+- **Quadro da partida (o mundo):** só informação do jogo (nomes, capturas, descrições, relações lidas). A relevância de cada entidade (capturas em que aparece + relações, relativa à partida) só decide a posição e o tamanho:
+  - no alto, lado a lado, os protagonistas (os personagens mais presentes), com capturas e descrição;
+  - abaixo, uma coluna por lugar principal: o lugar em cima e, embaixo, os sublugares, as facções, os personagens e as criaturas ligados a ele (relação lida; senão, telas em comum). Facção sem lugar e com membros também vira coluna. A coluna mais pesada fica no meio;
+  - embaixo, o restante em cartões menores (passado um limite, só links) e, por último, missões, itens, decisões e eventos em listas;
+  - setas só para relações lidas entre vizinhos no quadro (mesma coluna, protagonistas, protagonista e cabeça de coluna); as demais ficam nas notas.
+  - as descrições são os resumos da revisão (7b).
+- **Contexto de uma entidade, na própria nota:** personagens, criaturas, facções e lugares trazem o link para o mundo, até 4 capturas e *Vistos nas mesmas telas*. Não há canvas por entidade (duplicava cada uma no vault).
 - **Cores:** as do tema do Obsidian por tipo (verde personagem, ciano lugar, laranja facção, marrom criatura, amarelo item, vermelho decisão).
 - **Cartões são as notas**, não cópias: clicar abre a nota.
 - **Regerado a cada rodada:** ids estáveis, mas posições e conteúdo são refeitos. Anotações do jogador devem ficar num canvas próprio (que pode incorporar este).
@@ -146,7 +151,8 @@ vault/
 
 ## 10. Verificação
 - `python -m unittest discover -s tests` roda testes offline do núcleo e do conector de IA: repositório, dicionário aprendido, regiões, consolidação, LLM com lastro, vault que preserva notas do usuário, erro de leitura, IA sem chave, abertura no Obsidian e observador. A janela não tem testes automáticos.
-- `python scripts/avaliar_aplicativo.py` mede o aplicativo contra o gabarito (`data/gabarito`), em dados isolados, só com OCR e com a IA pedida (`--ia`), no conjunto `all` (`data/raw/all`: todas as screenshots e vídeos) ou `reduzido` (`data/raw/teste_reduzido`, mais rápido). Grava o resumo em `eval/resultado_<conjunto>.json`, as anotações em `eval/predicoes/` e **o vault gerado de cada configuração em `eval/vaults/<conjunto>_<configuração>/`** (abra uma delas como vault no Obsidian para comparar só OCR com OCR + IA).
+- `python scripts/avaliar_aplicativo.py` mede o aplicativo contra o gabarito (`data/gabarito`), em dados isolados, só com OCR e com a IA pedida (`--ia`), no conjunto `all` (`data/raw/all`: todas as screenshots e vídeos) ou `reduzido` (`data/raw/escopo_reduzido`, 15 capturas, mais rápido). Grava o resumo em `eval/resultado_<conjunto>.json`, as anotações em `eval/predicoes/` e **o vault gerado de cada configuração em `eval/vaults/<conjunto>_<configuração>/`** (abra uma delas como vault no Obsidian para comparar só OCR com OCR + IA).
+- `python scripts/avaliar_duplicados.py [--ia ...]` confere, em `data/raw/escopo_reduzido` (15 capturas), se as formas do mesmo nome viram um nó só (gabarito em `data/gabarito_duplicados/`).
 - O gabarito é de um jogo só e serve apenas para medir; o aplicativo não o usa.
 
 ### Teste geral (2026-10-10): todas as screenshots e vídeos
@@ -188,7 +194,8 @@ Leitura:
 - As regras de tela de um jogo eram a única fonte de missões, decisões e relações; sem elas (decisão 005), essas três somem. As demais entidades vêm do dicionário aprendido e da IA.
 - Os recortes de OCR valem a pena, mas recortes genéricos leem pior que recortes calibrados para um jogo.
 - Sem IA, o dicionário aprendido perde para uma lista escrita à mão sobretudo em criaturas; com IA local a diferença cai bastante (decisão 004).
-- Refinar os recortes com a IA local de texto não melhorou o resultado: o modelo rotula como legenda qualquer frase de menu. Por isso o refinamento (`--aprender-regioes`) vem desligado.
+- Refinar as regiões só com a IA de texto piorou o resultado (rotula frase de menu como legenda); por isso vem desligado.
+- Com o modelo de imagem (`qwen2.5vl:7b`, antigo conjunto reduzido de 23 capturas, rodada com IA): F1 de entidades 0,64 → 0,72 numa rodada; a variação entre rodadas iguais foi de até 0,04.
 - Reservas: o gabarito é pequeno, a IA varia entre execuções e as regras de aprendizado foram ajustadas no mesmo material; os números tendem a ser otimistas.
 
 ## 11. Como rodar (desenvolvimento)

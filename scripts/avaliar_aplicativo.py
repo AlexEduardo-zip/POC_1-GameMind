@@ -1,7 +1,7 @@
 """Mede o aplicativo de ponta a ponta contra o gabarito, em dados isolados (não toca nos seus jogos nem na sua configuração).
 Conjuntos (pastas de data/raw, com todas as capturas e vídeos que houver nelas):
   all        data/raw/all: todas as screenshots e vídeos
-  reduzido   data/raw/teste_reduzido: poucas screenshots, mais rápido
+  reduzido   data/raw/escopo_reduzido: 15 capturas com gabarito, mais rápido
 O gabarito (data/gabarito) só cobre parte das mídias; as demais são processadas, mas não entram na nota.
 Configurações (rodadas na mesma pasta de dados, a segunda reaproveita a leitura da primeira):
   sem_ia     OCR e nomes aprendidos
@@ -35,7 +35,7 @@ a = ap.parse_args()
 dados = Path(tempfile.mkdtemp(prefix="gamemind_aval_"))
 capturas = dados / "capturas"
 capturas.mkdir()
-pasta_conjunto = RAIZ / "data" / "raw" / ("all" if a.conjunto == "all" else "teste_reduzido")
+pasta_conjunto = RAIZ / "data" / "raw" / ("all" if a.conjunto == "all" else "escopo_reduzido")
 origem = sorted(f for f in pasta_conjunto.rglob("*") if f.is_file() and f.suffix.lower() in EXT_MIDIA)
 for f in origem:
     try:

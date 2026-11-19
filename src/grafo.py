@@ -65,16 +65,20 @@ def fundir(anotacoes: list[Anotacao], canonicos: dict) -> Grafo:
             nome = canon(e.nome)
             no = nos.setdefault(nome, No(nome=nome, tipo=e.tipo, aliases=canonicos.get(nome, {}).get("aliases", []),
                                          primeira_vez=ann.arquivo))
-            no.fontes.append(Fonte(arquivo=ann.arquivo, evidencia=e.evidencia))
+            if not (no.fontes and no.fontes[-1].arquivo == ann.arquivo):   # duas formas do mesmo nome na mesma tela: uma fonte só
+                no.fontes.append(Fonte(arquivo=ann.arquivo, evidencia=e.evidencia))
             no.subtipo = no.subtipo or e.subtipo
             no.estado = e.estado or no.estado            # o estado mais recente vence
         for r in ann.relacoes:
             s, o = canon(r.sujeito), canon(r.objeto)
+            if s == o:   # relação entre duas formas do mesmo nome
+                continue
             if r.predicado in SIMETRICOS:
                 s, o = sorted((s, o))
             a = arestas.setdefault((s, r.predicado, o), Aresta(sujeito=s, predicado=r.predicado, objeto=o))
             a.rotulo = a.rotulo or r.rotulo
-            a.fontes.append(Fonte(arquivo=ann.arquivo, evidencia=r.evidencia))
+            if not (a.fontes and a.fontes[-1].arquivo == ann.arquivo):
+                a.fontes.append(Fonte(arquivo=ann.arquivo, evidencia=r.evidencia))
     return Grafo(nos=list(nos.values()), arestas=list(arestas.values()))
 
 

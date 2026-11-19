@@ -1,6 +1,6 @@
 # Coleta do conjunto de teste
 
-Material coletado à mão no The Witcher 3 (pt-BR, 1920x1080), jogando normalmente. Fica em `data/raw/` (não versionado), separado em `teste_reduzido/` (imagens usadas para medir o aplicativo com rapidez), `screenshots/` e `videos/`, e é catalogado em `data/raw/metadados.csv` (arquivo, tipo de tela, área do jogo, ferramenta, observação, nome original, `no_gabarito`).
+Material coletado à mão no The Witcher 3 (pt-BR, 1920x1080), jogando normalmente. Fica em `data/raw/` (não versionado), separado em `screenshots/` e `videos/` (todos juntos em `all/`), mais `escopo_reduzido/` (cópia de 15 capturas para testar o aplicativo com rapidez), e é catalogado em `data/raw/metadados.csv` (arquivo, tipo de tela, área do jogo, ferramenta, observação, nome original, `no_gabarito`).
 
 **Configuração é guia, não regra.** O que importa é ter material variado para testar o pipeline. Resolução, formato (JPG ou PNG), taxa de quadros, ferramenta de captura e origem (screenshot ou quadro de vídeo) não bloqueiam nada. Mantido como padrão: jogo em pt-BR (nomes do gabarito em pt-BR).
 
@@ -14,4 +14,4 @@ Nomes: `img_NNN_tipo.jpg|png` e `vid_NNN_tipo.mp4` (o tipo de tela vai no nome).
 - **Fora do escopo do gabarito:** Gwent e telas de tutorial.
 
 ## Do conjunto ao gabarito
-Um subconjunto foi anotado à mão (`docs/gabarito.md`). O conjunto reduzido de `teste_reduzido/` é só de imagens com gabarito, espalhadas pelos tipos de tela.
+Um subconjunto foi anotado à mão (`docs/gabarito.md`). O `escopo_reduzido/` tem só imagens com gabarito: telas de menu, glossário e quadro de avisos em que o mesmo nome aparece de formas diferentes, e cenas de diálogo, exploração e escolhas (para aprender as regiões de leitura).

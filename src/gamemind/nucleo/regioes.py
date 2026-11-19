@@ -6,6 +6,7 @@ e define a região de cada papel pela posição das linhas. O resultado fica em 
 (uma região com "origem": "manual" nunca é refeita). O aplicativo não tem regras específicas de nenhum jogo: só estes recortes de OCR."""
 import json
 import logging
+import random
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -21,8 +22,11 @@ log = logging.getLogger("gamemind")
 PADRAO = dict(ROIS)
 PAPEL_REGIAO = {"legenda": "legenda", "objetivo": "hud", "aviso": "aviso"}   # papel que a IA dá -> região
 PAPEIS = ["legenda", "objetivo", "aviso", "menu", "ruido"]
-AMOSTRAS = 8          # capturas lidas para aprender (uma chamada à IA por captura)
-MINIMO_MIDIAS = 6     # só tenta aprender quando o jogo já tem pelo menos isto
+LINHAS_CENA = (3, 18) # cena com texto por cima: ao menos 3 linhas lidas e no máximo 18 na tela inteira (menu, diário e mapa enchem)
+MAX_AMOSTRAS = 8      # aprendizado incremental: no máximo isto de capturas na IA...
+MINIMO_CONVERGIR = 3  # ...e pelo menos isto antes de dar por aprendido
+CONVERGENCIA = 0.95   # duas estimativas seguidas com sobreposição (IoU) acima disto em toda região: ajuste pequeno
+ESTAVEIS = 2          # estimativas seguidas sem ajuste expressivo para concluir
 MINIMO_LINHAS = 3     # linhas de um papel para definir a região
 MINIMO_AMOSTRAS = 2   # em quantas capturas o papel precisa aparecer
 MARGEM = 0.03
@@ -40,6 +44,20 @@ Diga o papel de cada linha:
 - menu: lista, inventário, mapa, glossário, botões e rótulos da interface;
 - ruido: texto sem sentido, lixo do OCR.
 Responda só com o JSON pedido, com todas as linhas."""
+# resposta curta: só os números das linhas de cada papel que interessa (as outras são menu ou ruído); com uma entrada por
+# linha, uma tela de 40 linhas custava centenas de tokens e ~15 s
+PAPEIS_VISAO = ("legenda", "objetivo", "aviso")
+ESQUEMA_VISAO = {"type": "object", "properties": {"tela": {"type": "string", "enum": ["cena", "menu"]},
+                                                  **{p: {"type": "array", "items": {"type": "integer"}} for p in PAPEIS_VISAO}},
+                 "required": ["tela", *PAPEIS_VISAO]}
+# com um modelo de imagem: ele vê a captura com cada linha do OCR num retângulo numerado (as posições continuam no texto)
+INSTRUCOES_VISAO = """Você vê a captura de tela de um jogo. Cada linha de texto lida por OCR está num retângulo amarelo com o número dela; a lista abaixo repete cada linha com o número, a posição (x e y em fração da tela, de 0 a 1, a partir do canto superior esquerdo) e o texto lido.
+Primeiro diga o tipo da tela: "cena" se a captura mostra o jogo em andamento (exploração, diálogo, combate, cena), mesmo com textos por cima; "menu" se uma interface cobre a tela (menu, mapa, inventário, diário, glossário, ficha de item, tela de carregamento).
+Depois, olhando a imagem (onde a linha está, o fundo, o estilo, se faz parte de um painel ou janela) e o texto, liste os números das linhas de cada papel:
+- legenda: fala de personagem ou narração sobreposta à cena (costuma ficar na faixa de baixo, com ou sem o nome de quem fala);
+- objetivo: título ou objetivo da missão ou tarefa, fixo na interface durante o jogo (HUD);
+- aviso: notificação, tutorial, marcador novo, recompensa, mensagem passageira por cima da cena.
+Não liste as demais (menu, botões, rótulos da interface, lixo do OCR). Numa tela de menu, as três listas ficam vazias. Responda só com o JSON pedido."""
 
 
 @dataclass
@@ -80,6 +98,20 @@ def salvar(pasta: Path, r: Regioes) -> None:
     d = {**{k: v for k, v in r.meta.items() if k != "regioes"}, "versao": 1,
          "regioes": {n: {**r.meta.get("regioes", {}).get(n, {"origem": "padrao"}), "caixa": [round(v, 3) for v in c]} for n, c in r.caixas.items()}}
     caminho(pasta).write_text(json.dumps(d, ensure_ascii=False, indent=1), encoding="utf-8")
+
+
+def esquecer_aprendidas(pasta: Path) -> None:
+    """Volta aos padrões genéricos tudo que foi aprendido; só uma região editada à mão ("origem": "manual") fica. Sem nenhuma
+    região manual, o arquivo é apagado (a próxima rodada o recria com os padrões)."""
+    try:
+        d = json.loads(caminho(pasta).read_text(encoding="utf-8"))
+        manuais = {n: i for n, i in d.get("regioes", {}).items() if isinstance(i, dict) and i.get("origem") == "manual"}
+    except (OSError, ValueError, AttributeError):
+        manuais = {}
+    if manuais:
+        caminho(pasta).write_text(json.dumps({"versao": 1, "regioes": manuais}, ensure_ascii=False, indent=1), encoding="utf-8")
+    else:
+        caminho(pasta).unlink(missing_ok=True)
 
 
 # ---------------------------------------------------------------- ler a captura com posição
@@ -125,16 +157,30 @@ def quadro_da_midia(caminho_midia: Path, tipo: str) -> np.ndarray | None:
 
 # ---------------------------------------------------------------- aprender com a IA
 def _pedido(linhas: list[dict]) -> str:
-    return "\n".join(f'{i}. x={l["x0"]:.2f}-{l["x1"]:.2f} y={l["y0"]:.2f} altura={l["altura"]:.3f} | {l["texto"][:120]}' for i, l in enumerate(linhas))
+    return "\n".join(f'{i}. x={l["x0"]:.2f}-{l["x1"]:.2f} y={l["y0"]:.2f} altura={l["altura"]:.3f} | {l["texto"][:120]}' for i, l in enumerate(linhas, 1))
 
 
-def classificar(backend, linhas: list[dict]) -> dict[int, str]:
-    """Papel de cada linha, dado pela IA. Ids ou papéis que não existem são ignorados."""
-    resp = backend.perguntar(INSTRUCOES, _pedido(linhas), ESQUEMA)
+def classificar(backend, linhas: list[dict], imagem: str = "") -> dict[int, str]:
+    """Papel de cada linha, dado pela IA (com `imagem`, a captura marcada, por um modelo de imagem). Ids ou papéis que não
+    existem são ignorados."""
+    if imagem:
+        resp = backend.perguntar(INSTRUCOES_VISAO, _pedido(linhas), ESQUEMA_VISAO, [imagem])
+        if resp.get("tela") == "menu":   # numa tela de menu, frase longa é texto do menu, não legenda nem aviso
+            return {i: "menu" for i in range(len(linhas))}
+        if resp.get("tela") != "cena":   # resposta fora do esquema: a amostra não conta
+            return {}
+        papeis = {i: "menu" for i in range(len(linhas))}   # o que não foi listado é menu ou ruído
+        for papel in PAPEIS_VISAO:
+            for n in resp.get(papel) or []:   # números a partir de 1 (no texto e na imagem)
+                if isinstance(n, int) and 1 <= n <= len(linhas):
+                    papeis[n - 1] = papel
+        return papeis
+    else:
+        resp = backend.perguntar(INSTRUCOES, _pedido(linhas), ESQUEMA)
     papeis = {}
-    for item in resp.get("linhas", []):
-        if isinstance(item, dict) and isinstance(item.get("id"), int) and 0 <= item["id"] < len(linhas) and item.get("papel") in PAPEIS:
-            papeis[item["id"]] = item["papel"]
+    for item in resp.get("linhas", []):   # as linhas vão numeradas a partir de 1 (no texto e na imagem)
+        if isinstance(item, dict) and isinstance(item.get("id"), int) and 1 <= item["id"] <= len(linhas) and item.get("papel") in PAPEIS:
+            papeis[item["id"] - 1] = item["papel"]
     return papeis
 
 
@@ -187,7 +233,13 @@ def caixa_dos_papeis(por_amostra: list[list[tuple[dict, str]]]) -> dict[str, dic
         # percentis 10 e 90: uma linha fora do lugar (rótulo errado da IA ou lixo do OCR) não estica a região
         x0, y0 = _percentil([l["x0"] for l in ls], 0.10), _percentil([l["y0"] for l in ls], 0.10)
         x1, y1 = _percentil([l["x1"] for l in ls], 0.90), _percentil([l["y1"] for l in ls], 0.90)
-        caixa = (max(0.0, x0 - MARGEM), max(0.0, y0 - MARGEM), min(1.0, x1 + MARGEM), min(1.0, y1 + MARGEM))
+        vista = (max(0.0, x0 - MARGEM), max(0.0, y0 - MARGEM), min(1.0, x1 + MARGEM), min(1.0, y1 + MARGEM))
+        # a região nunca encolhe o padrão, só cresce para incluir onde o texto foi visto: poucas amostras com a legenda no centro
+        # não podem cortar a legenda longa de outra tela (um recorte um pouco maior custa pouco; um menor perde texto)
+        p = PADRAO[regiao]
+        caixa = (min(vista[0], p[0]), min(vista[1], p[1]), max(vista[2], p[2]), max(vista[3], p[3]))
+        if caixa == p:
+            continue   # tudo o que foi visto já cabe no padrão: nada a aprender
         area = (caixa[2] - caixa[0]) * (caixa[3] - caixa[1])
         if caixa[2] - caixa[0] < 0.10 or caixa[3] - caixa[1] < 0.03 or area > 0.70 or _iou(caixa, PADRAO[regiao]) < SOBREPOSICAO_MINIMA:
             log.info("região %s descartada (caixa %s fora do razoável)", regiao, tuple(round(v, 2) for v in caixa))
@@ -196,35 +248,114 @@ def caixa_dos_papeis(por_amostra: list[list[tuple[dict, str]]]) -> dict[str, dic
     return novas
 
 
-def aprender(amostras: list[list[dict]], backend, atual: Regioes, nomes: list[str] | None = None) -> Regioes:
-    """Refina as regiões com a IA. `amostras`: as linhas (com posição) de cada captura. Regiões manuais não são tocadas."""
-    por_amostra, usadas = [], 0
-    for linhas in amostras:
-        if len(linhas) < 3:
-            continue
-        papeis = classificar(backend, linhas)
-        por_amostra.append([(l, papeis[i]) for i, l in enumerate(linhas) if i in papeis])
-        usadas += 1
-    novas = caixa_dos_papeis(por_amostra)
+def estimar(atual: Regioes, por_amostra: list[list[tuple[dict, str]]]) -> Regioes:
+    """As regiões que as amostras rotuladas até aqui indicam, a partir de `atual` (regiões manuais não são tocadas)."""
     r = Regioes(dict(atual.caixas), json.loads(json.dumps(atual.meta)))
     info = r.meta.setdefault("regioes", {})
-    for nome, n in novas.items():
+    for nome, n in caixa_dos_papeis(por_amostra).items():
         if info.get(nome, {}).get("origem") == "manual":
             continue
         r.caixas[nome] = n["caixa"]
         info[nome] = {"origem": "ia", "linhas": n["linhas"], "amostras": n["amostras"], "padrao": [round(v, 3) for v in PADRAO[nome]]}
-    r.meta.update({"aprendido_em": time.strftime("%Y-%m-%d %H:%M"), "modelo": getattr(backend, "nome", ""),
-                   "capturas_lidas": usadas, "capturas": nomes or []})
     return r
 
 
-def escolher_amostras(midias: list, n: int = AMOSTRAS) -> list:
-    """`n` mídias espalhadas ao longo da lista (que já está na ordem do jogo), preferindo imagens."""
-    imagens = [m for m in midias if m.tipo == "imagem"]
-    base = imagens if len(imagens) >= n else midias
-    if len(base) <= n:
-        return list(base)
-    return [base[round(i * (len(base) - 1) / (n - 1))] for i in range(n)]
+class Aprendiz:
+    """Aprende as regiões uma captura por vez, durante a leitura: cada captura que parece cena (pelo OCR já feito) passa pela IA
+    logo em seguida, e as regiões são reestimadas com tudo o que foi visto. Para quando duas estimativas seguidas não fazem
+    ajuste expressivo (CONVERGENCIA), com pelo menos MINIMO_CONVERGIR amostras; ou em MAX_AMOSTRAS; ou no prazo.
+    `marcar(quadro, linhas)`: a captura marcada para um modelo de imagem (None: só o texto vai para a IA)."""
+
+    def __init__(self, backend, atual: Regioes, lang: str = "por+eng", marcar=None, prazo_s: float = 0):
+        self.backend, self.atual, self.lang, self.marcar, self.prazo_s = backend, atual, lang, marcar, prazo_s
+        self.estimativa = atual
+        self.por_amostra: list[list[tuple[dict, str]]] = []
+        self.nomes: list[str] = []
+        self.vistas: set[int] = set()
+        self.estaveis = 0
+        self.tempo = 0.0
+
+    @property
+    def terminou(self) -> bool:
+        return (self.estaveis >= ESTAVEIS or len(self.nomes) >= MAX_AMOSTRAS
+                or bool(self.prazo_s and self.tempo > self.prazo_s))
+
+    @property
+    def convergiu(self) -> bool:
+        return self.estaveis >= ESTAVEIS
+
+    def considerar(self, midia, leitura: dict) -> bool:
+        """Se a captura parece cena e o aprendizado não terminou, passa ela pela IA e reestima. Devolve True se a usou."""
+        if self.terminou or midia.id in self.vistas or not parece_cena(leitura):
+            return False
+        self.vistas.add(midia.id)
+        t0 = time.monotonic()
+        try:
+            quadro = quadro_da_midia(Path(midia.caminho), midia.tipo)
+            linhas = linhas_com_posicao(quadro, self.lang) if quadro is not None else []
+            if len(linhas) < 3:
+                return False
+            papeis = classificar(self.backend, linhas, self.marcar(quadro, linhas) if self.marcar else "")
+        except (OSError, ValueError) as e:
+            log.warning("regiões: %s sem resposta da IA (%s)", midia.nome, e)
+            return False
+        finally:
+            self.tempo += time.monotonic() - t0
+        self.por_amostra.append([(l, papeis[i]) for i, l in enumerate(linhas) if i in papeis])
+        self.nomes.append(midia.nome)
+        nova = estimar(self.atual, self.por_amostra)
+        # só conta como estável depois de amostras suficientes: com 1 ou 2, nada é aprendido e a estimativa não muda
+        sem_ajuste = len(self.nomes) >= MINIMO_CONVERGIR and not mudou(self.estimativa, nova, CONVERGENCIA)
+        self.estaveis = self.estaveis + 1 if sem_ajuste else 0
+        self.estimativa = nova
+        estado = ("juntando amostras" if len(self.nomes) < MINIMO_CONVERGIR else
+                  "sem ajuste expressivo" if sem_ajuste else "estimativa ajustada")
+        log.info("regiões: amostra %d (%s), %s", len(self.nomes), midia.nome, estado)
+        return True
+
+    def resultado(self) -> Regioes | None:
+        """As regiões aprendidas, com o registro do aprendizado; None se ainda não houve amostras suficientes (tenta numa
+        próxima rodada)."""
+        if len(self.nomes) < MINIMO_CONVERGIR:
+            return None
+        r = Regioes(dict(self.estimativa.caixas), json.loads(json.dumps(self.estimativa.meta)))
+        r.meta.update({"aprendido_em": time.strftime("%Y-%m-%d %H:%M"), "modelo": getattr(self.backend, "nome", ""),
+                       "com_imagem": bool(self.marcar), "capturas_lidas": len(self.nomes), "capturas": list(self.nomes),
+                       "convergiu": self.convergiu, "tempo_s": round(self.tempo, 1)})
+        return r
 
 
-__all__ = ["PADRAO", "Regioes", "carregar", "salvar", "aprender", "escolher_amostras", "linhas_com_posicao", "quadro_da_midia"]
+def linhas_de_texto(leitura: dict, secoes: tuple = ("tela",)) -> int:
+    """Linhas de texto de verdade (não lixo do OCR) que a leitura achou nas `secoes`; num clipe, no quadro do meio."""
+    qs = leitura.get("quadros") or []
+    if not qs:
+        return 0
+    n = 0
+    for sec in secoes:
+        for l in qs[len(qs) // 2]["secoes"].get(sec, "").splitlines():
+            letras = sum(c.isalpha() for c in l)
+            n += letras >= 4 and letras / max(len(l.strip()), 1) >= 0.6
+    return n
+
+
+def parece_cena(leitura: dict) -> bool:
+    """Cena com texto por cima, pelo que o OCR leu: pouco texto na tela inteira (menu, mapa e diário a enchem) e algum texto
+    lido, contando os recortes, porque o OCR da tela inteira quase não acha uma legenda sobre a cena e o do recorte acha."""
+    tela = linhas_de_texto(leitura)
+    return tela <= LINHAS_CENA[1] and tela + linhas_de_texto(leitura, ("legenda", "hud", "aviso")) >= LINHAS_CENA[0]
+
+
+def mudou(antes: Regioes, depois: Regioes, limiar: float = 0.9) -> list[str]:
+    """Regiões cuja caixa mudou de verdade (interseção sobre união abaixo de `limiar`)."""
+    return [n for n in depois.caixas if _iou(antes.caixas.get(n, PADRAO[n]), depois.caixas[n]) < limiar]
+
+
+def ordem_sorteada(itens: list, semente: str = "") -> list:
+    """Os itens em ordem sorteada, com a `semente` (o nome do jogo): refazer dá a mesma ordem, e jogos diferentes, ordens
+    diferentes. Serve para as amostras do aprendizado não virem todas do mesmo trecho do jogo (uma abertura com cutscene)."""
+    itens = list(itens)
+    random.Random(semente).shuffle(itens)
+    return itens
+
+
+__all__ = ["PADRAO", "Regioes", "Aprendiz", "carregar", "salvar", "estimar", "mudou", "parece_cena", "ordem_sorteada", "linhas_com_posicao", "quadro_da_midia"]

@@ -25,8 +25,9 @@ que quem qual quais como quando onde porque mas se ou e nem ja ainda tambem so a
 aquilo ele ela eles elas eu tu voce nos vos meu minha seu sua nosso nossa esse essa este esta foi era ser estar tem ter ha""".split())
 LOCAL_PREP = re.compile(r"\b(?:em|na|no|nas|nos|para|até|ate|ao|à|pela|pelo)\s+$", re.I)
 PESSOA_CUE = re.compile(r"\b(?:com|siga|fale com|fale|ajude|procure|encontre|pergunte ao?|diga ao?|convença|mate|salve|guie)\s+(?:o|a|os|as)?\s*$", re.I)
-FACCAO_CUE = re.compile(r"\b(?:povo|tropas?|exército|soldados?|forças|império|vermes|comandante|guardas?)\s+(?:de|do|da|dos|das)\s+$", re.I)
-FACCAO_CABECA = {"escola", "exercito", "ordem", "cavaleiros", "cacada", "imperio", "guilda", "irmandade", "legiao", "companhia", "bando"}
+FACCAO_CUE = re.compile(r"\b(?:povo|tropas?|exército|soldados?|forças|império|comandante|guardas?)\s+(?:de|do|da|dos|das)\s+$", re.I)
+# palavras comuns do português que costumam abrir o nome de um grupo ou de um lugar (nenhuma vem de um jogo específico)
+FACCAO_CABECA = {"escola", "exercito", "ordem", "cavaleiros", "imperio", "guilda", "irmandade", "legiao", "companhia", "bando"}
 LOCAL_CABECA = {"vila", "cidade", "taverna", "castelo", "fortaleza", "ponte", "floresta", "rio", "montanhas", "montanha", "porto", "forte", "reino",
                 "reinos", "torre", "ilha", "ilhas", "vale", "estalagem", "mercado", "templo", "caverna", "cemiterio", "pantano", "aldeia"}
 MINIMO_DOCS = 2          # um nome sem indício forte precisa aparecer em duas mídias
@@ -56,7 +57,7 @@ def _caso(nome: str) -> str:
 
 
 def _grupo(nomes: list[str], limiar: float = 0.85) -> dict[str, str]:
-    """Variações de leitura do mesmo nome ("Cirila", "Cirilla") -> a grafia mais frequente."""
+    """Variações de leitura do mesmo nome ("Ravena", "Ravenna") -> a grafia mais frequente."""
     cont = Counter(nomes)
     canon: dict[str, str] = {}
     for n in sorted(cont, key=lambda x: (-cont[x], -len(x))):
@@ -141,7 +142,7 @@ def aprender(midias: list[list[dict]], ignorar: frozenset = frozenset()) -> dict
         alvos = [n for n in d2 if n != m and len(n) > len(m) and norm(n).split()[0].startswith(norm(m))]
         if alvos:
             n = max(alvos, key=lambda x: (len(d2[x]), len(x)))
-            # a forma vista em mais mídias é o nome; a outra vira apelido ("Cirilla" e não "Cirilla Fiona Elen Riannon")
+            # a forma vista em mais mídias é o nome; a outra vira apelido ("Ravena" e não "Ravena Lis de Altamira")
             nome, outro = (m, n) if len(d2[m]) > len(d2[n]) else (n, m)
             d2[nome] |= d2.pop(outro)
             v2[nome].update(v2.pop(outro))
@@ -154,6 +155,121 @@ def aprender(midias: list[list[dict]], ignorar: frozenset = frozenset()) -> dict
             continue
         saida[n] = {"tipo": tipo, "aliases": sorted(apelidos[n]), "midias": len(ds), "votos": dict(v)}
     return dict(sorted(saida.items(), key=lambda kv: (-kv[1]["midias"], kv[0])))
+
+
+# tratamentos que vêm antes do nome de uma pessoa ("Mestre Odo", "Capitão Brann"): não fazem parte do nome
+TRATAMENTOS = set("""mestre mestra comandante capitao capita senhor senhora sir lorde lady rei rainha principe princesa barao baronesa
+conde condessa duque duquesa general sargento tenente dom dona padre madre irmao irma""".split())
+CONECTORES = {"de", "da", "do", "das", "dos", "von", "van", "e"}
+GRAFIA_PARECIDA = 0.9   # duas grafias com esta semelhança (sem os espaços) são o mesmo nome lido com erro
+TIPOS_UNIFICAVEIS = ("personagem", "criatura", "faccao", "local")   # missões, itens e decisões têm nomes longos que se repetem de propósito
+
+
+def _chave(nome: str, tipo: str) -> tuple[str, ...]:
+    toks = norm(nome).replace(".", " ").split()
+    if tipo == "personagem":
+        while len(toks) > 1 and toks[0] in TRATAMENTOS and toks[1] not in CONECTORES:
+            toks = toks[1:]
+    return tuple(toks)
+
+
+def grupos_de_nomes(contagem: dict[tuple[str, str], int], preferidos: set[str] = frozenset()) -> dict[str, str]:
+    """Junta as formas do mesmo nome (do mesmo tipo) que o OCR e a IA trazem em capturas diferentes. `contagem`: (nome, tipo) ->
+    em quantas mídias aparece. Devolve {forma: nome escolhido} só para as formas que mudam. Juntam-se:
+    - o mesmo nome com tratamentos diferentes: "Comandante Brann Holt" e "Capitão Brann Holt";
+    - singular e plural de uma palavra: "Grifo" e "Grifos";
+    - um nome e a sua forma completa, quando há uma só forma completa: "Ravena" e "Ravena de Altamira", "Guarda" e
+      "Guarda Cinzenta" (com "Exército Real" e "Exército do Norte", "Exército" fica sozinho: não dá para saber qual é).
+    - palavra genérica de lugar ou grupo mais o nome: "Ilhas Vorna" e "Vorna";
+    - a mesma grafia sem os espaços ou com um erro de leitura (GRAFIA_PARECIDA): "Valealto" e "Vale Alto".
+    O nome escolhido é o visto em mais mídias (no empate, o mais longo); um nome de `preferidos` (dicionário manual) sempre vence."""
+    pai: dict[tuple[str, str], tuple[str, str]] = {}
+
+    def raiz(x):
+        while pai[x] != x:
+            pai[x] = pai[pai[x]]
+            x = pai[x]
+        return x
+
+    def unir(a, b):
+        pai[raiz(a)] = raiz(b)
+
+    por_tipo: dict[str, list[str]] = defaultdict(list)
+    for (nome, tipo) in contagem:
+        if tipo in TIPOS_UNIFICAVEIS:
+            pai[(nome, tipo)] = (nome, tipo)
+            por_tipo[tipo].append(nome)
+    for tipo, nomes in por_tipo.items():
+        chaves = {n: _chave(n, tipo) for n in nomes}
+        por_chave: dict[tuple, list[str]] = defaultdict(list)
+        for n, k in chaves.items():
+            if k:
+                por_chave[k].append(n)
+        for iguais in por_chave.values():   # mesma chave: tratamento ou grafia diferente
+            for n in iguais[1:]:
+                unir((n, tipo), (iguais[0], tipo))
+        for k, iguais in por_chave.items():   # plural de uma palavra
+            if len(k) == 1 and len(k[0]) >= 4:
+                for suf in ("s", "es"):
+                    for n in por_chave.get((k[0] + suf,), []):
+                        unir((n, tipo), (iguais[0], tipo))
+        for n, k in chaves.items():   # forma curta de exatamente uma forma completa
+            if not k or len(k[0]) < 4:
+                continue
+            completas = {raiz((m, tipo)) for m, km in chaves.items() if len(km) > len(k) and km[:len(k)] == k}
+            completas.discard(raiz((n, tipo)))
+            if len(completas) == 1:
+                unir((n, tipo), completas.pop())
+        cabecas = FACCAO_CABECA | LOCAL_CABECA
+        for n, k in chaves.items():   # palavra genérica + o nome: "Ilhas Vorna" e "Vorna"
+            if len(k) >= 2 and k[0] in cabecas:
+                resto = k[2:] if len(k) > 2 and k[1] in CONECTORES else k[1:]
+                for m in por_chave.get(resto, []):
+                    unir((n, tipo), (m, tipo))
+        juntas = {n: "".join(k) for n, k in chaves.items() if len("".join(k)) >= 6}
+        lista = sorted(juntas)
+        for i, n in enumerate(lista):   # o mesmo nome sem os espaços, ou com um erro de leitura: "Valealto", "Vale Aldo"
+            for m in lista[i + 1:]:
+                if raiz((n, tipo)) != raiz((m, tipo)) and SequenceMatcher(None, juntas[n], juntas[m]).ratio() >= GRAFIA_PARECIDA:
+                    unir((n, tipo), (m, tipo))
+
+    grupos: dict[tuple, list[tuple[str, str]]] = defaultdict(list)
+    for x in pai:
+        grupos[raiz(x)].append(x)
+    mapa: dict[str, str] = {}
+    for membros in grupos.values():
+        if len(membros) < 2:
+            continue
+        nome, _ = max(membros, key=lambda x: (x[0] in preferidos, contagem[x], len(x[0]), x[0]))
+        mapa.update({m: nome for m, _ in membros if m != nome})
+    return mapa
+
+
+def unificar(entidades: dict[str, dict], contagem: dict[tuple[str, str], int], preferidos: set[str] = frozenset()) -> dict[str, dict]:
+    """Cópia de `entidades` (formato do dicionário) em que cada forma juntada por `grupos_de_nomes` vira apelido do nome escolhido.
+    Nomes de `contagem` que não estão no dicionário só entram se forem o nome escolhido de um grupo."""
+    alias = {}
+    for c, v in entidades.items():
+        for a in [c, *v.get("aliases", [])]:
+            alias[norm(a)] = c
+    total: Counter = Counter()
+    tipo_de: dict[str, str] = {}
+    for (nome, tipo), n in contagem.items():
+        nome = alias.get(norm(nome), nome)
+        tipo = entidades.get(nome, {}).get("tipo", tipo)
+        total[(nome, tipo)] += n
+        tipo_de.setdefault(nome, tipo)
+    mapa = grupos_de_nomes(total, preferidos)
+    if not mapa:
+        return entidades
+    saida = {c: {**v, "aliases": list(v.get("aliases", []))} for c, v in entidades.items()}
+    for forma, nome in mapa.items():
+        destino = saida.setdefault(nome, {"tipo": tipo_de[nome], "aliases": [], "origem": "unificacao"})
+        antigo = saida.pop(forma, {})
+        for a in [forma, *antigo.get("aliases", [])]:
+            if a != nome and a not in destino["aliases"]:
+                destino["aliases"].append(a)
+    return saida
 
 
 def para_gazetteer(entidades: dict[str, dict]) -> Gazetteer:
@@ -172,4 +288,4 @@ def salvar(pasta: Path, entidades: dict[str, dict]) -> None:
     (Path(pasta) / "dicionario.json").write_text(json.dumps(entidades, ensure_ascii=False, indent=1), encoding="utf-8")
 
 
-__all__ = ["aprender", "para_gazetteer", "carregar_manual", "salvar"]
+__all__ = ["aprender", "para_gazetteer", "carregar_manual", "salvar", "grupos_de_nomes", "unificar"]

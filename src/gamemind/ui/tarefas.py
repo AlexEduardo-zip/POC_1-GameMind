@@ -26,9 +26,20 @@ class Trabalhador(QObject):
             self.falhou.emit(f"{type(e).__name__}: {e}")
 
 
+_VIVAS: list[QThread] = []   # as threads ficam referenciadas aqui até terminar: quem as criou pode sumir (uma janela que fechou)
+#                              sem esperar por elas e sem que o Python destrua uma thread em andamento
+
+
+def em_andamento() -> list[QThread]:
+    return [t for t in _VIVAS if t.isRunning()]
+
+
 def em_thread(trabalho: QObject, metodo: str = "rodar") -> QThread:
-    """Move `trabalho` para uma QThread nova, roda `metodo` e encerra a thread quando ele emitir concluido/falhou."""
+    """Move `trabalho` para uma QThread nova, roda `metodo` e encerra a thread quando ele emitir concluido/falhou.
+    Ligue os sinais de `trabalho` a métodos de um QObject (não a lambdas), para que rodem na thread da interface."""
+    _VIVAS[:] = [x for x in _VIVAS if not x.isFinished()]
     t = QThread()
+    _VIVAS.append(t)
     t._trabalho = trabalho   # mantém o objeto Python vivo enquanto a thread existir
     trabalho.moveToThread(t)
     t.started.connect(getattr(trabalho, metodo))
@@ -41,17 +52,19 @@ def em_thread(trabalho: QObject, metodo: str = "rodar") -> QThread:
 
 
 class Funcao(QObject):
-    """Roda uma função qualquer fora da thread da interface (ex.: teste de conexão com a IA)."""
+    """Roda uma função qualquer fora da thread da interface (ex.: teste de conexão com a IA). Com `avisar=True`, a função recebe
+    `avisar(i)` e cada passo vira o sinal `passo`."""
     concluido = Signal(object)
     falhou = Signal(str)
+    passo = Signal(int)
 
-    def __init__(self, f, *args):
+    def __init__(self, f, *args, avisar: bool = False):
         super().__init__()
-        self.f, self.args = f, args
+        self.f, self.args, self.avisar = f, args, avisar
 
     def rodar(self) -> None:
         try:
-            self.concluido.emit(self.f(*self.args))
+            self.concluido.emit(self.f(*self.args, **({"avisar": self.passo.emit} if self.avisar else {})))
         except Exception as e:  # noqa: BLE001
             self.falhou.emit(f"{type(e).__name__}: {e}")
 
@@ -73,4 +86,4 @@ class PonteLog(logging.Handler):
         self.linha.emit(self.format(record))
 
 
-__all__ = ["Trabalhador", "Funcao", "PonteLog", "Progresso", "em_thread"]
+__all__ = ["Trabalhador", "Funcao", "PonteLog", "Progresso", "em_thread", "em_andamento"]

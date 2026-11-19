@@ -2,7 +2,7 @@
   python gamemind.py                                   abre a janela
   python gamemind.py processar --jogo w3 --pasta "C:/.../Screenshots" [--ia ollama] [--observar]
   python gamemind.py jogos                             lista os jogos (cada um com a pasta jogos/<nome>/vault)
-  python gamemind.py diagnostico [--ia gemini]         verifica Tesseract, FFmpeg e IA
+  python gamemind.py diagnostico [--ia claude-code]    verifica Tesseract, FFmpeg e IA
   python gamemind.py exportar-anotacoes --jogo w3 --saida eval/predicoes/app   (para eval/avaliar.py)"""
 import argparse
 import json
@@ -14,11 +14,13 @@ from pathlib import Path
 from .nucleo.config import Config
 from .nucleo.diagnostico import verificar
 from .nucleo.observador import Observador
-from .nucleo.pipeline import Pipeline, Progresso, Relatorio
+from .nucleo.pipeline import Pipeline, Progresso, Relatorio, limpar
 from .nucleo.repositorio import Jogo
 
 
 def _progresso(p: Progresso) -> None:
+    if p.parcial:   # notas gravadas no meio da rodada não interrompem a linha de progresso
+        return
     if p.total:
         print(f"\r[{p.etapa}] {p.feito}/{p.total} {p.mensagem[:50]:<50}", end="", flush=True)
         if p.feito == p.total:
@@ -49,6 +51,9 @@ def main(argv: list[str] | None = None) -> int:
     sub.add_parser("jogos", help="lista os jogos")
     d = sub.add_parser("diagnostico", help="verifica as dependências")
     d.add_argument("--ia")
+    lp = sub.add_parser("limpar", help="apaga do vault o que o GameMind gerou, para refazer na próxima rodada")
+    lp.add_argument("--jogo", required=True)
+    lp.add_argument("--tudo", action="store_true", help="reinicia o jogo do zero: esquece mídias, leituras, respostas da IA, nomes e regiões aprendidos")
     e = sub.add_parser("exportar-anotacoes", help="grava a anotação de cada mídia em JSON (formato do gabarito)")
     e.add_argument("--jogo", required=True)
     e.add_argument("--saida", required=True)
@@ -70,6 +75,15 @@ def main(argv: list[str] | None = None) -> int:
             falta |= it.obrigatorio and not it.ok
         print(f"\njogos em: {Jogo.raiz()}")
         return 1 if falta else 0
+    if a.cmd == "limpar":
+        if a.jogo not in Jogo.listar():
+            print(f"jogo não encontrado: {a.jogo}", file=sys.stderr)
+            return 2
+        part = Jogo.abrir(a.jogo)
+        n = limpar(part, a.tudo)
+        part.fechar()
+        print(f"{n} arquivo(s) gerados apagados do vault" + ("; jogo reiniciado do zero (só a pasta de capturas ficou)" if a.tudo else ""))
+        return 0
     if a.cmd == "exportar-anotacoes":
         part = Jogo.abrir(a.jogo)
         saida = Path(a.saida)
