@@ -528,10 +528,13 @@ class TestRegioesComImagem(Base):
         from gamemind.nucleo.leitura import reler_regioes
         Image.new("RGB", (640, 360), "black").save(self.capturas / "p.png")
         leitura = {"tipo": "imagem", "quadros": [{"t": 0.0, "secoes": {"tela": "TELA", "legenda": "VELHA", "hud": "HUD"}}]}
-        nova = reler_regioes(self.capturas / "p.png", "imagem", leitura, {"legenda": (0.1, 0.5, 0.9, 0.9)}, "eng")
+        # OCR falso (o teste não depende do Tesseract instalado): devolve um texto novo para cada recorte pedido
+        with mock.patch.object(leitura_mod, "ocr_regioes", side_effect=lambda img, lang, rois: {n: "NOVA" for n in rois}) as ocr:
+            nova = reler_regioes(self.capturas / "p.png", "imagem", leitura, {"legenda": (0.1, 0.5, 0.9, 0.9)}, "eng")
+        self.assertEqual(list(ocr.call_args.kwargs["rois"]), ["legenda"])   # só o recorte que mudou é relido
         self.assertEqual(nova["quadros"][0]["secoes"]["tela"], "TELA")
         self.assertEqual(nova["quadros"][0]["secoes"]["hud"], "HUD")
-        self.assertNotEqual(nova["quadros"][0]["secoes"]["legenda"], "VELHA")
+        self.assertEqual(nova["quadros"][0]["secoes"]["legenda"], "NOVA")
         self.assertEqual(leitura["quadros"][0]["secoes"]["legenda"], "VELHA")   # a original não é alterada
 
     def test_conector_descarrega_e_repete_quando_o_ollama_trava(self):

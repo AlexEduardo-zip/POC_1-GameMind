@@ -24,6 +24,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       QT_QPA_PLATFORM: offscreen
+      PYTHONUTF8: "1"     # no Windows, a saída redirecionada para arquivo seria cp1252 e quebraria com acentos e símbolos
       VERSAO: ${{ github.ref_type == 'tag' && github.ref_name || 'dev' }}
     steps:
       - uses: actions/checkout@v5
