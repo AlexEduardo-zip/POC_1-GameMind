@@ -1,10 +1,11 @@
 # Executáveis do GameMind para Windows e Linux. Uma tag v* (ex.: v0.1.0-beta) compila os dois, roda os testes antes e publica
-# a release com os pacotes (pré-lançamento quando a tag tem "beta"). Rodar à mão (workflow_dispatch) só compila e guarda os pacotes.
+# a release com os pacotes (pré-lançamento quando a tag tem "beta"). No main e à mão (workflow_dispatch) só testa e compila.
 name: Release
 
 on:
   push:
     tags: ["v*"]
+    branches: [main]      # no main só testa e compila (os pacotes ficam nos artefatos da execução)
   workflow_dispatch:
 
 permissions:
@@ -44,9 +45,15 @@ jobs:
           pip install -r requirements-app.txt pyinstaller pyflakes
 
       - name: Testes
+        shell: bash
         run: |
-          python -m unittest discover -s tests
-          python -m pyflakes src/gamemind src/extracao tests
+          # se falhar, o fim do log vira uma anotação de erro (visível no resumo da execução, sem abrir o log)
+          if ! python -m unittest discover -s tests > testes.log 2>&1 || ! python -m pyflakes src/gamemind src/extracao tests >> testes.log 2>&1; then
+            cat testes.log
+            python -c "import sys; t = open('testes.log', encoding='utf-8', errors='replace').read()[-6000:]; print('::error title=Testes::' + t.replace('%', '%25').replace('\r', '').replace('\n', '%0A'))"
+            exit 1
+          fi
+          tail -3 testes.log
 
       - name: Ícone
         run: python empacotamento/gerar_icone.py
