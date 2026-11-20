@@ -11,6 +11,7 @@ import sys
 import time
 from pathlib import Path
 
+from . import SEM_JANELA
 from .llm import ESQUEMA, Backend, OllamaBackend, instrucoes, montar_pedido
 
 RAIZ = Path(__file__).resolve().parent.parent.parent
@@ -57,7 +58,7 @@ class ClaudeCodeBackend(Backend):
         cmd = [self.exe, "-p", "--output-format", "json", "--json-schema", json.dumps(esquema), "--system-prompt", instr, "--tools", "",
                "--no-session-persistence", "--disable-slash-commands", "--model", self.modelo]
         try:
-            r = subprocess.run(cmd, input=pedido, capture_output=True, text=True, encoding="utf-8", timeout=TEMPO_CHAMADA_S)
+            r = subprocess.run(cmd, input=pedido, capture_output=True, text=True, encoding="utf-8", timeout=TEMPO_CHAMADA_S, **SEM_JANELA)
         except subprocess.TimeoutExpired:
             raise ErroConector(f"{self.nome}: sem resposta em {TEMPO_CHAMADA_S} s") from None
         except OSError as e:

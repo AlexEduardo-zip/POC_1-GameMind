@@ -155,7 +155,7 @@ personagens dele.</li>
 <ul>
 <li><b>Tesseract (OCR) não encontrado:</b> no Windows, instale pelo
 {_link("https://github.com/UB-Mannheim/tesseract/wiki", "instalador do Tesseract")}, marque os idiomas dos seus jogos
-(ex.: <i>Portuguese</i>) e deixe-o no PATH. O idioma lido fica em <b>Aplicativo &gt; Configurações gerais</b>.</li>
+(ex.: <i>Portuguese</i>); o GameMind o acha na pasta de instalação padrão ou no PATH. O idioma lido fica em <b>Aplicativo &gt; Configurações gerais</b>.</li>
 <li><b>Vídeos dão erro:</b> falta o FFmpeg ({_link("https://ffmpeg.org/download.html")}). Imagens funcionam sem ele.</li>
 <li><b>Nomes estranhos ou repetidos:</b> com IA, ligue <i>Revisar e resumir as entidades</i> no questionário: a IA junta as
 grafias erradas de um mesmo nome.</li>

@@ -21,6 +21,7 @@ from exportar_vault import PASTAS, arquivo, gravar_se_mudou, link
 from schema import SIMETRICOS
 
 from .consolidacao import TELA_LISTA
+from extracao import SEM_JANELA
 from extracao.gazetteer import norm
 from PIL import Image
 
@@ -95,7 +96,7 @@ class Miniaturas:
         destino.parent.mkdir(parents=True, exist_ok=True)
         cmd = ["ffmpeg", "-loglevel", "error", "-y", "-ss", f"{t:.1f}", "-i", str(origem), "-frames:v", "1", "-vf", "scale=640:-2", "-q:v", "4", str(destino)]
         try:
-            ok = subprocess.run(cmd, capture_output=True, timeout=60).returncode == 0 and destino.exists()
+            ok = subprocess.run(cmd, capture_output=True, timeout=60, **SEM_JANELA).returncode == 0 and destino.exists()
         except (OSError, subprocess.TimeoutExpired):
             ok = False
         if not ok:

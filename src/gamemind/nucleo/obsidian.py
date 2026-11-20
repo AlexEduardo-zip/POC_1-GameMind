@@ -11,6 +11,8 @@ import time
 from pathlib import Path
 from urllib.parse import quote
 
+from extracao import SEM_JANELA
+
 
 def pasta_config() -> Path:
     """Pasta de configuração do Obsidian no sistema (OBSIDIAN_CONFIG sobrescreve, para testes)."""
@@ -49,7 +51,7 @@ def vault_registrado(vault: Path, config: Path | None = None) -> str | None:
 def obsidian_aberto() -> bool:
     try:
         if os.name == "nt":
-            r = subprocess.run(["tasklist", "/FI", "IMAGENAME eq Obsidian.exe", "/NH"], capture_output=True, text=True, timeout=10)
+            r = subprocess.run(["tasklist", "/FI", "IMAGENAME eq Obsidian.exe", "/NH"], capture_output=True, text=True, timeout=10, **SEM_JANELA)
             return "obsidian.exe" in r.stdout.lower()
         return subprocess.run(["pgrep", "-xi", "obsidian"], capture_output=True, timeout=10).returncode == 0
     except (OSError, subprocess.TimeoutExpired):

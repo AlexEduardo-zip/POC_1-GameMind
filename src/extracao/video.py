@@ -5,6 +5,8 @@ from pathlib import Path
 import cv2
 import numpy as np
 
+from . import SEM_JANELA
+
 
 def _tamanho(caminho: Path) -> tuple[int, int]:
     cap = cv2.VideoCapture(str(caminho))
@@ -23,7 +25,7 @@ def amostrar(caminho: Path, intervalo: float = 1.0) -> list[tuple[float, np.ndar
     cmd = ["ffmpeg", "-loglevel", "error", "-i", str(caminho), "-an", "-vf", f"fps=1/{intervalo}", "-f", "rawvideo", "-pix_fmt", "bgr24", "-"]
     tam = largura * altura * 3
     quadros = []
-    with subprocess.Popen(cmd, stdout=subprocess.PIPE) as p:
+    with subprocess.Popen(cmd, stdout=subprocess.PIPE, **SEM_JANELA) as p:
         while True:
             buf = p.stdout.read(tam)
             if len(buf) < tam:

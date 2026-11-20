@@ -15,3 +15,5 @@ eval/predicoes/
 jogos/
 eval/resultado_*.json
 eval/vaults/
+build/
+dist/

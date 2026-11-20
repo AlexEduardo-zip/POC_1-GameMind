@@ -5,6 +5,7 @@ import subprocess
 import urllib.request
 from dataclasses import dataclass
 
+from extracao import SEM_JANELA
 from extracao.ia_publica import APELIDOS, MODELOS_PADRAO, RETIRADOS, ErroConector, criar_backend
 
 
@@ -19,7 +20,7 @@ class Item:
 
 def _versao(cmd: list[str]) -> str:
     try:
-        r = subprocess.run(cmd, capture_output=True, text=True, timeout=10)
+        r = subprocess.run(cmd, capture_output=True, text=True, timeout=10, **SEM_JANELA)
         return ((r.stdout or r.stderr).strip().splitlines() or ["?"])[0]
     except (OSError, subprocess.TimeoutExpired) as e:
         return f"erro: {e}"
@@ -71,7 +72,7 @@ def verificar(ia: str = "", idioma: str = "por+eng", avisar=_sem_aviso) -> list[
     if not tess:
         itens.append(Item("Tesseract (OCR)", False, "não encontrado no PATH; instale com o idioma do seu jogo"))
     else:
-        r = subprocess.run([tess, "--list-langs"], capture_output=True, text=True)
+        r = subprocess.run([tess, "--list-langs"], capture_output=True, text=True, timeout=10, **SEM_JANELA)
         instalados = (r.stdout + r.stderr).split()
         faltam = [l for l in idioma.split("+") if l and l not in instalados]
         itens.append(Item("Tesseract (OCR)", not faltam, _versao([tess, "--version"]) + (f"; faltam os idiomas {', '.join(faltam)}" if faltam else f"; idiomas {idioma}")))

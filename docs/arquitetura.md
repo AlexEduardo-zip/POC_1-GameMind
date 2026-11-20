@@ -206,18 +206,18 @@ python gamemind.py diagnostico               # o que falta no computador
 python gamemind.py processar --jogo "Meu jogo" --pasta "<pasta de capturas>" --ia ollama --observar
 python gamemind.py exportar-anotacoes --jogo "Meu jogo" --saida eval/predicoes/app && python eval/avaliar.py --pred eval/predicoes/app
 ```
+Executável: `empacotamento/gamemind.spec` (PyInstaller em modo pasta; `jogos/` fica ao lado do executável e `recursos.RAIZ` usa `sys._MEIPASS`). Uma tag `v*` dispara `.github/workflows/release.yml`, que testa, compila no Windows e no Linux e publica a release. Tesseract, FFmpeg, Ollama e Claude Code ficam fora do pacote: `extracao/__init__.py` acha o Tesseract na pasta padrão do Windows e esconde a janela de console dos programas externos (`SEM_JANELA`).
 
 ## 12. Evolução prevista
 | Item | Onde entra | Observação |
 |---|---|---|
-| Instalador (POC II) | PyInstaller em modo pasta + Inno Setup | levar Tesseract (Apache 2.0, com os idiomas) e FFmpeg (build LGPL) junto; Ollama continua instalação à parte; `recursos.RAIZ` já entende `sys._MEIPASS` |
+| Instalador (POC II) | Inno Setup sobre o pacote do PyInstaller (seção 11) | levar Tesseract (Apache 2.0, com os idiomas) e FFmpeg (build LGPL) junto; Ollama continua instalação à parte |
 | Captura própria | novo produtor de arquivos para a pasta observada (atalho global + captura de tela) | o núcleo não muda |
 | Missões, decisões e relações sem regras de jogo | leitura com posição + IA de texto, ou IA que veja a imagem | hoje não há substituto das regras removidas (decisão 005; `docs/proximos-passos.md`) |
 | Notas editáveis | seção do usuário preservada dentro das notas geradas (marcador no Markdown) | hoje a nota gerada é reescrita a cada rodada; notas próprias devem ficar em arquivos à parte |
 | Grafo visual no app | `QWebEngineView` com Cytoscape.js ou `QGraphicsView` | só se o Graph view e os canvas do Obsidian não bastarem |
 | Recortes nas miniaturas | só o trecho da captura onde a entidade aparece | hoje a miniatura é a captura inteira |
 | Linha do tempo e resumo da sessão | nota gerada com a ordem de aparição (`primeira_vez`) e, com LLM, resumo só a partir das evidências | não depende das relações |
-| Consulta em linguagem natural | sobre `grafo.json`, com a mesma IA plugável | POC II |
 | Contexto de sessão | ligar decisões e itens à missão ativa | depende de achar missões |
 
 ## 13. Limites conhecidos da fundação

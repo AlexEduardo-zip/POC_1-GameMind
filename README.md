@@ -4,7 +4,7 @@ Análise de conteúdo e construção de grafos de conhecimento a partir da jorna
 POC I / MSI I · DCC/UFMG · Aluno: Alex Eduardo Alves dos Santos · Orientador: Lucas N. Ferreira
 Repositório: https://github.com/AlexEduardo-zip/POC_1-GameMind
 
-O GameMind lê o que o jogador já viu na tela (screenshots e clipes), aprende os nomes do jogo e, com IA local, extrai entidades e relações, que organiza em um grafo exportado como vault do Obsidian. O aplicativo **não tem configuração prévia nem específica de jogo**; o estudo de viabilidade que deu origem a ele foi feito com The Witcher 3 (pt-BR). Captura automática e empacotamento ficam para o POC II.
+O GameMind lê o que o jogador já viu na tela (screenshots e clipes), aprende os nomes do jogo e, com IA local, extrai entidades e relações, que organiza em um grafo exportado como vault do Obsidian. O aplicativo **não tem configuração prévia nem específica de jogo**; o estudo de viabilidade que deu origem a ele foi feito com The Witcher 3 (pt-BR). A captura automática fica para o POC II.
 
 ## Estado (2026-10-10)
 - **Estudo de viabilidade concluído** com The Witcher 3 (conclusões em `docs/estudo-viabilidade.md`).
@@ -36,6 +36,13 @@ O GameMind lê o que o jogador já viu na tela (screenshots e clipes), aprende o
 | `eval/avaliar.py` | Precisão, revocação e F1 (total e por tipo) contra o gabarito |
 | `data/raw/` | Material coletado (não versionado): `screenshots/`, `videos/`, `all/` (os dois juntos), `escopo_reduzido/` e `metadados.csv` |
 | `data/gabarito/` | Gabarito verificado do jogo-piloto (+ `exemplo/`): material de medida, não é usado pelo aplicativo |
+
+## Executável (beta)
+Windows e Linux, em [Releases](https://github.com/AlexEduardo-zip/POC_1-GameMind/releases): baixe o pacote do seu sistema, extraia e abra `GameMind` (o Tesseract e, para a IA, o Ollama ou o Claude Code são instalados à parte; as notas da versão explicam). Para gerar os pacotes, crie uma tag `v*`: o workflow `.github/workflows/release.yml` compila os dois e publica a release. Localmente:
+```bash
+pip install pyinstaller
+python empacotamento/gerar_icone.py && pyinstaller --noconfirm empacotamento/gamemind.spec   # -> dist/GameMind/
+```
 
 ## Ambiente
 ```bash
